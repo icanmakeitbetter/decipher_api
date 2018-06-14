@@ -15,19 +15,19 @@ defmodule Datafeed.ResultSet do
   end
 
   @spec coerce_result_set(%{}, %ResultSet{}) :: %ResultSet{}
-  def coerce_result_set(response_map, result_set_struct) do
+  def coerce_result_set(results, result_set_struct) do
     coerced_results =
       Enum.map(
-        response_map["results"],
+        results["results"],
         fn(single_result_map) -> Datafeed.Result.coerce_data(single_result_map)
       end)
 
     # TODO need to handle merging of errors I think.
     %{
       result_set_struct |
-      ack: response_map["ack"],
-      complete?: response_map["complete"],
-      errors: response_map["errors"],
+      ack: results["ack"],
+      complete?: results["complete"],
+      errors: results["errors"],
       results: Enum.into(result_set_struct.results, coerced_results)
     }
   end
