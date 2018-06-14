@@ -6,37 +6,51 @@ defmodule Datafeed.ResultSet do
     %ResultSet{}
   end
 
+  @spec build_result_set() :: %ResultSet{}
   def build_result_set() do
-    new_result_set_struct = new()
-    coerce_result_set(new_result_set_struct, new_result_set_struct.complete?)
+    get_response_map()
+    |> coerce_result_set(new())
+    |> advance_datafeed()
+    |> check_if_more_results()
   end
 
-  def build_result_set(result_set_struct) do
-    coerce_result_set(result_set_struct, result_set_struct.complete?)
-  end
-
-  def coerce_result_set(result_set_struct, complete_data?) when complete_data? == false do
-    result_set = API.get_survey_results()
+  @spec coerce_result_set(%{}, %ResultSet{}) :: %ResultSet{}
+  def coerce_result_set(response_map, result_set_struct) do
     coerced_results =
-                Enum.map(
-                  result_set["results"],
-                  fn(result_map) -> Datafeed.Result.coerce_data(result_map)
-                end)
+      Enum.map(
+        response_map["results"],
+        fn(single_result_map) -> Datafeed.Result.coerce_data(single_result_map)
+      end)
 
-    # need to handle merging of errors I think.
-    new_result_set = %{
+    # TODO need to handle merging of errors I think.
+    %{
       result_set_struct |
-      ack: result_set["ack"],
-      complete?: result_set["complete"],
-      errors: result_set["errors"],
+      ack: response_map["ack"],
+      complete?: response_map["complete"],
+      errors: response_map["errors"],
       results: Enum.into(result_set_struct.results, coerced_results)
     }
-
-    API.advance_datafeed(new_result_set.ack)
-    coerce_result_set(new_result_set, new_result_set.complete?)
   end
 
-  def coerce_result_set(result_set, complete_data?) when complete_data? == true do
-    result_set
+  @spec check_if_more_results(%ResultSet{}) :: %ResultSet{} | fun()
+  # TODO talk to James about how to match on complete? in struct rather than using if/else
+  def check_if_more_results(coerced_result_set) do
+    if coerced_result_set.complete? do
+      coerced_result_set
+    else
+      get_response_map()
+      |> coerce_result_set(coerced_result_set)
+    end
+  end
+
+  @spec get_response_map(fun()) :: %{}
+  def get_response_map(func \\ &API.get_survey_results/0) do
+    func.()
+  end
+
+  @spec advance_datafeed(%ResultSet{}, fun()) :: %ResultSet{}
+  def advance_datafeed(coerced_result_set, func \\ &API.advance_datafeed/1) do
+    func.(coerced_result_set.ack)
+    coerced_result_set
   end
 end

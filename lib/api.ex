@@ -72,6 +72,8 @@ defmodule API do
         {:error, "#{response.status_code}: too many concurrent requests"}
       400 ->
         {:error, "#{response.status_code}: other invalid parameter not covered above, e.g. survey cannot be loaded due to an error"}
+      501 ->
+        {:error, "#{response.status_code}: Method not implemented in API. Resources does not implement this method. Are you using GET/POST/PUT/DELETE?"}
       _ ->
         {:error, "API returned an undocumented HTTP status code of: #{response.status_code}"}
     end
