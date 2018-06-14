@@ -8,7 +8,7 @@ defmodule Datafeed.ResultSet do
 
   @spec build_result_set() :: %ResultSet{}
   def build_result_set() do
-    get_response_map()
+    get_results()
     |> coerce_result_set(new())
     |> advance_datafeed()
     |> check_if_more_results()
@@ -38,13 +38,13 @@ defmodule Datafeed.ResultSet do
     if coerced_result_set.complete? do
       coerced_result_set
     else
-      get_response_map()
+      get_results()
       |> coerce_result_set(coerced_result_set)
     end
   end
 
-  @spec get_response_map(fun()) :: %{}
-  def get_response_map(func \\ &API.get_survey_results/0) do
+  @spec get_results(fun()) :: %{}
+  def get_results(func \\ &API.get_survey_results/0) do
     func.()
   end
 
