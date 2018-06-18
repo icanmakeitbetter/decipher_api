@@ -6,9 +6,30 @@ defmodule Datafeed.ResultSet do
     %ResultSet{}
   end
 
+  @doc """
+  Get results for all surveys.
+  """
   @spec build_result_set() :: %ResultSet{}
   def build_result_set() do
     get_results()
+    |> result_set_process()
+  end
+
+  @doc """
+  Get results for a single survey.
+
+  ## Examples
+
+    iex> Datafeed.ResultSet.build_result_set("all", "selfserve/555/180435")
+  """
+  @spec build_result_set(String.t, String.t) :: %ResultSet{}
+  def build_result_set(scope, survey_url) do
+    get_results(scope, survey_url)
+    |> result_set_process()
+  end
+
+  def result_set_process(results) do
+    results
     |> coerce_result_set(new())
     |> advance_datafeed()
     |> check_if_more_results()
@@ -46,6 +67,11 @@ defmodule Datafeed.ResultSet do
   @spec get_results(fun()) :: %{}
   def get_results(func \\ &API.get_survey_results/0) do
     func.()
+  end
+
+  @spec get_results(fun()) :: %{}
+  def get_results(scope, survey_url, func \\ &API.get_survey_results/2) do
+    func.(scope, survey_url)
   end
 
   @spec advance_datafeed(%ResultSet{}, fun()) :: %ResultSet{}
