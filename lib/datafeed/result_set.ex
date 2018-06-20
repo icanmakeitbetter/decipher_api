@@ -63,13 +63,13 @@ defmodule Datafeed.ResultSet do
   end
 
   @spec check_if_more_results(%ResultSet{}) :: %ResultSet{} | fun()
+  def check_if_more_results(%ResultSet{complete?: true} = coerced_result_set) do
+    coerced_result_set
+  end
+
   def check_if_more_results(coerced_result_set) do
-    if coerced_result_set.complete? do
-      coerced_result_set
-    else
-      get_results()
-      |> coerce_result_set(coerced_result_set)
-    end
+    get_results()
+    |> coerce_result_set(coerced_result_set)
   end
 
   @spec get_question_metadata(String.t, fun()) :: %{}
