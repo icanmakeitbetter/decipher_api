@@ -36,7 +36,7 @@ defmodule API do
     HTTPoison.post!(base_path() <> endpoint, body, api_headers())
   end
 
-  def get_survey_metadata(survey_id) do
+  def get_question_metadata(survey_id) do
     get("surveys/#{survey_id}/datamap?format=json")
   end
 
@@ -48,8 +48,8 @@ defmodule API do
   # or multiple as comma seperated `selfserve/540/180435,selfserve/540/170456`
   # iex> API.get_survey_results("all", "selfserve/540/180435")
   @spec get_survey_results(String.t, String.t) :: String.t
-  def get_survey_results(scope, survey_url) do
-    get("datafeed/#{scope}?paths=#{survey_url}")
+  def get_survey_results(scope, survey_id) do
+    get("datafeed/#{scope}?paths=#{survey_id}")
   end
 
   @spec parse_response(String.t) :: %{} | {:error, String.t}

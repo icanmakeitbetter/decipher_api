@@ -1,6 +1,13 @@
 defmodule Datafeed.Result do
   alias __MODULE__
-  defstruct survey_url: "", date: nil, uuid: nil, answers: %{}, raw_result: %{}
+
+  defstruct(
+    survey_url: "",
+    date: nil,
+    uuid: nil,
+    questions_answers: %{},
+    raw_result: %{}
+  )
 
   def new do
     %Result{}
@@ -13,7 +20,7 @@ defmodule Datafeed.Result do
       survey_url: result["$survey"],
       date: format_date(result["date"]),
       uuid: result["uuid"],
-      answers: get_questions(result),
+      questions_answers: get_questions(result),
       raw_result: result
     }
   end
