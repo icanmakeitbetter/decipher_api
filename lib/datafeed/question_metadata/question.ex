@@ -15,7 +15,8 @@ defmodule Datafeed.QuestionMetadata.Question do
     %Question{}
   end
 
-  def coerce_data(question) do
+  @spec new(%{}) :: %Question{}
+  def new(question) when is_map(question) do
     %{
       new() |
       grouping: question["grouping"],
@@ -23,10 +24,15 @@ defmodule Datafeed.QuestionMetadata.Question do
       qtitle: question["qtitle"],
       type: question["type"],
       values: Value.check_maybe_coerce(question["values"]),
-      variables: Enum.map(
-        question["variables"],
-        fn(variable) -> Variables.coerce_data(variable)
-      end)
+      variables: Variables.coerce_maps(question["variables"])
     }
   end
+
+  def coerce_maps(questions) do
+    Enum.map(
+      questions,
+      fn(question) -> new(question)
+    end)
+  end
+
 end

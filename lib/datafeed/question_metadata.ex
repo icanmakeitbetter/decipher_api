@@ -15,13 +15,8 @@ defmodule Datafeed.QuestionMetadata do
   def coerce_data(question_metadata) do
     %{
       new() |
-      questions: Enum.map(
-        question_metadata["questions"],
-        fn(question_map) -> Question.coerce_data(question_map)
-      end),
-      variables: Enum.map(
-        question_metadata["variables"],
-        fn(variable) -> Variables.coerce_data(variable) end)
+      questions: Question.coerce_maps(question_metadata["questions"]),
+      variables: Variables.coerce_maps(question_metadata["variables"])
     }
   end
 end

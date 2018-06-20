@@ -20,7 +20,7 @@ defmodule Datafeed.QuestionMetadata.Variables do
     %Variables{}
   end
 
-  def coerce_data(variable) do
+  def new(variable) when is_map(variable) do
     %{
       new() |
       col: variable["col"],
@@ -35,6 +35,13 @@ defmodule Datafeed.QuestionMetadata.Variables do
       values: Value.check_maybe_coerce(variable["values"]),
       vgroup: variable["vgroup"]
     }
+  end
+
+  def coerce_maps(variables) do
+    Enum.map(
+      variables,
+      fn(variable) -> new(variable)
+    end)
   end
 
 end
