@@ -1,12 +1,13 @@
 defmodule Datafeed.ResultSet do
+  alias Datafeed.{QuestionMetadata, Result}
   alias __MODULE__
+
   defstruct(
     ack: nil,
     complete?: false,
     errors: %{},
     results: [],
-    metadata: %{
-    }
+    metadata: %{}
   )
 
   def new do
@@ -39,7 +40,7 @@ defmodule Datafeed.ResultSet do
     coerced_results =
       Enum.map(
         results["results"],
-        fn(single_result_map) -> Datafeed.Result.coerce_data(single_result_map)
+        fn(single_result_map) -> Result.coerce_data(single_result_map)
       end)
 
     # TODO need to handle merging of errors I think.
@@ -57,7 +58,7 @@ defmodule Datafeed.ResultSet do
     metadata = get_question_metadata(survey_id)
     %{
       coerced_result |
-      metadata: Datafeed.QuestionMetadata.coerce_data(metadata)
+      metadata: QuestionMetadata.coerce_data(metadata)
     }
   end
 
