@@ -88,7 +88,7 @@ defmodule API do
     post(body, "datafeed/#{scope}/ack")
   end
 
-  def reset_datafeed(scope \\ "all") do
-    HTTPoison.delete!(base_path() <> "datafeed/#{scope}", api_headers())
+  def reset_datafeed(survey_id, scope \\ "all") do
+    HTTPoison.delete!(base_path() <> "datafeed/#{scope}?paths=#{survey_id}", api_headers())
   end
 end
