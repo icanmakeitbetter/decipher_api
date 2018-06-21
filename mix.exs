@@ -7,6 +7,7 @@ defmodule DecipherApi.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
   end
@@ -21,6 +22,7 @@ defmodule DecipherApi.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:excoveralls, "~> 0.8", only: :test},
       {:httpoison, "~> 1.1"},
       {:poison, "~> 3.1"}
       # {:dep_from_hexpm, "~> 0.3.0"},
