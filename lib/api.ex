@@ -40,10 +40,6 @@ defmodule API do
     get("surveys/#{survey_id}/datamap?format=json")
   end
 
-  def get_survey_results(scope \\ "all") do
-    get("datafeed/#{scope}")
-  end
-
   # You need to pass in a single survey like `selfserve/540/180435`
   # or multiple as comma seperated `selfserve/540/180435,selfserve/540/170456`
   # iex> API.get_survey_results("all", "selfserve/540/180435")

@@ -72,11 +72,6 @@ defmodule Datafeed.ResultSet do
     func.(survey_id)
   end
 
-  @spec get_results(fun()) :: %{}
-  def get_results(func \\ &API.get_survey_results/0) do
-    func.()
-  end
-
   @spec get_results(String.t, String.t, fun()) :: %{}
   def get_results(scope, survey_id, func \\ &API.get_survey_results/2) do
     func.(scope, survey_id)
