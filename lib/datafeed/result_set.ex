@@ -24,11 +24,6 @@ defmodule Datafeed.ResultSet do
   @spec build_result_set(String.t, String.t) :: %ResultSet{}
   def build_result_set(scope, survey_id) do
     get_results(scope, survey_id)
-    |> result_set_process(survey_id)
-  end
-
-  def result_set_process(results, survey_id) do
-    results
     |> coerce_result_set(new())
     |> coerce_metadata(survey_id)
     |> advance_datafeed()
