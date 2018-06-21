@@ -22,12 +22,12 @@ defmodule Datafeed.ResultSet do
     iex> Datafeed.ResultSet.build_result_set("all", "selfserve/555/180435")
   """
   @spec build_result_set(String.t, String.t) :: %ResultSet{}
-  def build_result_set(scope, survey_id) do
+  def build_result_set(scope, survey_id, result_set_struct \\ new()) do
     get_results(scope, survey_id)
-    |> coerce_result_set(new())
+    |> coerce_result_set(result_set_struct)
     |> coerce_metadata(survey_id)
     |> advance_datafeed()
-    |> check_if_more_results()
+    |> check_if_more_results(scope, survey_id)
   end
 
   @spec coerce_result_set(%{}, %ResultSet{}) :: %ResultSet{}
@@ -57,14 +57,13 @@ defmodule Datafeed.ResultSet do
     }
   end
 
-  @spec check_if_more_results(%ResultSet{}) :: %ResultSet{}
-  def check_if_more_results(%ResultSet{complete?: true} = coerced_result_set) do
+  @spec check_if_more_results(%ResultSet{}, String.t, String.t) :: %ResultSet{}
+  def check_if_more_results(%ResultSet{complete?: true} = coerced_result_set, _scope, _survey_id) do
     coerced_result_set
   end
 
-  def check_if_more_results(coerced_result_set) do
-    get_results()
-    |> coerce_result_set(coerced_result_set)
+  def check_if_more_results(coerced_result_set, scope, survey_id) do
+    build_result_set(scope, survey_id, coerced_result_set)
   end
 
   @spec get_question_metadata(String.t, fun()) :: %{}
