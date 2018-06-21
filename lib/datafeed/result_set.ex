@@ -62,7 +62,7 @@ defmodule Datafeed.ResultSet do
     }
   end
 
-  @spec check_if_more_results(%ResultSet{}) :: %ResultSet{} | fun()
+  @spec check_if_more_results(%ResultSet{}) :: %ResultSet{}
   def check_if_more_results(%ResultSet{complete?: true} = coerced_result_set) do
     coerced_result_set
   end
