@@ -11,6 +11,7 @@ defmodule Datafeed.QuestionMetadata.Question do
     variables: []
   )
 
+  @spec new() :: %Question{}
   def new() do
     %Question{}
   end
@@ -28,11 +29,11 @@ defmodule Datafeed.QuestionMetadata.Question do
     }
   end
 
-  def coerce_maps(questions) do
-    Enum.map(
-      questions,
-      fn(question) -> new(question)
-    end)
+  @spec coerce_maps([%{}]) :: %{}
+  def coerce_maps(questions) when is_list(questions) do
+    questions
+    |> Enum.map(&new/1)
+    |> Enum.into(Map.new, fn q -> {q.qlabel, q} end)
   end
 
 end

@@ -22,12 +22,13 @@ defmodule API do
     with {:ok, data} <- Poison.decode(raw_json) do
       data
     else
-      :error ->
+      {:error, :invalid, _} ->
         {:error, :json_parse_failed}
     end
   end
 
-  def get(endpoint) do
+  @spec get(String.t) :: %{} | {:error, String.t}
+  def get(endpoint) when is_binary(endpoint) do
     HTTPoison.get!(base_path() <> endpoint, api_headers())
     |> parse_response()
   end
@@ -36,6 +37,7 @@ defmodule API do
     HTTPoison.post!(base_path() <> endpoint, body, api_headers())
   end
 
+  @spec get_question_metadata(String.t) :: %{} | {:error, String.t}
   def get_question_metadata(survey_id) do
     get("surveys/#{survey_id}/datamap?format=json")
   end
@@ -43,12 +45,15 @@ defmodule API do
   # You need to pass in a single survey like `selfserve/540/180435`
   # or multiple as comma seperated `selfserve/540/180435,selfserve/540/170456`
   # iex> API.get_survey_results("all", "selfserve/540/180435")
-  @spec get_survey_results(String.t, String.t) :: String.t
-  def get_survey_results(scope, survey_id) do
+  @spec get_survey_results(String.t, String.t) :: {:error, binary()} | %{}
+  def get_survey_results(scope, survey_id)
+      when is_binary(scope)
+      and is_binary(survey_id) do
     get("datafeed/#{scope}?paths=#{survey_id}")
   end
 
-  @spec parse_response(String.t) :: %{} | {:error, String.t}
+  # TODO: make the status code be one of these errrors to make sure you're not just carrying as normal
+  @spec parse_response(%HTTPoison.Response{}) :: %{} | {:error, String.t}
   def parse_response(response) do
     case response.status_code do
       200 ->
@@ -61,7 +66,7 @@ defmodule API do
       403 ->
         {:error, "#{response.status_code}: invalid authorization: your API key is valid but you are not allowed access to this survey"}
       404 ->
-        {:error, "#{response.status_code}: not found: you asked for a survey or other resource that does not exist"}
+        {:error, "#{response.status_code}: not found: you asked for a survey or other resource that does not exist. Or asked to reset a datafeed that was already reset"}
       405 ->
         {:error, "#{response.status_code}: method not allowed: you tried to e.g. DELETE something that does not support deletion"}
       429 ->
@@ -75,16 +80,23 @@ defmodule API do
     end
   end
 
-  def advance_datafeed(ack_code, scope \\ "all") do
-    # TODO: Handle errror
+  @spec advance_datafeed(String.t, String.t) :: %{} | {:error, String.t}
+  def advance_datafeed(ack_code, scope \\ "all")
+      when is_binary(ack_code)
+      and is_binary(scope) do
     {:ok, body} =
       %{"ack" => ack_code}
       |> encode_json()
 
     post(body, "datafeed/#{scope}/ack")
+    |> parse_response
   end
 
-  def reset_datafeed(survey_id, scope \\ "all") do
+  @spec reset_datafeed(String.t, String.t) :: %{} | {:error, String.t}
+  def reset_datafeed(survey_id, scope \\ "all")
+      when is_binary(survey_id)
+      and is_binary(scope) do
     HTTPoison.delete!(base_path() <> "datafeed/#{scope}?paths=#{survey_id}", api_headers())
+    |> parse_response
   end
 end

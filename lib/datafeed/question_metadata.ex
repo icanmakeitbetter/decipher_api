@@ -7,12 +7,13 @@ defmodule Datafeed.QuestionMetadata do
     variables: []
   )
 
+  @spec new() :: %QuestionMetadata{}
   def new() do
     %QuestionMetadata{}
   end
 
-  @spec coerce_data(%{}) :: struct
-  def coerce_data(question_metadata) do
+  @spec coerce_data(%{}) :: %QuestionMetadata{}
+  def coerce_data(question_metadata) when is_map(question_metadata) do
     %{
       new() |
       questions: Question.coerce_maps(question_metadata["questions"]),

@@ -6,6 +6,7 @@ defmodule Datafeed.QuestionMetadata.Value do
     value: nil
   )
 
+  @spec new() :: %Value{}
   def new() do
     %Value{}
   end
@@ -14,7 +15,7 @@ defmodule Datafeed.QuestionMetadata.Value do
     nil
   end
 
-  @spec check_maybe_coerce([]) :: []
+  @spec check_maybe_coerce([%{}]) :: [%Value{}]
   def check_maybe_coerce(values) do
     Enum.map(
       values,
@@ -23,7 +24,7 @@ defmodule Datafeed.QuestionMetadata.Value do
   end
 
   @spec coerce_data(%{}) :: %Value{}
-  defp coerce_data(value_pair) do
+  def coerce_data(value_pair) do
     %{
       new() |
       title: value_pair["title"],

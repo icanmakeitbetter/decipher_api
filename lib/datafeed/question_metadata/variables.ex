@@ -16,10 +16,12 @@ defmodule Datafeed.QuestionMetadata.Variables do
     vgroup: nil
   )
 
+  @spec new() :: %Variables{}
   def new() do
     %Variables{}
   end
 
+  @spec new(%{}) :: %Variables{}
   def new(variable) when is_map(variable) do
     %{
       new() |
@@ -37,6 +39,7 @@ defmodule Datafeed.QuestionMetadata.Variables do
     }
   end
 
+  @spec coerce_maps(%{}) :: [%{}]
   def coerce_maps(variables) do
     Enum.map(
       variables,

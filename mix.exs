@@ -22,6 +22,7 @@ defmodule DecipherApi.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:dialyxir, "~> 1.0.0-rc.2", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.8", only: :test},
       {:httpoison, "~> 1.1"},
       {:poison, "~> 3.1"}

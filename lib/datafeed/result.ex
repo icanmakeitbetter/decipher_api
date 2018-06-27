@@ -9,12 +9,13 @@ defmodule Datafeed.Result do
     raw_result: %{}
   )
 
+  @spec new() :: %Result{}
   def new do
     %Result{}
   end
 
   @spec coerce_data(%{}) :: struct
-  def coerce_data(result) do
+  def coerce_data(result) when is_map(result) do
     %{
       new() |
       survey_url: result["$survey"],
@@ -26,7 +27,7 @@ defmodule Datafeed.Result do
   end
 
   @spec get_questions(%{}) :: struct
-  def get_questions(result) do
+  def get_questions(result) when is_map(result) do
     Map.drop(
       result,
       [
@@ -54,7 +55,8 @@ defmodule Datafeed.Result do
     )
   end
 
-  def format_date(date) do
+  # TODO: do we need to handle a nil date?
+  def format_date(date) when is_binary(date) do
     String.replace(date,
       ~r<\A(\d{2})/(\d{2})/(\d{4})\s(\d{2}:\d{2})\z>, "\\3-\\1-\\2T\\4:00")
     |> NaiveDateTime.from_iso8601!
