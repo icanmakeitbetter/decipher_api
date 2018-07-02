@@ -1,6 +1,6 @@
-defmodule Datafeed.QuestionMetadata.Question do
+defmodule DecipherAPI.Datamap.Question do
   alias __MODULE__
-  alias Datafeed.QuestionMetadata.{Variables, Value}
+  alias DecipherAPI.Datamap.{Variables, Value}
 
   defstruct(
     grouping: "",

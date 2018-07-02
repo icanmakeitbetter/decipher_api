@@ -1,4 +1,4 @@
-defmodule DecipherApi.MixProject do
+defmodule DecipherAPI.MixProject do
   use Mix.Project
 
   def project do
@@ -23,7 +23,7 @@ defmodule DecipherApi.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.0.0-rc.2", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.8", only: :test},
+      {:excoveralls, "~> 0.9.1", only: :test},
       {:httpoison, "~> 1.1"},
       {:poison, "~> 3.1"}
       # {:dep_from_hexpm, "~> 0.3.0"},

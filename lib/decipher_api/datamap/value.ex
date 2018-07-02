@@ -1,4 +1,4 @@
-defmodule Datafeed.QuestionMetadata.Value do
+defmodule DecipherAPI.Datamap.Value do
   alias __MODULE__
 
   defstruct(
@@ -16,7 +16,7 @@ defmodule Datafeed.QuestionMetadata.Value do
   end
 
   @spec check_maybe_coerce([%{}]) :: [%Value{}]
-  def check_maybe_coerce(values) do
+  def check_maybe_coerce(values) when is_list(values) do
     Enum.map(
       values,
       fn(value) -> coerce_data(value)
@@ -24,7 +24,7 @@ defmodule Datafeed.QuestionMetadata.Value do
   end
 
   @spec coerce_data(%{}) :: %Value{}
-  def coerce_data(value_pair) do
+  def coerce_data(value_pair) when is_map(value_pair) do
     %{
       new() |
       title: value_pair["title"],

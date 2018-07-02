@@ -1,5 +1,5 @@
-defmodule Datafeed.QuestionMetadata.Variables do
-  alias Datafeed.QuestionMetadata.Value
+defmodule DecipherAPI.Datamap.Variables do
+  alias DecipherAPI.Datamap.Value
   alias __MODULE__
 
   defstruct(

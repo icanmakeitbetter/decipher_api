@@ -1,4 +1,4 @@
-defmodule Datafeed.Result do
+defmodule DecipherAPI.Datafeed.Result do
   alias __MODULE__
 
   defstruct(

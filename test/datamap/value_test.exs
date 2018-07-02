@@ -1,5 +1,5 @@
-defmodule Datafeed.QuestionMetadataTest.ValuesTest do
-  alias Datafeed.QuestionMetadata.Value
+defmodule DecipherAPITest.DatamapTest.ValueTest do
+  alias DecipherAPI.Datamap.Value
   use ExUnit.Case, async: true
 
   test "that Value.new/0 creates a struct" do

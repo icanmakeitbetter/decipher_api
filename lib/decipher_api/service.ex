@@ -1,5 +1,8 @@
-defmodule API do
-  # TODO: make functions that need to be private, private
+defmodule DecipherAPI.Service do
+  @moduledoc """
+  Provides lower level functions to interact with Decipher's API service.
+  """
+  @decipher_api Application.get_env(:decipher_api, :service)
 
   def base_path(subdomain \\ Application.get_env(:decipher_api, :subdomain)) do
     "http://#{subdomain}.decipherinc.com/api/v1/"
@@ -27,38 +30,61 @@ defmodule API do
     end
   end
 
-  @spec get(String.t) :: %{} | {:error, String.t}
-  def get(endpoint) when is_binary(endpoint) do
-    HTTPoison.get!(base_path() <> endpoint, api_headers())
+  @spec get!(String.t) :: %{} | {:error, String.t}
+  def get!(endpoint) when is_binary(endpoint) do
+    @decipher_api.get!(base_path() <> endpoint, api_headers())
     |> parse_response()
   end
 
-  def post(body, endpoint) do
-    HTTPoison.post!(base_path() <> endpoint, body, api_headers())
+  def post!(body, endpoint) do
+    @decipher_api.post!(base_path() <> endpoint, body, api_headers())
+    |> parse_response
   end
 
   @spec get_question_metadata(String.t) :: %{} | {:error, String.t}
   def get_question_metadata(survey_id) do
-    get("surveys/#{survey_id}/datamap?format=json")
+    get!("surveys/#{survey_id}/datamap?format=json")
   end
 
-  # You need to pass in a single survey like `selfserve/540/180435`
-  # or multiple as comma seperated `selfserve/540/180435,selfserve/540/170456`
-  # iex> API.get_survey_results("all", "selfserve/540/180435")
+  @doc """
+  Get the results of a survey.
+
+    iex> API.get_survey_results("all", "selfserve/540/180435")
+  """
   @spec get_survey_results(String.t, String.t) :: {:error, binary()} | %{}
   def get_survey_results(scope, survey_id)
       when is_binary(scope)
       and is_binary(survey_id) do
-    get("datafeed/#{scope}?paths=#{survey_id}")
+    get!("datafeed/#{scope}?paths=#{survey_id}")
   end
 
-  # TODO: make the status code be one of these errrors to make sure you're not just carrying as normal
+  @spec advance_datafeed(String.t, String.t) :: %{} | {:error, String.t}
+  def advance_datafeed(ack_code, scope \\ "all")
+      when is_binary(ack_code)
+      and is_binary(scope) do
+    {:ok, body} =
+      %{"ack" => ack_code}
+      |> encode_json()
+
+    post!(body, "datafeed/#{scope}/ack")
+  end
+
+  @spec reset_datafeed(String.t, String.t) :: %{} | {:error, String.t}
+  def reset_datafeed(survey_id, scope \\ "all")
+      when is_binary(survey_id)
+      and is_binary(scope) do
+    @decipher_api.delete!(base_path() <> "datafeed/#{scope}?paths=#{survey_id}", api_headers())
+    |> parse_response
+  end
+
   @spec parse_response(%HTTPoison.Response{}) :: %{} | {:error, String.t}
   def parse_response(response) do
     case response.status_code do
       200 ->
         response.body
         |> decode_json()
+      400 ->
+        {:error, "#{response.status_code}: other invalid parameter not covered above, e.g. survey cannot be loaded due to an error"}
       401 ->
         {:error, "#{response.status_code}: invalid authentication; your API key is invalid, expired or not valid from this IP or action"}
       402 ->
@@ -71,8 +97,6 @@ defmodule API do
         {:error, "#{response.status_code}: method not allowed: you tried to e.g. DELETE something that does not support deletion"}
       429 ->
         {:error, "#{response.status_code}: too many concurrent requests"}
-      400 ->
-        {:error, "#{response.status_code}: other invalid parameter not covered above, e.g. survey cannot be loaded due to an error"}
       501 ->
         {:error, "#{response.status_code}: Method not implemented in API. Resources does not implement this method. Are you using GET/POST/PUT/DELETE?"}
       _ ->
@@ -80,23 +104,4 @@ defmodule API do
     end
   end
 
-  @spec advance_datafeed(String.t, String.t) :: %{} | {:error, String.t}
-  def advance_datafeed(ack_code, scope \\ "all")
-      when is_binary(ack_code)
-      and is_binary(scope) do
-    {:ok, body} =
-      %{"ack" => ack_code}
-      |> encode_json()
-
-    post(body, "datafeed/#{scope}/ack")
-    |> parse_response
-  end
-
-  @spec reset_datafeed(String.t, String.t) :: %{} | {:error, String.t}
-  def reset_datafeed(survey_id, scope \\ "all")
-      when is_binary(survey_id)
-      and is_binary(scope) do
-    HTTPoison.delete!(base_path() <> "datafeed/#{scope}?paths=#{survey_id}", api_headers())
-    |> parse_response
-  end
 end
