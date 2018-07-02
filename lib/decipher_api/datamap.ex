@@ -25,6 +25,11 @@ defmodule DecipherAPI.Datamap do
     |> coerce_data()
   end
 
+  @spec get_question_metadata(String.t) :: %{}
+  def get_question_metadata(survey_id) when is_binary(survey_id) do
+    DecipherAPI.Service.get_question_metadata(survey_id)
+  end
+
   @spec coerce_data(%{}) :: %Datamap{}
   def coerce_data(question_metadata) when is_map(question_metadata) do
     %{
@@ -32,11 +37,6 @@ defmodule DecipherAPI.Datamap do
       questions: Question.coerce_maps(question_metadata["questions"]),
       variables: Variables.coerce_maps(question_metadata["variables"])
     }
-  end
-
-  @spec get_question_metadata(String.t) :: %{}
-  def get_question_metadata(survey_id) when is_binary(survey_id) do
-    DecipherAPI.Service.get_question_metadata(survey_id)
   end
 
 end
