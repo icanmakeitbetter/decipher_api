@@ -18,6 +18,13 @@ defmodule DecipherAPI.Datamap do
     %Datamap{}
   end
 
+  @spec build_metadata_set(String.t) :: %Datamap{}
+  def build_metadata_set(survey_id) do
+    survey_id
+    |> get_question_metadata()
+    |> coerce_data()
+  end
+
   @spec coerce_data(%{}) :: %Datamap{}
   def coerce_data(question_metadata) when is_map(question_metadata) do
     %{

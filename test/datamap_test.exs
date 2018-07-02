@@ -4,6 +4,10 @@ defmodule DecipherAPITest.DatamapTest do
 
   use ExUnit.Case, async: true
 
+  test "that calling build_datamap_set returns a coerced struct" do
+    assert Datamap.build_metadata_set("survey_id") == FakeData.coerced_metadata_map()
+  end
+
   test "that calling Datamap.new() returns a new struct in the correct format" do
     assert Datamap.new() == FakeData.new_question_metadata_struct()
   end
