@@ -5,7 +5,7 @@ defmodule DecipherAPI.Datafeed.Result do
     survey_url: "",
     date: nil,
     uuid: nil,
-    questions_answers: %{},
+    answers: %{},
     raw_result: %{}
   )
 
@@ -21,13 +21,13 @@ defmodule DecipherAPI.Datafeed.Result do
       survey_url: result["$survey"],
       date: format_date(result["date"]),
       uuid: result["uuid"],
-      questions_answers: get_questions(result),
+      answers: get_answers(result),
       raw_result: result
     }
   end
 
-  @spec get_questions(%{}) :: struct
-  def get_questions(result) when is_map(result) do
+  @spec get_answers(%{}) :: struct
+  def get_answers(result) when is_map(result) do
     Map.drop(
       result,
       [
