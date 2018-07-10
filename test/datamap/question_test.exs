@@ -1,5 +1,5 @@
 defmodule DecipherAPITest.DatamapTest.QuestionTest do
-  alias DecipherAPITest.FakeData
+  alias DecipherAPITest.Support.FakeData
   alias DecipherAPI.Datamap.Question
   use ExUnit.Case, async: true
 

@@ -29,8 +29,8 @@ defmodule DecipherAPI.Datamap.Question do
     }
   end
 
-  @spec coerce_maps([%{}]) :: %{}
-  def coerce_maps(questions) when is_list(questions) do
+  @spec coerce_maps([%{}] | %{}) :: %{}
+  def coerce_maps(questions) when is_map(questions) or is_list(questions) do
     questions
     |> Enum.map(&new/1)
     |> Enum.into(Map.new, fn q -> {q.qlabel, q} end)

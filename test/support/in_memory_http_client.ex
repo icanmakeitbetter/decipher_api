@@ -1,5 +1,5 @@
 defmodule DecipherAPITest.Support.InMemoryHTTPClient do
-  alias DecipherAPITest.FakeData
+  alias DecipherAPITest.Support.FakeData
 
   def start do
     Agent.start_link(&Map.new/0, name: __MODULE__)

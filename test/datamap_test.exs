@@ -1,23 +1,25 @@
 defmodule DecipherAPITest.DatamapTest do
-  alias DecipherAPITest.FakeData
+  alias DecipherAPITest.Support.FakeData
   alias DecipherAPI.Datamap
 
   use ExUnit.Case, async: true
+  @survey_url FakeData.survey_url
+  @datamap %Datamap{survey_id: @survey_url}
 
   test "that calling build_datamap_set returns a coerced struct" do
-    assert Datamap.build_metadata_set("survey_id") == FakeData.coerced_metadata_map()
+    assert Datamap.build_metadata_set(@datamap) == FakeData.coerced_metadata()
   end
 
   test "that calling Datamap.new() returns a new struct in the correct format" do
-    assert Datamap.new() == FakeData.new_question_metadata_struct()
+    assert Datamap.new("something/444/something") == @datamap
   end
 
   test "that coerce_data actually does that" do
-    assert Datamap.coerce_data(FakeData.raw_question_metadata_map()) ==
+    assert Datamap.coerce_data(%Datamap{}) ==
       FakeData.coerced_question_metadata_struct()
   end
 
   test "that get_question_metadata gets the question metadata map" do
-    assert Datamap.get_question_metadata("selfserve/555/survey1") == FakeData.metadata_map()
+    assert Datamap.get_question_metadata(@datamap) == FakeData.metadata()
   end
 end

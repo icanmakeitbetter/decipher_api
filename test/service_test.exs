@@ -1,6 +1,6 @@
 defmodule DecipherAPITest.ServiceTest do
   alias DecipherAPI.Service
-  alias DecipherAPITest.FakeData
+  alias DecipherAPITest.Support.FakeData
 
   use ExUnit.Case, async: true
 

@@ -1,4 +1,4 @@
-defmodule DecipherAPI.Datafeed.Result do
+defmodule DecipherAPI.Datafeed.ResultSet.Result do
   alias __MODULE__
 
   defstruct(
@@ -26,7 +26,17 @@ defmodule DecipherAPI.Datafeed.Result do
     }
   end
 
-  @spec get_answers(%{}) :: struct
+  def process_answers(result, metadata) do
+    result
+    |> get_answers()
+    |> coerce_answers(metadata)
+  end
+
+  @doc """
+  Leaves you with just the answers by dropping everything from the map save for
+  'q1', 'q2', 'q3', etc.
+  """
+  @spec get_answers(%{}) :: %{}
   def get_answers(result) when is_map(result) do
     Map.drop(
       result,
@@ -53,6 +63,19 @@ defmodule DecipherAPI.Datafeed.Result do
         "vos"
       ]
     )
+  end
+
+  @spec coerce_answers(%{}, %DecipherAPI.Datamap{}) :: %{}
+  def coerce_answers(answer_map, metadata) do
+
+    Enum.into(answer_map, Map.new(), fn({key, value}) ->
+      case metadata.questions[key].type do
+        "number" ->
+          {key, String.to_integer(value)}
+        _ ->
+          raise "Don't know what to do with this."
+      end
+    end)
   end
 
   # TODO: do we need to handle a nil date?

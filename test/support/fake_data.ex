@@ -1,5 +1,6 @@
-defmodule DecipherAPITest.FakeData do
-  alias DecipherAPI.Datafeed.Result
+defmodule DecipherAPITest.Support.FakeData do
+  alias DecipherAPI.Datafeed.ResultSet.Result
+  alias DecipherAPI.Datafeed.ResultSet
   alias DecipherAPI.Datamap.{Question, Variables}
   alias DecipherAPI.Datamap
 
@@ -7,32 +8,24 @@ defmodule DecipherAPITest.FakeData do
     %HTTPoison.Response{status_code: code}
   end
 
+  def survey_url do
+    "something/444/something"
+  end
+
   def new_result_struct do
-    %Result{
-      survey_url: "",
-      date: nil,
-      uuid: nil,
-      answers: %{},
-      raw_result: %{}
-    }
+    %Result{}
   end
 
   def raw_question_metadata_map do
-    %{"questions" => [], "variables" => []}
+    %{"survey_id" => nil, "questions" => [], "variables" => []}
   end
 
   def new_question_metadata_struct do
-    %Datamap{
-      questions: [],
-      variables: []
-    }
+    %Datamap{}
   end
 
   def coerced_question_metadata_struct do
-    %Datamap{
-      questions: %{},
-      variables: []
-    }
+    %Datamap{}
   end
 
   def raw_result_map do
@@ -133,464 +126,467 @@ defmodule DecipherAPITest.FakeData do
   end
 
   def coerced_datafeed_struct do
-    %DecipherAPI.Datafeed{errors: %{}, metadata: %{}, ack: "58adf6c4-80b5-41e6-ae0b-ba902c56facf", complete?: true, results: [%DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:40:00], answers: %{"q1" => "4444444444", "q2" => "1"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:40", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "4444444444", "q2" => "1", "qtime" => "26.13196301465", "record" => "1", "session" => "fwgycn85f1vrw03w", "start_date" => "06/04/2018 13:40", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "v9er20g6v4wtqx3t", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "v9er20g6v4wtqx3t"}, %DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:41:00], answers: %{"q1" => "5555555555", "q2" => "3"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:41", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "5555555555", "q2" => "3", "qtime" => "12.493089914322", "record" => "2", "session" => "skv6zft8kn1uh3zz", "start_date" => "06/04/2018 13:41", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "v2wgz1523zw31kqf", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "v2wgz1523zw31kqf"}, %DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:41:00], answers: %{"q1" => "5016664532", "q2" => "4"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:41", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "5016664532", "q2" => "4", "qtime" => "18.036247014999", "record" => "3", "session" => "0m1uhfdm2tcnuuec", "start_date" => "06/04/2018 13:41", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "6guu10sw23pkzu7d", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "6guu10sw23pkzu7d"}]}
+    %ResultSet{errors: %{}, ack: "58adf6c4-80b5-41e6-ae0b-ba902c56facf", complete?: false, results: [%Result{date: ~N[2018-06-04 13:40:00], answers: %{"q1" => "4444444444", "q2" => "1"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:40", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "4444444444", "q2" => "1", "qtime" => "26.13196301465", "record" => "1", "session" => "fwgycn85f1vrw03w", "start_date" => "06/04/2018 13:40", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "v9er20g6v4wtqx3t", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "v9er20g6v4wtqx3t"}, %Result{date: ~N[2018-06-04 13:41:00], answers: %{"q1" => "5555555555", "q2" => "3"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:41", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "5555555555", "q2" => "3", "qtime" => "12.493089914322", "record" => "2", "session" => "skv6zft8kn1uh3zz", "start_date" => "06/04/2018 13:41", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "v2wgz1523zw31kqf", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "v2wgz1523zw31kqf"}, %Result{date: ~N[2018-06-04 13:41:00], answers: %{"q1" => "5016664532", "q2" => "4"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:41", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "5016664532", "q2" => "4", "qtime" => "18.036247014999", "record" => "3", "session" => "0m1uhfdm2tcnuuec", "start_date" => "06/04/2018 13:41", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "6guu10sw23pkzu7d", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "6guu10sw23pkzu7d"}]}
   end
 
-  def metadata_map do
-    %{
-      "questions" => [
-        %{
-          "grouping" => "rows",
-          "qlabel" => "q1",
-          "qtitle" => "What's your number?",
-          "type" => "number",
-          "variables" => [
-            %{
-              "col" => nil,
-              "colTitle" => nil,
-              "label" => "q1",
-              "qlabel" => "q1",
-              "qtitle" => "What's your number?",
-              "row" => nil,
-              "rowTitle" => nil,
-              "title" => "What's your number?",
-              "type" => "number",
-              "vgroup" => "q1"
-            }
-          ]
-        },
-        %{
-          "grouping" => "cols",
-          "qlabel" => "q2",
-          "qtitle" => "Pizza?",
-          "type" => "single",
-          "values" => [
-            %{"title" => "Yes", "value" => 1},
-            %{"title" => "No", "value" => 2},
-            %{"title" => "I hate it", "value" => 3},
-            %{"title" => "I guess", "value" => 4}
-          ],
-          "variables" => [
-            %{
-              "col" => nil,
-              "colTitle" => nil,
-              "label" => "q2",
-              "qlabel" => "q2",
-              "qtitle" => "Pizza?",
-              "row" => nil,
-              "rowTitle" => nil,
-              "title" => "Pizza?",
-              "type" => "single",
-              "values" => [
-                %{"title" => "Yes", "value" => 1},
-                %{"title" => "No", "value" => 2},
-                %{"title" => "I hate it", "value" => 3},
-                %{"title" => "I guess", "value" => 4}
+  def metadata do
+    %DecipherAPI.Datamap{
+              questions: [
+                %{
+                  "grouping" => "rows",
+                  "qlabel" => "q1",
+                  "qtitle" => "What's your number?",
+                  "type" => "number",
+                  "variables" => [
+                    %{
+                      "col" => nil,
+                      "colTitle" => nil,
+                      "label" => "q1",
+                      "qlabel" => "q1",
+                      "qtitle" => "What's your number?",
+                      "row" => nil,
+                      "rowTitle" => nil,
+                      "title" => "What's your number?",
+                      "type" => "number",
+                      "vgroup" => "q1"
+                    }
+                  ]
+                },
+                %{
+                  "grouping" => "cols",
+                  "qlabel" => "q2",
+                  "qtitle" => "Pizza?",
+                  "type" => "single",
+                  "values" => [
+                    %{"title" => "Yes", "value" => 1},
+                    %{"title" => "No", "value" => 2},
+                    %{"title" => "I hate it", "value" => 3},
+                    %{"title" => "I guess", "value" => 4}
+                  ],
+                  "variables" => [
+                    %{
+                      "col" => nil,
+                      "colTitle" => nil,
+                      "label" => "q2",
+                      "qlabel" => "q2",
+                      "qtitle" => "Pizza?",
+                      "row" => nil,
+                      "rowTitle" => nil,
+                      "title" => "Pizza?",
+                      "type" => "single",
+                      "values" => [
+                        %{"title" => "Yes", "value" => 1},
+                        %{"title" => "No", "value" => 2},
+                        %{"title" => "I hate it", "value" => 3},
+                        %{"title" => "I guess", "value" => 4}
+                      ],
+                      "vgroup" => "q2"
+                    }
+                  ]
+                },
+                %{
+                  "grouping" => "rows",
+                  "qlabel" => "qtime",
+                  "qtitle" => "Total Interview Time",
+                  "type" => "float",
+                  "variables" => [
+                    %{
+                      "col" => nil,
+                      "colTitle" => nil,
+                      "label" => "qtime",
+                      "qlabel" => "qtime",
+                      "qtitle" => "Total Interview Time",
+                      "row" => nil,
+                      "rowTitle" => nil,
+                      "title" => "Total Interview Time",
+                      "type" => "float",
+                      "vgroup" => "qtime"
+                    }
+                  ]
+                },
+                %{
+                  "grouping" => "rows",
+                  "qlabel" => "start_date",
+                  "qtitle" => "Survey start time",
+                  "type" => "text",
+                  "variables" => [
+                    %{
+                      "col" => nil,
+                      "colTitle" => nil,
+                      "label" => "start_date",
+                      "qlabel" => "start_date",
+                      "qtitle" => "Survey start time",
+                      "row" => nil,
+                      "rowTitle" => nil,
+                      "title" => "Survey start time",
+                      "type" => "text",
+                      "vgroup" => "start_date"
+                    }
+                  ]
+                }
               ],
-              "vgroup" => "q2"
+              survey_id: "something/444/something",
+              variables: [
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "record",
+                  "qlabel" => nil,
+                  "qtitle" => "Record number",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Record number",
+                  "type" => "text",
+                  "vgroup" => "record"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "uuid",
+                  "qlabel" => nil,
+                  "qtitle" => "Respondent identifier",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Respondent identifier",
+                  "type" => "text",
+                  "vgroup" => "uuid"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "date",
+                  "qlabel" => nil,
+                  "qtitle" => "Completion time and date",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Completion time and date",
+                  "type" => "text",
+                  "vgroup" => "date"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "markers",
+                  "qlabel" => nil,
+                  "qtitle" => "Acquired markers",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Acquired markers",
+                  "type" => "text",
+                  "vgroup" => "markers"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "status",
+                  "qlabel" => "status",
+                  "qtitle" => "Respondent status",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Respondent status",
+                  "type" => "single",
+                  "values" => [
+                    %{"title" => "Terminated", "value" => 1},
+                    %{"title" => "Overquota", "value" => 2},
+                    %{"title" => "Qualified", "value" => 3},
+                    %{"title" => "Partial", "value" => 4}
+                  ],
+                  "vgroup" => "status"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "q1",
+                  "qlabel" => "q1",
+                  "qtitle" => "What's your number?",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "What's your number?",
+                  "type" => "number",
+                  "vgroup" => "q1"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "q2",
+                  "qlabel" => "q2",
+                  "qtitle" => "Pizza?",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Pizza?",
+                  "type" => "single",
+                  "values" => [
+                    %{"title" => "Yes", "value" => 1},
+                    %{"title" => "No", "value" => 2},
+                    %{"title" => "I hate it", "value" => 3},
+                    %{"title" => "I guess", "value" => 4}
+                  ],
+                  "vgroup" => "q2"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "vlist",
+                  "qlabel" => "vlist",
+                  "qtitle" => "Sample source",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Sample source",
+                  "type" => "single",
+                  "values" => [
+                    %{"title" => "Open Survey (list=0)", "value" => 1}
+                  ],
+                  "vgroup" => "vlist"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "qtime",
+                  "qlabel" => "qtime",
+                  "qtitle" => "Total Interview Time",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Total Interview Time",
+                  "type" => "float",
+                  "vgroup" => "qtime"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "vos",
+                  "qlabel" => "vos",
+                  "qtitle" => "Operating System",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Operating System",
+                  "type" => "single",
+                  "values" => [
+                    %{"title" => "Windows 95", "value" => 1},
+                    %{"title" => "Windows 98", "value" => 2},
+                    %{"title" => "Windows 8", "value" => 3},
+                    %{"title" => "Windows 10", "value" => 4},
+                    %{"title" => "Windows 7", "value" => 5},
+                    %{"title" => "Windows Vista", "value" => 6},
+                    %{"title" => "Windows 2003", "value" => 7},
+                    %{"title" => "Windows XP", "value" => 8},
+                    %{"title" => "Windows 2000", "value" => 9},
+                    %{"title" => "Microsoft Windows NT 4.0", "value" => 10},
+                    %{"title" => "Windows ME", "value" => 11},
+                    %{"title" => "iPhone/iPad", "value" => 12},
+                    %{"title" => "Mac OS X or older", "value" => 13},
+                    %{"title" => "Other Mobile", "value" => 14},
+                    %{"title" => "Linux, UNIX", "value" => 15},
+                    %{"title" => "Other", "value" => 16}
+                  ],
+                  "vgroup" => "vos"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "vosr15oe",
+                  "qlabel" => "vos",
+                  "qtitle" => "Operating System",
+                  "row" => "r15",
+                  "rowTitle" => "Other",
+                  "title" => "Operating System - Other",
+                  "type" => "text",
+                  "vgroup" => "vosr15oe"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "vbrowser",
+                  "qlabel" => "vbrowser",
+                  "qtitle" => "Browser",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Browser",
+                  "type" => "single",
+                  "values" => [
+                    %{"title" => "Opera", "value" => 1},
+                    %{"title" => "MS Edge", "value" => 2},
+                    %{"title" => "MSIE 11", "value" => 3},
+                    %{"title" => "MSIE 10.x", "value" => 4},
+                    %{"title" => "MSIE 9.x", "value" => 5},
+                    %{"title" => "MSIE 8.x", "value" => 6},
+                    %{"title" => "MSIE 7.x", "value" => 7},
+                    %{"title" => "MSIE 6.x", "value" => 8},
+                    %{"title" => "MSIE 5.x or older", "value" => 9},
+                    %{"title" => "Chrome", "value" => 10},
+                    %{"title" => "Safari", "value" => 11},
+                    %{"title" => "Firefox", "value" => 12},
+                    %{"title" => "Other Mozilla or Netscape", "value" => 13},
+                    %{"title" => "Mobile", "value" => 14},
+                    %{"title" => "Text Browser", "value" => 15},
+                    %{"title" => "Other", "value" => 16}
+                  ],
+                  "vgroup" => "vbrowser"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "vbrowserr15oe",
+                  "qlabel" => "vbrowser",
+                  "qtitle" => "Browser",
+                  "row" => "r15",
+                  "rowTitle" => "Other",
+                  "title" => "Browser - Other",
+                  "type" => "text",
+                  "vgroup" => "vbrowserr15oe"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "vmobiledevice",
+                  "qlabel" => "vmobiledevice",
+                  "qtitle" => "Mobile device category",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Mobile device category",
+                  "type" => "single",
+                  "values" => [
+                    %{"title" => "Smartphone", "value" => 1},
+                    %{"title" => "Featurephone", "value" => 2},
+                    %{"title" => "Tablet", "value" => 3},
+                    %{"title" => "Other mobile", "value" => 4},
+                    %{"title" => "Desktop", "value" => 5}
+                  ],
+                  "vgroup" => "vmobiledevice"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "vmobileos",
+                  "qlabel" => "vmobileos",
+                  "qtitle" => "Mobile OS",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Mobile OS",
+                  "type" => "single",
+                  "values" => [
+                    %{"title" => "iOS", "value" => 1},
+                    %{"title" => "Android", "value" => 2},
+                    %{"title" => "Symbian", "value" => 3},
+                    %{"title" => "Windows Phone", "value" => 4},
+                    %{"title" => "Blackberry", "value" => 5},
+                    %{"title" => "Other/Desktop", "value" => 6}
+                  ],
+                  "vgroup" => "vmobileos"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "start_date",
+                  "qlabel" => "start_date",
+                  "qtitle" => "Survey start time",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Survey start time",
+                  "type" => "text",
+                  "vgroup" => "start_date"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "source",
+                  "qlabel" => nil,
+                  "qtitle" => "Captured variable",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Captured variable",
+                  "type" => "text",
+                  "vgroup" => "source"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "ipAddress",
+                  "qlabel" => nil,
+                  "qtitle" => "Captured variable",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Captured variable",
+                  "type" => "text",
+                  "vgroup" => "ipAddress"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "decLang",
+                  "qlabel" => nil,
+                  "qtitle" => "Captured variable",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Captured variable",
+                  "type" => "text",
+                  "vgroup" => "decLang"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "list",
+                  "qlabel" => nil,
+                  "qtitle" => "Captured variable",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Captured variable",
+                  "type" => "text",
+                  "vgroup" => "list"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "userAgent",
+                  "qlabel" => nil,
+                  "qtitle" => "Captured variable",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Captured variable",
+                  "type" => "text",
+                  "vgroup" => "userAgent"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "dcua",
+                  "qlabel" => nil,
+                  "qtitle" => "Captured variable",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Captured variable",
+                  "type" => "text",
+                  "vgroup" => "dcua"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "session",
+                  "qlabel" => nil,
+                  "qtitle" => "Captured variable",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Captured variable",
+                  "type" => "text",
+                  "vgroup" => "session"
+                },
+                %{
+                  "col" => nil,
+                  "colTitle" => nil,
+                  "label" => "url",
+                  "qlabel" => nil,
+                  "qtitle" => "Captured variable",
+                  "row" => nil,
+                  "rowTitle" => nil,
+                  "title" => "Captured variable",
+                  "type" => "text",
+                  "vgroup" => "url"
+                }
+              ]
             }
-          ]
-        },
-        %{
-          "grouping" => "rows",
-          "qlabel" => "qtime",
-          "qtitle" => "Total Interview Time",
-          "type" => "float",
-          "variables" => [
-            %{
-              "col" => nil,
-              "colTitle" => nil,
-              "label" => "qtime",
-              "qlabel" => "qtime",
-              "qtitle" => "Total Interview Time",
-              "row" => nil,
-              "rowTitle" => nil,
-              "title" => "Total Interview Time",
-              "type" => "float",
-              "vgroup" => "qtime"
-            }
-          ]
-        },
-        %{
-          "grouping" => "rows",
-          "qlabel" => "start_date",
-          "qtitle" => "Survey start time",
-          "type" => "text",
-          "variables" => [
-            %{
-              "col" => nil,
-              "colTitle" => nil,
-              "label" => "start_date",
-              "qlabel" => "start_date",
-              "qtitle" => "Survey start time",
-              "row" => nil,
-              "rowTitle" => nil,
-              "title" => "Survey start time",
-              "type" => "text",
-              "vgroup" => "start_date"
-            }
-          ]
-        }
-      ],
-      "variables" => [
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "record",
-          "qlabel" => nil,
-          "qtitle" => "Record number",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Record number",
-          "type" => "text",
-          "vgroup" => "record"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "uuid",
-          "qlabel" => nil,
-          "qtitle" => "Respondent identifier",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Respondent identifier",
-          "type" => "text",
-          "vgroup" => "uuid"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "date",
-          "qlabel" => nil,
-          "qtitle" => "Completion time and date",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Completion time and date",
-          "type" => "text",
-          "vgroup" => "date"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "markers",
-          "qlabel" => nil,
-          "qtitle" => "Acquired markers",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Acquired markers",
-          "type" => "text",
-          "vgroup" => "markers"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "status",
-          "qlabel" => "status",
-          "qtitle" => "Respondent status",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Respondent status",
-          "type" => "single",
-          "values" => [
-            %{"title" => "Terminated", "value" => 1},
-            %{"title" => "Overquota", "value" => 2},
-            %{"title" => "Qualified", "value" => 3},
-            %{"title" => "Partial", "value" => 4}
-          ],
-          "vgroup" => "status"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "q1",
-          "qlabel" => "q1",
-          "qtitle" => "What's your number?",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "What's your number?",
-          "type" => "number",
-          "vgroup" => "q1"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "q2",
-          "qlabel" => "q2",
-          "qtitle" => "Pizza?",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Pizza?",
-          "type" => "single",
-          "values" => [
-            %{"title" => "Yes", "value" => 1},
-            %{"title" => "No", "value" => 2},
-            %{"title" => "I hate it", "value" => 3},
-            %{"title" => "I guess", "value" => 4}
-          ],
-          "vgroup" => "q2"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "vlist",
-          "qlabel" => "vlist",
-          "qtitle" => "Sample source",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Sample source",
-          "type" => "single",
-          "values" => [%{"title" => "Open Survey (list=0)", "value" => 1}],
-          "vgroup" => "vlist"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "qtime",
-          "qlabel" => "qtime",
-          "qtitle" => "Total Interview Time",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Total Interview Time",
-          "type" => "float",
-          "vgroup" => "qtime"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "vos",
-          "qlabel" => "vos",
-          "qtitle" => "Operating System",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Operating System",
-          "type" => "single",
-          "values" => [
-            %{"title" => "Windows 95", "value" => 1},
-            %{"title" => "Windows 98", "value" => 2},
-            %{"title" => "Windows 8", "value" => 3},
-            %{"title" => "Windows 10", "value" => 4},
-            %{"title" => "Windows 7", "value" => 5},
-            %{"title" => "Windows Vista", "value" => 6},
-            %{"title" => "Windows 2003", "value" => 7},
-            %{"title" => "Windows XP", "value" => 8},
-            %{"title" => "Windows 2000", "value" => 9},
-            %{"title" => "Microsoft Windows NT 4.0", "value" => 10},
-            %{"title" => "Windows ME", "value" => 11},
-            %{"title" => "iPhone/iPad", "value" => 12},
-            %{"title" => "Mac OS X or older", "value" => 13},
-            %{"title" => "Other Mobile", "value" => 14},
-            %{"title" => "Linux, UNIX", "value" => 15},
-            %{"title" => "Other", "value" => 16}
-          ],
-          "vgroup" => "vos"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "vosr15oe",
-          "qlabel" => "vos",
-          "qtitle" => "Operating System",
-          "row" => "r15",
-          "rowTitle" => "Other",
-          "title" => "Operating System - Other",
-          "type" => "text",
-          "vgroup" => "vosr15oe"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "vbrowser",
-          "qlabel" => "vbrowser",
-          "qtitle" => "Browser",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Browser",
-          "type" => "single",
-          "values" => [
-            %{"title" => "Opera", "value" => 1},
-            %{"title" => "MS Edge", "value" => 2},
-            %{"title" => "MSIE 11", "value" => 3},
-            %{"title" => "MSIE 10.x", "value" => 4},
-            %{"title" => "MSIE 9.x", "value" => 5},
-            %{"title" => "MSIE 8.x", "value" => 6},
-            %{"title" => "MSIE 7.x", "value" => 7},
-            %{"title" => "MSIE 6.x", "value" => 8},
-            %{"title" => "MSIE 5.x or older", "value" => 9},
-            %{"title" => "Chrome", "value" => 10},
-            %{"title" => "Safari", "value" => 11},
-            %{"title" => "Firefox", "value" => 12},
-            %{"title" => "Other Mozilla or Netscape", "value" => 13},
-            %{"title" => "Mobile", "value" => 14},
-            %{"title" => "Text Browser", "value" => 15},
-            %{"title" => "Other", "value" => 16}
-          ],
-          "vgroup" => "vbrowser"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "vbrowserr15oe",
-          "qlabel" => "vbrowser",
-          "qtitle" => "Browser",
-          "row" => "r15",
-          "rowTitle" => "Other",
-          "title" => "Browser - Other",
-          "type" => "text",
-          "vgroup" => "vbrowserr15oe"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "vmobiledevice",
-          "qlabel" => "vmobiledevice",
-          "qtitle" => "Mobile device category",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Mobile device category",
-          "type" => "single",
-          "values" => [
-            %{"title" => "Smartphone", "value" => 1},
-            %{"title" => "Featurephone", "value" => 2},
-            %{"title" => "Tablet", "value" => 3},
-            %{"title" => "Other mobile", "value" => 4},
-            %{"title" => "Desktop", "value" => 5}
-          ],
-          "vgroup" => "vmobiledevice"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "vmobileos",
-          "qlabel" => "vmobileos",
-          "qtitle" => "Mobile OS",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Mobile OS",
-          "type" => "single",
-          "values" => [
-            %{"title" => "iOS", "value" => 1},
-            %{"title" => "Android", "value" => 2},
-            %{"title" => "Symbian", "value" => 3},
-            %{"title" => "Windows Phone", "value" => 4},
-            %{"title" => "Blackberry", "value" => 5},
-            %{"title" => "Other/Desktop", "value" => 6}
-          ],
-          "vgroup" => "vmobileos"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "start_date",
-          "qlabel" => "start_date",
-          "qtitle" => "Survey start time",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Survey start time",
-          "type" => "text",
-          "vgroup" => "start_date"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "source",
-          "qlabel" => nil,
-          "qtitle" => "Captured variable",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Captured variable",
-          "type" => "text",
-          "vgroup" => "source"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "ipAddress",
-          "qlabel" => nil,
-          "qtitle" => "Captured variable",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Captured variable",
-          "type" => "text",
-          "vgroup" => "ipAddress"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "decLang",
-          "qlabel" => nil,
-          "qtitle" => "Captured variable",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Captured variable",
-          "type" => "text",
-          "vgroup" => "decLang"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "list",
-          "qlabel" => nil,
-          "qtitle" => "Captured variable",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Captured variable",
-          "type" => "text",
-          "vgroup" => "list"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "userAgent",
-          "qlabel" => nil,
-          "qtitle" => "Captured variable",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Captured variable",
-          "type" => "text",
-          "vgroup" => "userAgent"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "dcua",
-          "qlabel" => nil,
-          "qtitle" => "Captured variable",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Captured variable",
-          "type" => "text",
-          "vgroup" => "dcua"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "session",
-          "qlabel" => nil,
-          "qtitle" => "Captured variable",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Captured variable",
-          "type" => "text",
-          "vgroup" => "session"
-        },
-        %{
-          "col" => nil,
-          "colTitle" => nil,
-          "label" => "url",
-          "qlabel" => nil,
-          "qtitle" => "Captured variable",
-          "row" => nil,
-          "rowTitle" => nil,
-          "title" => "Captured variable",
-          "type" => "text",
-          "vgroup" => "url"
-        }
-      ]
-    }
   end
 
-  def coerced_metadata_map do
-    %DecipherAPI.Datamap{questions: %{"q1" => %DecipherAPI.Datamap.Question{grouping: "rows", qlabel: "q1", qtitle: "What's your number?", type: "number", values: nil, variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "q1", qlabel: "q1", qtitle: "What's your number?", row: nil, row_title: nil, title: "What's your number?", type: "number", values: nil, vgroup: "q1"}]}, "q2" => %DecipherAPI.Datamap.Question{grouping: "cols", qlabel: "q2", qtitle: "Pizza?", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Yes", value: 1}, %DecipherAPI.Datamap.Value{title: "No", value: 2}, %DecipherAPI.Datamap.Value{title: "I hate it", value: 3}, %DecipherAPI.Datamap.Value{title: "I guess", value: 4}], variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "q2", qlabel: "q2", qtitle: "Pizza?", row: nil, row_title: nil, title: "Pizza?", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Yes", value: 1}, %DecipherAPI.Datamap.Value{title: "No", value: 2}, %DecipherAPI.Datamap.Value{title: "I hate it", value: 3}, %DecipherAPI.Datamap.Value{title: "I guess", value: 4}], vgroup: "q2"}]}, "qtime" => %DecipherAPI.Datamap.Question{grouping: "rows", qlabel: "qtime", qtitle: "Total Interview Time", type: "float", values: nil, variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "qtime", qlabel: "qtime", qtitle: "Total Interview Time", row: nil, row_title: nil, title: "Total Interview Time", type: "float", values: nil, vgroup: "qtime"}]}, "start_date" => %DecipherAPI.Datamap.Question{grouping: "rows", qlabel: "start_date", qtitle: "Survey start time", type: "text", values: nil, variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "start_date", qlabel: "start_date", qtitle: "Survey start time", row: nil, row_title: nil, title: "Survey start time", type: "text", values: nil, vgroup: "start_date"}]}}, variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "record", qlabel: nil, qtitle: "Record number", row: nil, row_title: nil, title: "Record number", type: "text", values: nil, vgroup: "record"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "uuid", qlabel: nil, qtitle: "Respondent identifier", row: nil, row_title: nil, title: "Respondent identifier", type: "text", values: nil, vgroup: "uuid"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "date", qlabel: nil, qtitle: "Completion time and date", row: nil, row_title: nil, title: "Completion time and date", type: "text", values: nil, vgroup: "date"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "markers", qlabel: nil, qtitle: "Acquired markers", row: nil, row_title: nil, title: "Acquired markers", type: "text", values: nil, vgroup: "markers"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "status", qlabel: "status", qtitle: "Respondent status", row: nil, row_title: nil, title: "Respondent status", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Terminated", value: 1}, %DecipherAPI.Datamap.Value{title: "Overquota", value: 2}, %DecipherAPI.Datamap.Value{title: "Qualified", value: 3}, %DecipherAPI.Datamap.Value{title: "Partial", value: 4}], vgroup: "status"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "q1", qlabel: "q1", qtitle: "What's your number?", row: nil, row_title: nil, title: "What's your number?", type: "number", values: nil, vgroup: "q1"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "q2", qlabel: "q2", qtitle: "Pizza?", row: nil, row_title: nil, title: "Pizza?", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Yes", value: 1}, %DecipherAPI.Datamap.Value{title: "No", value: 2}, %DecipherAPI.Datamap.Value{title: "I hate it", value: 3}, %DecipherAPI.Datamap.Value{title: "I guess", value: 4}], vgroup: "q2"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vlist", qlabel: "vlist", qtitle: "Sample source", row: nil, row_title: nil, title: "Sample source", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Open Survey (list=0)", value: 1}], vgroup: "vlist"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "qtime", qlabel: "qtime", qtitle: "Total Interview Time", row: nil, row_title: nil, title: "Total Interview Time", type: "float", values: nil, vgroup: "qtime"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vos", qlabel: "vos", qtitle: "Operating System", row: nil, row_title: nil, title: "Operating System", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Windows 95", value: 1}, %DecipherAPI.Datamap.Value{title: "Windows 98", value: 2}, %DecipherAPI.Datamap.Value{title: "Windows 8", value: 3}, %DecipherAPI.Datamap.Value{title: "Windows 10", value: 4}, %DecipherAPI.Datamap.Value{title: "Windows 7", value: 5}, %DecipherAPI.Datamap.Value{title: "Windows Vista", value: 6}, %DecipherAPI.Datamap.Value{title: "Windows 2003", value: 7}, %DecipherAPI.Datamap.Value{title: "Windows XP", value: 8}, %DecipherAPI.Datamap.Value{title: "Windows 2000", value: 9}, %DecipherAPI.Datamap.Value{title: "Microsoft Windows NT 4.0", value: 10}, %DecipherAPI.Datamap.Value{title: "Windows ME", value: 11}, %DecipherAPI.Datamap.Value{title: "iPhone/iPad", value: 12}, %DecipherAPI.Datamap.Value{title: "Mac OS X or older", value: 13}, %DecipherAPI.Datamap.Value{title: "Other Mobile", value: 14}, %DecipherAPI.Datamap.Value{title: "Linux, UNIX", value: 15}, %DecipherAPI.Datamap.Value{title: "Other", value: 16}], vgroup: "vos"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vosr15oe", qlabel: "vos", qtitle: "Operating System", row: "r15", row_title: "Other", title: "Operating System - Other", type: "text", values: nil, vgroup: "vosr15oe"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vbrowser", qlabel: "vbrowser", qtitle: "Browser", row: nil, row_title: nil, title: "Browser", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Opera", value: 1}, %DecipherAPI.Datamap.Value{title: "MS Edge", value: 2}, %DecipherAPI.Datamap.Value{title: "MSIE 11", value: 3}, %DecipherAPI.Datamap.Value{title: "MSIE 10.x", value: 4}, %DecipherAPI.Datamap.Value{title: "MSIE 9.x", value: 5}, %DecipherAPI.Datamap.Value{title: "MSIE 8.x", value: 6}, %DecipherAPI.Datamap.Value{title: "MSIE 7.x", value: 7}, %DecipherAPI.Datamap.Value{title: "MSIE 6.x", value: 8}, %DecipherAPI.Datamap.Value{title: "MSIE 5.x or older", value: 9}, %DecipherAPI.Datamap.Value{title: "Chrome", value: 10}, %DecipherAPI.Datamap.Value{title: "Safari", value: 11}, %DecipherAPI.Datamap.Value{title: "Firefox", value: 12}, %DecipherAPI.Datamap.Value{title: "Other Mozilla or Netscape", value: 13}, %DecipherAPI.Datamap.Value{title: "Mobile", value: 14}, %DecipherAPI.Datamap.Value{title: "Text Browser", value: 15}, %DecipherAPI.Datamap.Value{title: "Other", value: 16}], vgroup: "vbrowser"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vbrowserr15oe", qlabel: "vbrowser", qtitle: "Browser", row: "r15", row_title: "Other", title: "Browser - Other", type: "text", values: nil, vgroup: "vbrowserr15oe"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vmobiledevice", qlabel: "vmobiledevice", qtitle: "Mobile device category", row: nil, row_title: nil, title: "Mobile device category", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Smartphone", value: 1}, %DecipherAPI.Datamap.Value{title: "Featurephone", value: 2}, %DecipherAPI.Datamap.Value{title: "Tablet", value: 3}, %DecipherAPI.Datamap.Value{title: "Other mobile", value: 4}, %DecipherAPI.Datamap.Value{title: "Desktop", value: 5}], vgroup: "vmobiledevice"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vmobileos", qlabel: "vmobileos", qtitle: "Mobile OS", row: nil, row_title: nil, title: "Mobile OS", type: "single", values: [%DecipherAPI.Datamap.Value{title: "iOS", value: 1}, %DecipherAPI.Datamap.Value{title: "Android", value: 2}, %DecipherAPI.Datamap.Value{title: "Symbian", value: 3}, %DecipherAPI.Datamap.Value{title: "Windows Phone", value: 4}, %DecipherAPI.Datamap.Value{title: "Blackberry", value: 5}, %DecipherAPI.Datamap.Value{title: "Other/Desktop", value: 6}], vgroup: "vmobileos"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "start_date", qlabel: "start_date", qtitle: "Survey start time", row: nil, row_title: nil, title: "Survey start time", type: "text", values: nil, vgroup: "start_date"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "source", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "source"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "ipAddress", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "ipAddress"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "decLang", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "decLang"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "list", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "list"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "userAgent", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "userAgent"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "dcua", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "dcua"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "session", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "session"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "url", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "url"}]}
+  def coerced_metadata do
+    %DecipherAPI.Datamap{questions: %{"q1" => %DecipherAPI.Datamap.Question{grouping: "rows", qlabel: "q1", qtitle: "What's your number?", type: "number", values: nil, variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "q1", qlabel: "q1", qtitle: "What's your number?", row: nil, row_title: nil, title: "What's your number?", type: "number", values: nil, vgroup: "q1"}]}, "q2" => %DecipherAPI.Datamap.Question{grouping: "cols", qlabel: "q2", qtitle: "Pizza?", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Yes", value: 1}, %DecipherAPI.Datamap.Value{title: "No", value: 2}, %DecipherAPI.Datamap.Value{title: "I hate it", value: 3}, %DecipherAPI.Datamap.Value{title: "I guess", value: 4}], variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "q2", qlabel: "q2", qtitle: "Pizza?", row: nil, row_title: nil, title: "Pizza?", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Yes", value: 1}, %DecipherAPI.Datamap.Value{title: "No", value: 2}, %DecipherAPI.Datamap.Value{title: "I hate it", value: 3}, %DecipherAPI.Datamap.Value{title: "I guess", value: 4}], vgroup: "q2"}]}, "qtime" => %DecipherAPI.Datamap.Question{grouping: "rows", qlabel: "qtime", qtitle: "Total Interview Time", type: "float", values: nil, variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "qtime", qlabel: "qtime", qtitle: "Total Interview Time", row: nil, row_title: nil, title: "Total Interview Time", type: "float", values: nil, vgroup: "qtime"}]}, "start_date" => %DecipherAPI.Datamap.Question{grouping: "rows", qlabel: "start_date", qtitle: "Survey start time", type: "text", values: nil, variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "start_date", qlabel: "start_date", qtitle: "Survey start time", row: nil, row_title: nil, title: "Survey start time", type: "text", values: nil, vgroup: "start_date"}]}}, variables: [%DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "record", qlabel: nil, qtitle: "Record number", row: nil, row_title: nil, title: "Record number", type: "text", values: nil, vgroup: "record"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "uuid", qlabel: nil, qtitle: "Respondent identifier", row: nil, row_title: nil, title: "Respondent identifier", type: "text", values: nil, vgroup: "uuid"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "date", qlabel: nil, qtitle: "Completion time and date", row: nil, row_title: nil, title: "Completion time and date", type: "text", values: nil, vgroup: "date"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "markers", qlabel: nil, qtitle: "Acquired markers", row: nil, row_title: nil, title: "Acquired markers", type: "text", values: nil, vgroup: "markers"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "status", qlabel: "status", qtitle: "Respondent status", row: nil, row_title: nil, title: "Respondent status", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Terminated", value: 1}, %DecipherAPI.Datamap.Value{title: "Overquota", value: 2}, %DecipherAPI.Datamap.Value{title: "Qualified", value: 3}, %DecipherAPI.Datamap.Value{title: "Partial", value: 4}], vgroup: "status"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "q1", qlabel: "q1", qtitle: "What's your number?", row: nil, row_title: nil, title: "What's your number?", type: "number", values: nil, vgroup: "q1"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "q2", qlabel: "q2", qtitle: "Pizza?", row: nil, row_title: nil, title: "Pizza?", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Yes", value: 1}, %DecipherAPI.Datamap.Value{title: "No", value: 2}, %DecipherAPI.Datamap.Value{title: "I hate it", value: 3}, %DecipherAPI.Datamap.Value{title: "I guess", value: 4}], vgroup: "q2"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vlist", qlabel: "vlist", qtitle: "Sample source", row: nil, row_title: nil, title: "Sample source", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Open Survey (list=0)", value: 1}], vgroup: "vlist"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "qtime", qlabel: "qtime", qtitle: "Total Interview Time", row: nil, row_title: nil, title: "Total Interview Time", type: "float", values: nil, vgroup: "qtime"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vos", qlabel: "vos", qtitle: "Operating System", row: nil, row_title: nil, title: "Operating System", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Windows 95", value: 1}, %DecipherAPI.Datamap.Value{title: "Windows 98", value: 2}, %DecipherAPI.Datamap.Value{title: "Windows 8", value: 3}, %DecipherAPI.Datamap.Value{title: "Windows 10", value: 4}, %DecipherAPI.Datamap.Value{title: "Windows 7", value: 5}, %DecipherAPI.Datamap.Value{title: "Windows Vista", value: 6}, %DecipherAPI.Datamap.Value{title: "Windows 2003", value: 7}, %DecipherAPI.Datamap.Value{title: "Windows XP", value: 8}, %DecipherAPI.Datamap.Value{title: "Windows 2000", value: 9}, %DecipherAPI.Datamap.Value{title: "Microsoft Windows NT 4.0", value: 10}, %DecipherAPI.Datamap.Value{title: "Windows ME", value: 11}, %DecipherAPI.Datamap.Value{title: "iPhone/iPad", value: 12}, %DecipherAPI.Datamap.Value{title: "Mac OS X or older", value: 13}, %DecipherAPI.Datamap.Value{title: "Other Mobile", value: 14}, %DecipherAPI.Datamap.Value{title: "Linux, UNIX", value: 15}, %DecipherAPI.Datamap.Value{title: "Other", value: 16}], vgroup: "vos"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vosr15oe", qlabel: "vos", qtitle: "Operating System", row: "r15", row_title: "Other", title: "Operating System - Other", type: "text", values: nil, vgroup: "vosr15oe"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vbrowser", qlabel: "vbrowser", qtitle: "Browser", row: nil, row_title: nil, title: "Browser", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Opera", value: 1}, %DecipherAPI.Datamap.Value{title: "MS Edge", value: 2}, %DecipherAPI.Datamap.Value{title: "MSIE 11", value: 3}, %DecipherAPI.Datamap.Value{title: "MSIE 10.x", value: 4}, %DecipherAPI.Datamap.Value{title: "MSIE 9.x", value: 5}, %DecipherAPI.Datamap.Value{title: "MSIE 8.x", value: 6}, %DecipherAPI.Datamap.Value{title: "MSIE 7.x", value: 7}, %DecipherAPI.Datamap.Value{title: "MSIE 6.x", value: 8}, %DecipherAPI.Datamap.Value{title: "MSIE 5.x or older", value: 9}, %DecipherAPI.Datamap.Value{title: "Chrome", value: 10}, %DecipherAPI.Datamap.Value{title: "Safari", value: 11}, %DecipherAPI.Datamap.Value{title: "Firefox", value: 12}, %DecipherAPI.Datamap.Value{title: "Other Mozilla or Netscape", value: 13}, %DecipherAPI.Datamap.Value{title: "Mobile", value: 14}, %DecipherAPI.Datamap.Value{title: "Text Browser", value: 15}, %DecipherAPI.Datamap.Value{title: "Other", value: 16}], vgroup: "vbrowser"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vbrowserr15oe", qlabel: "vbrowser", qtitle: "Browser", row: "r15", row_title: "Other", title: "Browser - Other", type: "text", values: nil, vgroup: "vbrowserr15oe"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vmobiledevice", qlabel: "vmobiledevice", qtitle: "Mobile device category", row: nil, row_title: nil, title: "Mobile device category", type: "single", values: [%DecipherAPI.Datamap.Value{title: "Smartphone", value: 1}, %DecipherAPI.Datamap.Value{title: "Featurephone", value: 2}, %DecipherAPI.Datamap.Value{title: "Tablet", value: 3}, %DecipherAPI.Datamap.Value{title: "Other mobile", value: 4}, %DecipherAPI.Datamap.Value{title: "Desktop", value: 5}], vgroup: "vmobiledevice"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "vmobileos", qlabel: "vmobileos", qtitle: "Mobile OS", row: nil, row_title: nil, title: "Mobile OS", type: "single", values: [%DecipherAPI.Datamap.Value{title: "iOS", value: 1}, %DecipherAPI.Datamap.Value{title: "Android", value: 2}, %DecipherAPI.Datamap.Value{title: "Symbian", value: 3}, %DecipherAPI.Datamap.Value{title: "Windows Phone", value: 4}, %DecipherAPI.Datamap.Value{title: "Blackberry", value: 5}, %DecipherAPI.Datamap.Value{title: "Other/Desktop", value: 6}], vgroup: "vmobileos"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "start_date", qlabel: "start_date", qtitle: "Survey start time", row: nil, row_title: nil, title: "Survey start time", type: "text", values: nil, vgroup: "start_date"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "source", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "source"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "ipAddress", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "ipAddress"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "decLang", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "decLang"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "list", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "list"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "userAgent", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "userAgent"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "dcua", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "dcua"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "session", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "session"}, %DecipherAPI.Datamap.Variables{col: nil, col_title: nil, label: "url", qlabel: nil, qtitle: "Captured variable", row: nil, row_title: nil, title: "Captured variable", type: "text", values: nil, vgroup: "url"}], survey_id: "something/444/something"}
   end
 
   def datafeed_complete_false do
@@ -660,7 +656,7 @@ defmodule DecipherAPITest.FakeData do
   end
 
   def datafeed_paginated_concat do
-    %DecipherAPI.Datafeed{ack: "58adf6c4-80b5-41e6-ae0b-ba902c56facf", complete?: true, errors: %{}, metadata: %{}, results: [%DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:40:00], answers: %{"q1" => "4444444444", "q2" => "1"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:40", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "4444444444", "q2" => "1", "qtime" => "26.13196301465", "record" => "1", "session" => "fwgycn85f1vrw03w", "start_date" => "06/04/2018 13:40", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "v9er20g6v4wtqx3t", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "v9er20g6v4wtqx3t"}, %DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:41:00], answers: %{"q1" => "5555555555", "q2" => "3"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:41", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "5555555555", "q2" => "3", "qtime" => "12.493089914322", "record" => "2", "session" => "skv6zft8kn1uh3zz", "start_date" => "06/04/2018 13:41", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "v2wgz1523zw31kqf", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "v2wgz1523zw31kqf"}, %DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:41:00], answers: %{"q1" => "5016664532", "q2" => "4"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:41", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "5016664532", "q2" => "4", "qtime" => "18.036247014999", "record" => "3", "session" => "0m1uhfdm2tcnuuec", "start_date" => "06/04/2018 13:41", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "6guu10sw23pkzu7d", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "6guu10sw23pkzu7d"}, %DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:40:00], answers: %{"q1" => "4444444444", "q2" => "1"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:40", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "4444444444", "q2" => "1", "qtime" => "26.13196301465", "record" => "1", "session" => "fwgycn85f1vrw03w", "start_date" => "06/04/2018 13:40", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "v9er20g6v4wtqx3t", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "v9er20g6v4wtqx3t"}, %DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:41:00], answers: %{"q1" => "5555555555", "q2" => "3"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:41", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "5555555555", "q2" => "3", "qtime" => "12.493089914322", "record" => "2", "session" => "skv6zft8kn1uh3zz", "start_date" => "06/04/2018 13:41", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "v2wgz1523zw31kqf", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "v2wgz1523zw31kqf"}, %DecipherAPI.Datafeed.Result{date: ~N[2018-06-04 13:41:00], answers: %{"q1" => "5016664532", "q2" => "4"}, raw_result: %{"$survey" => "selfserve/555/survey1", "date" => "06/04/2018 13:41", "dcua" => "..", "ipAddress" => "198.57.81.230", "list" => "0", "markers" => "qualified", "q1" => "5016664532", "q2" => "4", "qtime" => "18.036247014999", "record" => "3", "session" => "0m1uhfdm2tcnuuec", "start_date" => "06/04/2018 13:41", "status" => "3", "url" => "/survey/selfserve/555/survey1", "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36", "uuid" => "6guu10sw23pkzu7d", "vbrowser" => "10", "vlist" => "1", "vmobiledevice" => "5", "vmobileos" => "6", "vos" => "13"}, survey_url: "selfserve/555/survey1", uuid: "6guu10sw23pkzu7d"}]}
+    %DecipherAPI.Datafeed{scope: "all", survey_id: "something/444/something"}
   end
 
   def reset_datafeed_response do

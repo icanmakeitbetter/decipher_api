@@ -2,6 +2,8 @@ defmodule DecipherAPI.Service do
   @moduledoc """
   Provides lower level functions to interact with Decipher's API service.
   """
+  alias DecipherAPI.Datafeed
+  alias DecipherAPI.Datafeed.ResultSet
   @decipher_api Application.get_env(:decipher_api, :service)
 
   def base_path(subdomain \\ Application.get_env(:decipher_api, :subdomain)) do
@@ -51,26 +53,25 @@ defmodule DecipherAPI.Service do
 
     iex> API.get_survey_results("all", "selfserve/540/180435")
   """
-  @spec get_survey_results(String.t, String.t) :: {:error, binary()} | %{}
-  def get_survey_results(scope, survey_id)
+  @spec get_survey_results(%Datafeed{}) :: {:error, binary()} | %{}
+  def get_survey_results(%Datafeed{survey_id: survey_id, scope: scope})
       when is_binary(scope)
       and is_binary(survey_id) do
     get!("datafeed/#{scope}?paths=#{survey_id}")
   end
 
-  @spec advance_datafeed(String.t, String.t) :: %{} | {:error, String.t}
-  def advance_datafeed(ack_code, scope \\ "all")
+  @spec advance_datafeed(%ResultSet{}, %Datafeed{}) :: %{} | {:error, String.t}
+  def advance_datafeed(%ResultSet{ack: ack_code}, %Datafeed{scope: scope})
       when is_binary(ack_code)
       and is_binary(scope) do
-    {:ok, body} =
-      %{"ack" => ack_code}
-      |> encode_json()
+
+    {:ok, body} = %{"ack" => ack_code} |> encode_json()
 
     post!(body, "datafeed/#{scope}/ack")
   end
 
-  @spec reset_datafeed(String.t, String.t) :: %{} | {:error, String.t}
-  def reset_datafeed(survey_id, scope \\ "all")
+  @spec reset_datafeed(%Datafeed{}) :: %{} | {:error, String.t}
+  def reset_datafeed(%Datafeed{survey_id: survey_id, scope: scope})
       when is_binary(survey_id)
       and is_binary(scope) do
     @decipher_api.delete!(base_path() <> "datafeed/#{scope}?paths=#{survey_id}", api_headers())

@@ -1,6 +1,6 @@
 defmodule DecipherAPITest.ResultTest do
-  alias DecipherAPITest.FakeData
-  alias DecipherAPI.Datafeed.Result
+  alias DecipherAPITest.Support.FakeData
+  alias DecipherAPI.Datafeed.ResultSet.Result
 
   use ExUnit.Case, async: true
 
