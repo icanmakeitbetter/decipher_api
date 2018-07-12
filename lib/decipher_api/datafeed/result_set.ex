@@ -1,4 +1,5 @@
 defmodule DecipherAPI.Datafeed.ResultSet do
+  alias DecipherAPI.Datamap
   alias __MODULE__
   defstruct(
     ack: nil,
@@ -17,12 +18,12 @@ defmodule DecipherAPI.Datafeed.ResultSet do
     }
   end
 
-  @spec process_results(%ResultSet{}, fun()) :: any
-  def process_results(result_set, fun \\ &(&1)) do
+  @spec process_results(%ResultSet{}, %Datamap{} | nil, fun()) :: any
+  def process_results(result_set, datamap, fun) do
     case Enum.each(result_set.results,
       fn(result) ->
         result
-        |> ResultSet.Result.coerce_data()
+        |> ResultSet.Result.process_answers(datamap)
         |> fun.()
       end
     ) do

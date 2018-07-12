@@ -1,4 +1,5 @@
 defmodule DecipherAPI.Datafeed.ResultSet.Result do
+  alias DecipherAPI.Datamap
   alias __MODULE__
 
   defstruct(
@@ -26,10 +27,11 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
     }
   end
 
-  def process_answers(result, metadata) do
+  @spec process_answers(%{}, %Datamap{} | nil) :: %{}
+  def process_answers(result, datamap) do
     result
     |> get_answers()
-    |> coerce_answers(metadata)
+    |> coerce_answers(datamap)
   end
 
   @doc """
@@ -65,11 +67,16 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
     )
   end
 
-  @spec coerce_answers(%{}, %DecipherAPI.Datamap{}) :: %{}
-  def coerce_answers(answer_map, metadata) do
+  @spec coerce_answers(%{}, nil) :: %{}
+  def coerce_answers(answer_map, nil) do
+    answer_map
+  end
+
+  @spec coerce_answers(%{}, %Datamap{}) :: %{}
+  def coerce_answers(answer_map, datamap) do
 
     Enum.into(answer_map, Map.new(), fn({key, value}) ->
-      case metadata.questions[key].type do
+      case datamap.questions[key].type do
         "number" ->
           {key, String.to_integer(value)}
         _ ->

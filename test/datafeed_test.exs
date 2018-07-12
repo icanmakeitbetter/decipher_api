@@ -26,12 +26,25 @@ defmodule DecipherAPITest.DatafeedTest do
   end
 
   test "we hit the complete false function head of check_if_more_results" do
-    assert Datafeed.check_if_more_results(%ResultSet{complete?: false}, @datafeed) == :ok
+    {:ok, called} = Agent.start_link(fn() -> false end)
+    success = Datafeed.check_if_more_results(
+                %ResultSet{complete?: false},
+                @datafeed,
+                fn(_result) -> Agent.update(called, fn(_bool) -> true end)
+              end)
+
+    assert success == :ok
+    assert Agent.get(called, &(&1))
   end
 
   test "that build_result_set builds the actual result set" do
     InMemoryHTTPClient.queue_response(:get, :datafeed, FakeData.datafeed_complete_false())
-    assert Datafeed.get_and_process(@datafeed) == :ok
+
+    success = Datafeed.get_and_process(
+                @datafeed,
+                fn(result) -> assert %{"q1" => _q1, "q2" => _q2} = result
+              end)
+    assert success == :ok
   end
 
 end
