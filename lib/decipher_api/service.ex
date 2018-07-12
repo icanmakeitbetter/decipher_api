@@ -85,7 +85,7 @@ defmodule DecipherAPI.Service do
         response.body
         |> decode_json()
       400 ->
-        {:error, "#{response.status_code}: other invalid parameter not covered above, e.g. survey cannot be loaded due to an error"}
+        {:error, "#{response.status_code}: #{response.body}"}
       401 ->
         {:error, "#{response.status_code}: invalid authentication; your API key is invalid, expired or not valid from this IP or action"}
       402 ->
