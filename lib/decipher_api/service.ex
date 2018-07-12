@@ -4,7 +4,7 @@ defmodule DecipherAPI.Service do
   """
   alias DecipherAPI.Datafeed
   alias DecipherAPI.Datafeed.ResultSet
-  @decipher_api Application.get_env(:decipher_api, :service)
+  @decipher_api Application.get_env(:decipher_api, :service, DecipherAPI.Service.HTTPClient)
 
   def base_path(subdomain \\ Application.get_env(:decipher_api, :subdomain)) do
     "http://#{subdomain}.decipherinc.com/api/v1/"
