@@ -6,11 +6,11 @@ defmodule DecipherAPI.Service do
   alias DecipherAPI.Datafeed.ResultSet
   @decipher_api Application.get_env(:decipher_api, :service, DecipherAPI.Service.HTTPClient)
 
-  def base_path(subdomain \\ Application.get_env(:decipher_api, :subdomain)) do
+  def base_path(subdomain \\ Application.fetch_env!(:decipher_api, :subdomain)) do
     "http://#{subdomain}.decipherinc.com/api/v1/"
   end
 
-  def api_headers(api_key \\ Application.get_env(:decipher_api, :api_key)) do
+  def api_headers(api_key \\ Application.fetch_env!(:decipher_api, :api_key)) do
     [
       {"x-apikey", api_key},
       {"Accept", "application/json, */*"},
