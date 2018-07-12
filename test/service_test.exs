@@ -9,7 +9,7 @@ defmodule DecipherAPITest.ServiceTest do
 
     assert Service.parse_response(response) ==
              {:error,
-              "#{response.status_code}: other invalid parameter not covered above, e.g. survey cannot be loaded due to an error"}
+              "#{response.status_code}: "}
   end
 
   test "that 401 error returns appropiate value" do
