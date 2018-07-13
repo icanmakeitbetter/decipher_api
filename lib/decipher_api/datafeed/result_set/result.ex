@@ -76,9 +76,12 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
   def coerce_answers(answer_map, datamap) do
 
     Enum.into(answer_map, Map.new(), fn({key, value}) ->
+      IO.inspect datamap.questions[key].type
       case datamap.questions[key].type do
         "number" ->
-          {key, String.to_integer(value)}
+          {key, {datamap.questions[key].qtitle, String.to_integer(value)}}
+        "single" ->
+          {key, {datamap.questions[key].qtitle, datamap.questions[key].values[String.to_integer(value)]}}
         _ ->
           raise "Don't know what to do with this."
       end
