@@ -11,7 +11,7 @@ defmodule DecipherAPI.Datamap do
   defstruct(
     survey_id: nil,
     questions: %{},
-    variables: []
+    variables: %{}
   )
 
   @spec new(binary()) :: %Datamap{}
