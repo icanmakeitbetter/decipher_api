@@ -25,13 +25,13 @@ defmodule DecipherAPI.Datamap do
   @spec build_metadata_set(%Datamap{}) :: %Datamap{}
   def build_metadata_set(datamap) do
     datamap
-    |> get_question_metadata()
+    |> get_datamap_metadata()
     |> coerce_data()
   end
 
-  @spec get_question_metadata(%Datamap{}) :: %Datamap{}
-  def get_question_metadata(%Datamap{survey_id: survey_id} = datamap) when is_binary(survey_id) do
-    {:ok, metadata} = DecipherAPI.Service.get_question_metadata(survey_id)
+  @spec get_datamap_metadata(%Datamap{}) :: %Datamap{}
+  def get_datamap_metadata(%Datamap{survey_id: survey_id} = datamap) when is_binary(survey_id) do
+    {:ok, metadata} = DecipherAPI.Service.get_datamap_metadata(survey_id)
 
     %{
       datamap |

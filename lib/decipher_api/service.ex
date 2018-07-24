@@ -43,8 +43,8 @@ defmodule DecipherAPI.Service do
     |> parse_response
   end
 
-  @spec get_question_metadata(String.t) :: %{} | {:error, String.t}
-  def get_question_metadata(survey_id) do
+  @spec get_datamap_metadata(String.t) :: %{} | {:error, String.t}
+  def get_datamap_metadata(survey_id) do
     get!("surveys/#{survey_id}/datamap?format=json")
   end
 
