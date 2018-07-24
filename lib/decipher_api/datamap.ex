@@ -31,7 +31,7 @@ defmodule DecipherAPI.Datamap do
 
   @spec get_question_metadata(%Datamap{}) :: %Datamap{}
   def get_question_metadata(%Datamap{survey_id: survey_id} = datamap) when is_binary(survey_id) do
-    metadata = DecipherAPI.Service.get_question_metadata(survey_id)
+    {:ok, metadata} = DecipherAPI.Service.get_question_metadata(survey_id)
 
     %{
       datamap |

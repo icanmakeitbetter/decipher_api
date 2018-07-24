@@ -82,8 +82,7 @@ defmodule DecipherAPI.Service do
   def parse_response(response) do
     case response.status_code do
       200 ->
-        response.body
-        |> decode_json()
+        {:ok, decode_json(response.body)}
       400 ->
         {:error, "#{response.status_code}: other invalid parameter not covered above, e.g. survey cannot be loaded due to an error"}
       401 ->

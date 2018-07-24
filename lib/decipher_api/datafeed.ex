@@ -51,7 +51,8 @@ defmodule DecipherAPI.Datafeed do
 
   @spec get_results(%Datafeed{}) :: %{}
   def get_results(datafeed) do
-    DecipherAPI.Service.get_survey_results(datafeed)
+    {:ok, response} = DecipherAPI.Service.get_survey_results(datafeed)
+    response
   end
 
   @doc """
@@ -61,7 +62,8 @@ defmodule DecipherAPI.Datafeed do
   """
   @spec advance(%ResultSet{}, %Datafeed{}) :: boolean()
   def advance(result_set, datafeed) do
-    DecipherAPI.Service.advance_datafeed(result_set, datafeed) == %{"ack_valid" => true}
+    {:ok, response} = DecipherAPI.Service.advance_datafeed(result_set, datafeed)
+    response == %{"ack_valid" => true}
   end
 
   @spec check_if_more_results(%ResultSet{complete?: false}, %Datafeed{}, fun()) :: :ok | :error
@@ -81,7 +83,7 @@ defmodule DecipherAPI.Datafeed do
   @spec reset(%Datafeed{}) :: {:ok, String.t} | {:error, String.t}
   def reset(datafeed) do
     case DecipherAPI.Service.reset_datafeed(datafeed) do
-      %{} ->
+      {:ok, _} ->
         {:ok, "Reset successful."}
       {:error, error_message} ->
         {:error, error_message}
