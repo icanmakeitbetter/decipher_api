@@ -20,6 +20,6 @@ defmodule DecipherAPITest.DatamapTest do
   end
 
   test "that get_datamap_metadata gets the question metadata map" do
-    assert Datamap.get_datamap_metadata(@datamap) == FakeData.metadata()
+    assert Datamap.get_question_metadata(@datamap) == FakeData.metadata()
   end
 end

@@ -3,9 +3,11 @@ defmodule DecipherAPI.Datamap.Question do
   alias DecipherAPI.Datamap.{Variables, Value}
 
   defstruct(
+    comment: nil,
     grouping: nil,
     qlabel: nil,
     qtitle: nil,
+    range: nil,
     type: nil,
     __ui_type__: nil,
     values: nil,
@@ -30,41 +32,69 @@ defmodule DecipherAPI.Datamap.Question do
     }
   end
 
-  @spec coerce_maps([%{}] | %{}) :: %{}
-  def coerce_maps(questions) when is_map(questions) or is_list(questions) do
-    questions
+  @spec coerce_maps([%{}] | %{}, []) :: %{}
+  def coerce_maps(datamap_metadata, xml_metadata) when is_map(datamap_metadata) or is_list(datamap_metadata) do
+    datamap_metadata
     |> Enum.map(&new/1)
     |> Enum.into(Map.new, fn(q) ->
 
-         type      = q.type
-         grouping  = q.grouping
-         variables = q.variables
+       type        = q.type
+       label       = q.qlabel
+       grouping    = q.grouping
+       variables   = q.variables
+       xml_ui_type = get_uses_or_nil(xml_metadata, label)
 
-         ui_type =
-           cond do
-             single_select?(type, grouping) ->
-               :single_select
-             single_select_matrix?(type, grouping, variables) ->
-               :single_select_matrix
-             multi_select?(type, grouping) ->
-               :multi_select
-             multi_select_matrix?(type, grouping) ->
-               :multi_select_matrix
-             simple_number?(type, grouping) ->
-               :number
-             autosum?(type, grouping) ->
-               :autosum
-             float?(type) ->
-               :float
-             text?(type) ->
-               :text
-             true ->
-               :unknown_type
-           end
+       ui_type =
+         cond do
+           xml_ui_type ->
+             xml_ui_type
+           single_select?(type, grouping) ->
+             :single_select
+           single_select_matrix?(type, grouping, variables) ->
+             :single_select_matrix
+           multi_select?(type, grouping) ->
+             :multi_select
+           multi_select_matrix?(type, grouping) ->
+             :multi_select_matrix
+           simple_number?(type, grouping) ->
+             :number
+           float?(type) ->
+             :float
+           text?(type) ->
+             :text
+           true ->
+             :unknown_type
+         end
 
-         {q.qlabel, %{q | __ui_type__: ui_type}}
+       {
+         q.qlabel,
+         %{
+           q |
+           __ui_type__: ui_type,
+           comment: xml_map_lookup(xml_metadata, label, :comment),
+           range: xml_map_lookup(xml_metadata, label, :range)
+         }
+       }
 
-       end)
+    end)
+  end
+
+  def get_uses_or_nil(xml_metadata, label) do
+    metadata = Map.get(xml_metadata, label)
+    if metadata do
+      Map.get(metadata, :uses)
+    else
+      nil
+    end
+  end
+
+  def xml_map_lookup(xml_metadata, label, key) do
+    metadata = Map.get(xml_metadata, label)
+    if metadata do
+      Map.get(metadata, key)
+    else
+      nil
+    end
   end
 
   def single_select?(type, grouping) do
@@ -85,10 +115,6 @@ defmodule DecipherAPI.Datamap.Question do
 
   def simple_number?(type, grouping) do
     number?(type) && rows?(grouping)
-  end
-
-  def autosum?(type, grouping) do
-    number?(type) && cols?(grouping)
   end
 
   def cols?(grouping) do

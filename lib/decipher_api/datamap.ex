@@ -1,4 +1,5 @@
 defmodule DecipherAPI.Datamap do
+  import SweetXml
   @moduledoc """
   How you get questions, question metadata, and metadata about a survey from Decipher.
 
@@ -11,7 +12,8 @@ defmodule DecipherAPI.Datamap do
   defstruct(
     survey_id: nil,
     questions: %{},
-    variables: %{}
+    variables: %{},
+    xml:       nil
   )
 
   @spec new(binary()) :: %Datamap{}
@@ -25,28 +27,50 @@ defmodule DecipherAPI.Datamap do
   @spec build_metadata_set(%Datamap{}) :: %Datamap{}
   def build_metadata_set(datamap) do
     datamap
-    |> get_datamap_metadata()
+    |> get_question_metadata()
     |> coerce_data()
   end
 
-  @spec get_datamap_metadata(%Datamap{}) :: %Datamap{}
-  def get_datamap_metadata(%Datamap{survey_id: survey_id} = datamap) when is_binary(survey_id) do
-    {:ok, metadata} = DecipherAPI.Service.get_datamap_metadata(survey_id)
-
-    %{
-      datamap |
-      questions: metadata["questions"],
-      variables: metadata["variables"]
-    }
+  @spec get_question_metadata(%Datamap{}) :: %Datamap{}
+  def get_question_metadata(%Datamap{survey_id: survey_id} = datamap) when is_binary(survey_id) do
+    with {:ok, datamap_metadata} <- DecipherAPI.Service.get_datamap_metadata(survey_id),
+         {:ok, xml_metadata}     <- DecipherAPI.Service.get_xml_metadata(survey_id)
+      do
+        %{
+          datamap |
+          questions: datamap_metadata["questions"],
+          variables: datamap_metadata["variables"],
+          xml: xml_metadata
+        }
+      else
+        {:error, reason} ->
+          {:error, reason}
+    end
   end
 
   @spec coerce_data(%Datamap{}) :: %Datamap{}
   def coerce_data(datamap) do
+    xml_metadata = coerce_xml_metadata(datamap.xml)
+
     %{
       datamap |
-      questions: Question.coerce_maps(datamap.questions),
-      variables: Variables.coerce_maps(datamap.variables)
+      questions: Question.coerce_maps(datamap.questions, xml_metadata),
+      variables: Variables.coerce_maps(datamap.variables),
+      xml: xml_metadata
     }
+  end
+
+  @spec coerce_xml_metadata(String.t) :: %{}
+  def coerce_xml_metadata(xml_metadata) when is_binary(xml_metadata) do
+    xml_metadata
+    |> xpath(~x"//*[@label]"el)
+    |> Enum.map(fn node ->
+      xpath(node, ~x"@*"el)
+      |> Enum.map(fn{:xmlAttribute, name, _, _, _, _, _, _, value, _} -> {name, to_string(value)} end)
+      |> Kernel.++([comment: xpath(node, ~x"comment/text()") |> to_string]) end)
+      |> Enum.into(%{}, fn(metadata) ->
+        {Keyword.get(metadata, :label), Map.new(metadata)}
+      end)
   end
 
 end
