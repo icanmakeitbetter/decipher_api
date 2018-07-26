@@ -43,9 +43,25 @@ defmodule DecipherAPI.Service do
     |> parse_response
   end
 
-  @spec get_question_metadata(String.t) :: %{} | {:error, String.t}
-  def get_question_metadata(survey_id) do
+  @spec get_datamap_metadata(String.t) :: %{} | {:error, String.t}
+  def get_datamap_metadata(survey_id) do
     get!("surveys/#{survey_id}/datamap?format=json")
+  end
+
+  @spec get_xml_metadata(String.t) :: {:ok, String.t} | {:error, String.t}
+  def get_xml_metadata(survey_id) do
+    response =
+      @decipher_api.get!(
+        base_path() <> "surveys/#{survey_id}/files/survey.xml",
+        api_headers()
+      )
+
+    case response.status_code do
+      200 ->
+        {:ok, response.body}
+      _ ->
+        {:error, "Something went wrong getting the xml doc. Returned status code: #{response.status_code}"}
+    end
   end
 
   @doc """
@@ -78,12 +94,11 @@ defmodule DecipherAPI.Service do
     |> parse_response
   end
 
-  @spec parse_response(%HTTPoison.Response{}) :: %{} | {:error, String.t}
+  @spec parse_response(%HTTPoison.Response{}) :: {:ok, %{}} | {:error, String.t}
   def parse_response(response) do
     case response.status_code do
       200 ->
-        response.body
-        |> decode_json()
+        {:ok, decode_json(response.body)}
       400 ->
         {:error, "#{response.status_code}: #{response.body}"}
       401 ->

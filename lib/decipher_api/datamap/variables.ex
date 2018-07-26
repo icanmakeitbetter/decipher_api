@@ -4,7 +4,7 @@ defmodule DecipherAPI.Datamap.Variables do
 
   defstruct(
     col: nil,
-    col_title:  nil,
+    col_title: nil,
     label: nil,
     qlabel: nil,
     qtitle: nil,
@@ -41,10 +41,9 @@ defmodule DecipherAPI.Datamap.Variables do
 
   @spec coerce_maps(%{}) :: [%{}]
   def coerce_maps(variables) do
-    Enum.map(
-      variables,
-      fn(variable) -> new(variable)
-    end)
+    variables
+    |> Enum.map(&new/1)
+    |> Enum.into(Map.new, fn v -> {v.label, v} end)
   end
 
 end

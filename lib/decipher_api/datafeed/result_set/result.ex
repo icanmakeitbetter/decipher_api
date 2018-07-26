@@ -3,11 +3,11 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
   alias __MODULE__
 
   defstruct(
-    survey_url: "",
+    survey_url: nil,
     date: nil,
     uuid: nil,
-    answers: %{},
-    raw_result: %{}
+    answers: nil,
+    raw_result: nil
   )
 
   @spec new() :: %Result{}
@@ -76,13 +76,25 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
   def coerce_answers(answer_map, datamap) do
 
     Enum.into(answer_map, Map.new(), fn({key, value}) ->
-      IO.inspect datamap.questions[key].type
-      case datamap.questions[key].type do
-        "number" ->
+      case datamap.__ui_type__ do
+        :single_select ->
+          {key, {datamap.questions[key].qtitle,
+                  datamap.questions[key].values[String.to_integer(value)]}}
+        :single_select_matrix ->
+          {key, value}
+        :multi_select ->
+          {key, value}
+        :multi_select_matrix ->
+          {key, value}
+        :number ->
           {key, {datamap.questions[key].qtitle, String.to_integer(value)}}
-        "single" ->
-          {key, {datamap.questions[key].qtitle, datamap.questions[key].values[String.to_integer(value)]}}
-        _ ->
+        :autosum ->
+          {key, {datamap.questions[key].qtitle, String.to_integer(value)}}
+        :float ->
+          {key, {datamap.questions[key].qtitle, String.to_float(value)}}
+        :text ->
+          {key, {datamap.questions[key].qtitle, value}}
+        true ->
           raise "Don't know what to do with this."
       end
     end)

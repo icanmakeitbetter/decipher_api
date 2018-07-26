@@ -19,7 +19,7 @@ defmodule DecipherAPITest.DatamapTest do
       FakeData.coerced_question_metadata_struct()
   end
 
-  test "that get_question_metadata gets the question metadata map" do
+  test "that get_datamap_metadata gets the question metadata map" do
     assert Datamap.get_question_metadata(@datamap) == FakeData.metadata()
   end
 end

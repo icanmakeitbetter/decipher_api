@@ -3,12 +3,15 @@ defmodule DecipherAPI.Datamap.Question do
   alias DecipherAPI.Datamap.{Variables, Value}
 
   defstruct(
-    grouping: "",
-    qlabel: "",
-    qtitle: "",
-    type: "",
-    values: [],
-    variables: []
+    comment: nil,
+    grouping: nil,
+    qlabel: nil,
+    qtitle: nil,
+    range: nil,
+    type: nil,
+    __ui_type__: nil,
+    values: nil,
+    variables: nil
   )
 
   @spec new() :: %Question{}
@@ -29,11 +32,117 @@ defmodule DecipherAPI.Datamap.Question do
     }
   end
 
-  @spec coerce_maps([%{}] | %{}) :: %{}
-  def coerce_maps(questions) when is_map(questions) or is_list(questions) do
-    questions
+  @spec coerce_maps([%{}] | %{}, []) :: %{}
+  def coerce_maps(datamap_metadata, xml_metadata) when is_map(datamap_metadata) or is_list(datamap_metadata) do
+    datamap_metadata
     |> Enum.map(&new/1)
-    |> Enum.into(Map.new, fn q -> {q.qlabel, q} end)
+    |> Enum.into(Map.new, fn(q) ->
+
+       type        = q.type
+       label       = q.qlabel
+       grouping    = q.grouping
+       variables   = q.variables
+       xml_ui_type = get_uses_or_nil(xml_metadata, label)
+
+       ui_type =
+         cond do
+           xml_ui_type ->
+             xml_ui_type
+           single_select?(type, grouping) ->
+             :single_select
+           single_select_matrix?(type, grouping, variables) ->
+             :single_select_matrix
+           multi_select?(type, grouping) ->
+             :multi_select
+           multi_select_matrix?(type, grouping) ->
+             :multi_select_matrix
+           simple_number?(type, grouping) ->
+             :number
+           float?(type) ->
+             :float
+           text?(type) ->
+             :text
+           true ->
+             :unknown_type
+         end
+
+       {
+         q.qlabel,
+         %{
+           q |
+           __ui_type__: ui_type,
+           comment: xml_map_lookup(xml_metadata, label, :comment),
+           range: xml_map_lookup(xml_metadata, label, :range)
+         }
+       }
+
+    end)
+  end
+
+  def get_uses_or_nil(xml_metadata, label) do
+    metadata = Map.get(xml_metadata, label)
+    if metadata do
+      Map.get(metadata, :uses)
+    else
+      nil
+    end
+  end
+
+  def xml_map_lookup(xml_metadata, label, key) do
+    metadata = Map.get(xml_metadata, label)
+    if metadata do
+      Map.get(metadata, key)
+    else
+      nil
+    end
+  end
+
+  def single_select?(type, grouping) do
+    single?(type) && cols?(grouping)
+  end
+
+  def single_select_matrix?(type, grouping, variables) do
+    single?(type) && rows?(grouping) && Enum.count(variables) > 1
+  end
+
+  def multi_select?(type, grouping) do
+    multiple?(type) && cols?(grouping)
+  end
+
+  def multi_select_matrix?(type, grouping) do
+    multiple?(type) && rows?(grouping)
+  end
+
+  def simple_number?(type, grouping) do
+    number?(type) && rows?(grouping)
+  end
+
+  def cols?(grouping) do
+    grouping == "cols"
+  end
+
+  def rows?(grouping) do
+    grouping == "rows"
+  end
+
+  def single?(type) do
+    type == "single"
+  end
+
+  def text?(type) do
+    type == "text"
+  end
+
+  def multiple?(type) do
+    type == "multiple"
+  end
+
+  def number?(type) do
+    type == "number"
+  end
+
+  def float?(type) do
+    type == "float"
   end
 
 end
