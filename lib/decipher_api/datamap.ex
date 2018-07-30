@@ -11,6 +11,7 @@ defmodule DecipherAPI.Datamap do
 
   defstruct(
     survey_id: nil,
+    survey_name: nil,
     questions: %{},
     variables: %{},
     xml:       nil
@@ -54,7 +55,8 @@ defmodule DecipherAPI.Datamap do
 
     %{
       datamap |
-      questions: Question.coerce_maps(datamap.questions, xml_metadata),
+      survey_name: xml_metadata.name,
+      questions: Question.coerce_maps(datamap.questions, xml_metadata.questions),
       variables: Variables.coerce_maps(datamap.variables),
       xml: xml_metadata
     }
@@ -62,15 +64,22 @@ defmodule DecipherAPI.Datamap do
 
   @spec coerce_xml_metadata(String.t) :: %{}
   def coerce_xml_metadata(xml_metadata) when is_binary(xml_metadata) do
-    xml_metadata
-    |> xpath(~x"//*[@label]"el)
-    |> Enum.map(fn node ->
-      xpath(node, ~x"@*"el)
-      |> Enum.map(fn{:xmlAttribute, name, _, _, _, _, _, _, value, _} -> {name, to_string(value)} end)
-      |> Kernel.++([comment: xpath(node, ~x"comment/text()") |> to_string]) end)
-      |> Enum.into(%{}, fn(metadata) ->
-        {Keyword.get(metadata, :label), Map.new(metadata)}
-      end)
+
+    questions =
+      xml_metadata
+      |> xpath(~x"//*[@label]"el)
+      |> Enum.map(fn node ->
+        xpath(node, ~x"@*"el)
+        |> Enum.map(fn{:xmlAttribute, name, _, _, _, _, _, _, value, _} -> {name, to_string(value)} end)
+        |> Kernel.++([comment: xpath(node, ~x"comment/text()") |> to_string]) end)
+        |> Enum.into(%{}, fn(metadata) ->
+          {Keyword.get(metadata, :label), Map.new(metadata)}
+        end)
+
+      %{
+        name: xpath(xml_metadata, ~x"@alt") |> to_string,
+        questions: questions
+      }
   end
 
 end
