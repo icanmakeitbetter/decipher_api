@@ -13,7 +13,7 @@ defmodule DecipherAPITest.DatamapTest.QuestionTest do
   end
 
   test "that coerce_maps pulls the question and makes a keyed map" do
-      assert Question.coerce_maps([FakeData.raw_question_map()]) ==
+      assert Question.coerce_maps([FakeData.raw_question_map()], Map.new) ==
         %{"q1" => %{FakeData.coerced_question_map | __ui_type__: :number}}
   end
 

@@ -32,7 +32,7 @@ defmodule DecipherAPI.Datamap.Question do
     }
   end
 
-  @spec coerce_maps([%{}] | %{}, []) :: %{}
+  @spec coerce_maps([%{}] | %{}, %{ }) :: %{}
   def coerce_maps(datamap_metadata, xml_metadata) when is_map(datamap_metadata) or is_list(datamap_metadata) do
     datamap_metadata
     |> Enum.map(&new/1)

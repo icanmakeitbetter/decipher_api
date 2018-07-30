@@ -1,0 +1,288 @@
+<survey remerged="20180618_09:32" version="2" xmlns:timertest="http://decipherinc.com/timertest" xmlns:videoembed="http://decipherinc.com/videoembed" xmlns:videoplayer="http://decipherinc.com/videoplayer" xmlns:audio="http://decipherinc.com/audio" xmlns:shoppingcart="http://decipherinc.com/shoppingcart" xmlns:atmtable="http://decipherinc.com/atmtable" xmlns:builder="http://decipherinc.com/builder" xmlns:ss="http://decipherinc.com/ss" xmlns:html="http://decipherinc.com/html" theme="frozen:system/contemporary" alt="All Question Types" autosave="0" builderCompatible="1" compat="138" extraVariables="source,record,ipAddress,decLang,list,userAgent" lang="english" name="Survey" newStyle="1" setup="term,quota,time,decLang" state='live' id="survey" fir="on" surveyDisplay="auto" firColors="#c7c7c7,#ffffff,#c5d600,#2bbdb9" mobile="compat" builder:wizardCompleted="1" firSize="20px" mobileDevices="desktop,tablet,smartphone" firStyle="rounded" html:showNumber="0" ss:hideProgressBar="0" ss:enableNavigation="1" ss:disableBackButton="1">
+  <samplesources default="0" id="EKm9o">
+    <samplesource list="0" id="DO6Xq">
+      <title id="Jd4rC">Open Survey</title>
+      <completed id="TFImJ">It seems you have already entered this survey.</completed>
+      <invalid id="t1mEn">You are missing information in the URL. Please verify the URL with the original invite.</invalid>
+      <exit cond="terminated" id="EHoY2">Thank you for taking our survey.</exit>
+      <exit cond="qualified" id="oXask">Thank you for taking our survey. Your efforts are greatly appreciated!</exit>
+      <exit cond="overquota" id="lC8hG">Thank you for taking our survey.</exit>
+    </samplesource>
+  </samplesources>
+  <suspend id="C3vFy"/>
+  <radio id="IwT44" optional="0" label="q1">
+    <row id="ed5tP" label="r1">Yes</row>
+    <row id="t2aGY" label="r2">No</row>
+    <row id="ELL4C" label="r3">Maybe</row>
+    <row id="w1yva" label="r4">No really</row>
+    <comment id="t06cC">single select = single select</comment>
+    <title id="tIdpG">Do you care about the sky?</title>
+  </radio>
+  <radio id="sk6T3" optional="0" label="q2" builderHint="{&quot;rocochoName&quot;:&quot;radiogrid&quot;}">
+    <row id="JRo4v" label="r1">Snickers</row>
+    <row id="ISx7o" label="r2">Fruit</row>
+    <row id="JV0OH" label="r3">Scooby Snacks</row>
+    <comment id="Q51FP">single select matrix =&amp;nbsp;&lt;span&gt;single select matrix&lt;/span&gt;</comment>
+    <title id="AMSED">How do you feel about each snack?</title>
+    <col id="uMNpv" label="c1">Dissatisfied&amp;nbsp;</col>
+    <col id="mMIaj" label="c2">Meh</col>
+    <col id="Ska0P" label="c3">Very Happy</col>
+  </radio>
+  <checkbox id="yv5Kr" optional="0" label="q3" atleast="1">
+    <row id="JJ3fe" label="r1">Food</row>
+    <row id="YzQaf" label="r2">Water</row>
+    <row id="k0CJV" label="r3">Snacks</row>
+    <row id="LFirx" label="r4">Air</row>
+    <comment id="uBrvs">multiselect = multiselect</comment>
+    <title id="v2PeM">Which do you prefer?&amp;nbsp;</title>
+  </checkbox>
+  <checkbox id="jXLah" label="q4" atleast="1" builderHint="{&quot;rocochoName&quot;:&quot;checkboxgrid&quot;}" optional="0">
+    <row id="PRe37" label="r1">Wood</row>
+    <row id="k83Zw" label="r2">Water</row>
+    <row id="jHc8M" label="r3">Dirt</row>
+    <row id="zSRJE" label="r4">Earth</row>
+    <col id="ZsHVA" label="c1">Hate it</col>
+    <col id="ynQQT" label="c2">Don't care one way or the other</col>
+    <col id="Sqg2q" label="c3">Love it</col>
+    <comment id="lAdFu">multiselect matrix = multiselect matrix</comment>
+    <title id="F3GPY">How do you feel about the following?</title>
+  </checkbox>
+  <select id="JuwvF" optional="0" label="q5">
+    <choice id="weK3Q" label="ch1">Ford</choice>
+    <choice id="HAguZ" label="ch2">Apple</choice>
+    <choice id="kVTQN" label="ch3">Chevy</choice>
+    <comment id="rsxi4">dropdown = single select</comment>
+    <title id="RRCmo">What's your fav brand?</title>
+  </select>
+  <select id="pWrSD" optional="0" label="q6">
+    <comment id="yUqvV">dropdown matrix = multi select with matrix selected with dropdown style selected</comment>
+    <title id="lwG1B">Rate each category in each brand</title>
+    <row id="ThmiB" label="r1">Ford</row>
+    <row id="T04uU" label="r2">Chevy</row>
+    <row id="i5iwG" label="r3">Porche</row>
+    <col id="LwG6h" label="c1">Vans</col>
+    <col id="uK43H" label="c2">SUVs</col>
+    <col id="WR8zt" label="c3">Cars</col>
+    <choice id="Yii65" label="ch1">Don't Like</choice>
+    <choice id="GZRSe" label="ch2">Eh</choice>
+    <choice id="HLPW9" label="ch3">Much Yes</choice>
+  </select>
+  <number id="e1d3v" optional="0" label="q7" size="10">
+    <comment id="rvMuD">number = ???</comment>
+    <title id="SbbA3">What's your phone number?</title>
+  </number>
+  <text id="z0KfL" optional="0" label="q8" size="25" verify="email">
+    <comment id="mSYhz">open (email) = open ended</comment>
+    <title id="y1tQ9">What's your email?</title>
+  </text>
+  <textarea id="Ngbug" optional="0" label="q9" width="50" height="10">
+    <comment id="LugdJ">essay = essay</comment>
+    <title id="Hj2Rt">What does life mean to you?</title>
+  </textarea>
+  <html id="Pi2aN" where="survey" label="cm1">Descriptive Question = notification</html>
+  <number id="Pvjkm" label="q10" uses="autosum.5" grouping="cols" optional="0" size="10">
+    <col id="P2yPL" label="c1">Cheese</col>
+    <col id="Eko0X" label="c2">Wine</col>
+    <title id="KWRQl">Monthly spending of cheese and wine</title>
+    <comment id="kRjV9">autosum = constant sum</comment>
+    <row id="Aabpm" label="r1" ss:preText="$">May</row>
+    <row id="QbCUG" label="r2" ss:preText="$">June</row>
+    <row id="iB470" label="r3" ss:preText="$">July</row>
+  </number>
+  <radio id="Csg8X" optional="0" label="q27" uses="languageselector.1" where="survey,notdp" grouping="cols">
+    <title id="bPy3z">Please select the language you would like to take this survey in.</title>
+    <comment id="vs9Tv">Please select a language</comment>
+  </radio>
+  <number id="uCvsD" ignoreValues="99" label="q13" uses="atmrating.5" verify="range(0,10)" optional="0" size="10">
+    <row id="lWXRJ" label="r1">Hilton</row>
+    <row id="HTFIq" label="r2">Mariot</row>
+    <title id="KnBPy">Rate your stay at diff hotels.</title>
+    <comment id="ce7ZK">button&amp;nbsp;rating = rating</comment>
+  </number>
+  <radio id="WA2Bk" label="q14" uses="atm1d.8" optional="0">
+    <title id="FN40R">New Button Single Select Question</title>
+    <comment id="xsy4O">single select = single select</comment>
+    <row id="i9o53" label="r1">Example r1</row>
+    <row id="IDNym" label="r2">Example r2</row>
+    <row id="Rc1e6" label="r3">Example r3</row>
+  </radio>
+  <radio id="xGbRo" label="q15" uses="atmtable.6" optional="0">
+    <col id="ZVNP8" label="c1" atmtable:col_legend_text="You Hate it">Hate</col>
+    <col id="Eicof" label="c2" atmtable:col_legend_text="You like it">Like</col>
+    <row id="LBHB3" label="r1">Air</row>
+    <row id="OBwzd" label="r2">Water</row>
+    <row id="Zke5Z" label="r3">Fire</row>
+    <title id="ggSrw">Do you like or hate the following?</title>
+    <comment id="cHI3V">single select grid =&amp;nbsp;single select matrix</comment>
+  </radio>
+  <checkbox id="qWec1" label="q33" uses="atm1d.8" atleast="1" optional="0">
+    <row id="IViUF" label="r1">Apt</row>
+    <row id="gHnlG" label="r2">House</row>
+    <row id="zzMHt" label="r3">Box</row>
+    <row id="HckWG" label="r4">Car</row>
+    <row id="qz7zN" label="r5">RV</row>
+    <row id="jtrBk" label="r6">Tent</row>
+    <title id="mjwvG">Choose your preferred living space.</title>
+    <comment id="BeTDP">button single select = single select</comment>
+  </checkbox>
+  <checkbox id="Z8wcR" optional="0" label="q34" atleast="1" uses="atmtable.6">
+    <col id="TbUwM" label="c1" atmtable:col_legend_text="you don't like">vans</col>
+    <col id="Eakbb" label="c2" atmtable:col_legend_text="just whatever">cars</col>
+    <col id="FiqHv" label="c3" atmtable:col_legend_text="your fav">suvs</col>
+    <title id="zEohz">Choose the places you'd like to live.</title>
+    <comment id="rrVYt">button single select grid = single select matrix</comment>
+    <row id="Cr2Ci" label="r1">Ford</row>
+    <row id="gm4t1" label="r2">Chevy</row>
+    <row id="ocMRh" label="r3">Lotus</row>
+  </checkbox>
+  <radio id="qrHpZ" optional="0" label="q16" uses="cardrating.1" fir="off" grouping="rows">
+    <col id="VeZAK" label="c1">Hate&amp;nbsp;&#10060;</col>
+    <col id="FFBpH" label="c2">Meh&amp;nbsp;&#129335;&#127995;&#8205;&#9794;&#65039;</col>
+    <col id="VvULb" label="c3">Love&amp;nbsp;&#10084;&#65039;</col>
+    <row id="z2dG9" label="r1">Chevy</row>
+    <row id="TDBoz" label="r2">Ford</row>
+    <row id="Xgef0" label="r3">Porche</row>
+    <row id="c2Io0" label="r4">Lotus</row>
+    <row id="TUkKu" label="r5">Packer</row>
+    <title id="QgFMp">Rate these things</title>
+    <comment id="T72d4">card rating = rating w/ matrix</comment>
+  </radio>
+  <radio id="bp8f9" optional="0" label="q20" uses="ratingscale.5" grouping="rows">
+    <col id="mbA4O" label="c2">death&amp;nbsp;&#9760;&#65039;</col>
+    <col id="dKpR2" label="c1">vomit &#129326;</col>
+    <col id="P8ikX" label="c3">heart&amp;nbsp;&#10084;&#65039;</col>
+    <row id="fagcS" label="r1">Cars</row>
+    <row id="RKPCd" label="r2">Bikes</row>
+    <row id="PR2Cy" label="r3">Trucks</row>
+    <title id="iDBPY">Rate these, okay?</title>
+    <comment id="Hps9D">rating scale = single select matrix</comment>
+  </radio>
+  <select id="rindV" label="q22" uses="starrating.5" optional="0" fir="off">
+    <row id="Swiw3" label="r1">Back to the Future 2</row>
+    <row id="mtr03" label="r2">Back to the Future 3</row>
+    <row id="SC4UC" label="r3">Jurassic Park</row>
+    <title id="LFkeE">What would you rate these movies?</title>
+    <comment id="MeWOU">star rating = rating question</comment>
+    <choice id="KyA6u" label="ch1">Star 1</choice>
+    <choice id="YIhtW" label="ch2">Star 2</choice>
+    <choice id="KUbQ9" label="ch3">Star 3</choice>
+    <choice id="xSnQP" label="ch4">Star 4</choice>
+    <choice id="UDAYW" label="ch5">Star 5</choice>
+  </select>
+  <text id="eC4Az" optional="1" shoppingcart:thumb_size="45%" label="q23" uses="shoppingcart.3" size="25" grouping="rows">
+    <title id="iALj7">New Shopping Cart Question</title>
+    <comment id="AeR8V">Add products to your cart.</comment>
+    <row id="iAy1h" shoppingcart:product_price="699.99" shoppingcart:product_name="Software &#8482; Standard &#169; Edition" label="r1">&lt;img class="survey_image survey-image-original" src="/survey/lib/steam/shoppingcart/v1/product.png" title="Software &#8482; Standard &#169; Edition"/&gt; Upload Image</row>
+    <row id="J7dQa" shoppingcart:product_price="799.99" shoppingcart:product_name="Software &#8482; Enhanced &#169; Edition" label="r2">&lt;img class="survey_image survey-image-original" src="/survey/lib/steam/shoppingcart/v1/product.png" title="Software &#8482; Enhanced &#169; Edition"/&gt; Upload Image</row>
+    <row id="ROOer" shoppingcart:product_price="899.99" shoppingcart:product_name="Software &#8482; Professional &#169; Edition" label="r3">&lt;img class="survey_image survey-image-original" src="/survey/lib/steam/shoppingcart/v1/product.png" title="Software &#8482; Professional &#169; Edition"/&gt; Upload Image</row>
+    <row id="PkzNr" shoppingcart:product_price="999.99" shoppingcart:product_name="Software &#8482; Corporate &#169; Edition" label="r4">&lt;img class="survey_image survey-image-original" src="/survey/lib/steam/shoppingcart/v1/product.png" title="Software &#8482; Corporate &#169; Edition"/&gt; Upload Image</row>
+  </text>
+  <radio id="AWEF5" optional="0" label="q24" uses="cardsort.6">
+    <title id="SQmsR">New Card Sort Single Select Question</title>
+    <comment id="xBfKM">card sort single select = single select matrix</comment>
+    <row id="J9lKf" label="r1">Card 1</row>
+    <row id="V2X4w" label="r2">Card 2</row>
+    <row id="MQSI3" label="r3">Card 3</row>
+    <col id="rU9bx" label="c1">Bucket 1</col>
+    <col id="TfAwb" label="c2">Bucket 2</col>
+    <col id="XQRb9" label="c3">Bucket 3</col>
+  </radio>
+  <radio id="VJUa6" label="q25" uses="leftright.1" optional="0" exec="shuffleLeftRight()" rowLegend="both" validate="normalizeShuffle()" grouping="rows">
+    <title id="mAvhQ">New 'This or That' Question</title>
+    <comment id="wuGtM">this or that = single select matrix</comment>
+    <row id="kaGD2" rightLegend="Idea B" label="r1">Idea A</row>
+    <row id="z9j9h" rightLegend="Idea D" label="r2">Idea C</row>
+    <row id="oWuuS" rightLegend="Idea F" label="r3">Idea E</row>
+    <row id="rdzKE" rightLegend="Idea H" label="r4">Idea G</row>
+    <col id="qRcSZ" label="c1">Ex 1</col>
+    <col id="OWEcP" label="c2">Ex 2</col>
+    <col id="pV42h" label="c3">Ex 3</col>
+    <col id="tYjEG" label="c4">Ex 4</col>
+    <col id="ChbVE" label="c5">Ex 5</col>
+  </radio>
+  <checkbox id="lyzAw" label="q28" atleast="1" uses="cardsort.6" optional="0">
+    <col id="EtdRH" label="c1">Good</col>
+    <col id="Dtjg9" label="c2">Bad</col>
+    <col id="AM65X" label="c3">Ugly</col>
+    <row id="FOm6x" label="r1">Apple</row>
+    <row id="TEWdf" label="r2">Orange</row>
+    <row id="IIQbz" label="r3">Banana</row>
+    <title id="wV07Y">Pick all that apply</title>
+    <comment id="kHE0x">card sort multi select = multiple select matrix</comment>
+  </checkbox>
+  <select id="HV53L" label="q29" uses="ranksort.4" minRanks="3" optional="0">
+    <row id="knLEg" label="r1">Linux</row>
+    <row id="XipUc" label="r2">Windows</row>
+    <row id="LNTjo" label="r3">BSD</row>
+    <row id="wyQ6D" label="r4">Unix</row>
+    <title id="zeRWp">Rank these OSes</title>
+    <comment id="E4HFz">rank sort = single select matrix</comment>
+    <choice id="tnkSM" label="ch1">Best</choice>
+    <choice id="zFUf5" label="ch2">Okay</choice>
+    <choice id="Nzn3A" label="ch3">Worst</choice>
+    <choice id="fNSx0" label="ch4">Perhaps will bring about the end of life as we know it</choice>
+  </select>
+  <number id="d4MZR" ignoreValues="999" optional="0" label="q31" verify="range(0,100)" uses="slidernumber.5" size="10">
+    <title id="yw7KE">Rate yourself</title>
+    <comment id="wLauf">slider = single select</comment>
+    <row id="DlWE1" label="r1">Points</row>
+  </number>
+  <number id="G3pnr" ignoreValues="999" label="q30" uses="slidernumber.5" verify="range(0,100)" optional="0" size="10">
+    <title id="u4z4P">Rate different aspects of the TV show Legion</title>
+    <comment id="Tavuf">slider =&amp;nbsp;multiple select</comment>
+    <row id="PrUbe" label="r1">Cinematagraphy</row>
+    <row id="hPKrD" label="r2">Acting</row>
+    <row id="RP0F3" label="r3">Soundtrack</row>
+  </number>
+  <select id="PxHF2" label="q21" uses="sliderpoints.3" optional="0" ss:questionClassNames="sq-sliderpoints">
+    <choice id="dJric" label="ch1">Horrible</choice>
+    <choice id="cU0na" label="ch2">Slight better than horrible</choice>
+    <choice id="hf5KD" label="ch3">Awful</choice>
+    <choice id="hukd2" label="ch4">Numb</choice>
+    <choice id="S4wFV" label="ch5">Okay</choice>
+    <choice id="Av6nk" label="ch6">Better than okay</choice>
+    <choice id="Gb0qZ" label="ch7">Great</choice>
+    <title id="Kdr1C">How do you feel about the state of the world</title>
+    <comment id="IR278">slider rating = single select</comment>
+  </select>
+  <float id="In9F1" ignoreValues="999" optional="0" label="q32" range="-10,10" uses="sliderdecimal.3">
+    <title id="rsduU">Rate your best friend.</title>
+    <comment id="SYBYn">? slider decimal = single select (slight question on this one)</comment>
+    <row id="s9ZRk" label="r1">Points</row>
+  </float>
+  <image id="xoLL6" optional="0" label="q35" uses="imgupload.1">
+    <title id="qeuxr">Upload a random image</title>
+    <comment id="dIJaS">image upload = essay type because they support uploads</comment>
+    <noanswer id="oGZXJ" label="na_q35">NA</noanswer>
+  </image>
+  <select id="EoVbZ" label="q36" uses="hottext.3" optional="1">
+    <row id="DDhbd" label="r1">&lt;span style="color: #222222;"&gt;Ponds are frequently human-constructed. In the countryside farmers and villagers dig a pond in their backyard or increase the depth of an existing pond by removing layers of mud during summer season. A wide variety of artificial bodies of water are classified as ponds. Some ponds are created specifically for habitat restoration, including water treatment. Others, like&lt;span&gt;&lt;/span&gt;&lt;/span&gt;water gardens&lt;span style="color: #222222;"&gt;, water features and koi ponds are designed for aesthetic ornamentation as landscape or architectural features.&lt;span&gt;&lt;/span&gt;&lt;/span&gt;Fish ponds&lt;span style="color: #222222;"&gt;&lt;span&gt;&lt;/span&gt;are designed for commercial fish breeding, and&lt;span&gt;&lt;/span&gt;&lt;/span&gt;solar ponds&lt;span style="color: #222222;"&gt;&lt;span&gt;&lt;/span&gt;designed to store thermal energy.&lt;span&gt;&lt;/span&gt;&lt;/span&gt;Treatment ponds&lt;span style="color: #222222;"&gt;&lt;span&gt;&lt;/span&gt;are used to treat&lt;span&gt;&lt;/span&gt;&lt;/span&gt;wastewater&lt;span style="color: #222222;"&gt;.&lt;/span&gt;</row>
+    <row id="OCjU1" label="r2">&lt;span style="color: #222222;"&gt;Standing bodies of water such as&lt;span&gt;&lt;/span&gt;&lt;/span&gt;puddles&lt;span style="color: #222222;"&gt;, ponds, and lakes are often categorized separately from flowing water courses, such as brooks, creeks, streams or rivers. Nutrient levels and water quality in ponds can be controlled through natural process such as algal growth, or through artificial filtration, such as an&lt;span&gt;&lt;/span&gt;&lt;/span&gt;algae scrubber&lt;span style="color: #222222;"&gt;.&lt;/span&gt;</row>
+    <choice id="qGtPE" label="ch1">Like</choice>
+    <choice id="jfGPt" label="ch2">Don't Like</choice>
+    <choice id="XLdnJ" label="ch3">Don't Care</choice>
+    <title id="ATECs">Highlight&amp;nbsp;parts you like, don't like, and don't care about</title>
+    <comment id="DM9rE">Use the highlighter to select text in the content below. Change highlighters by selecting a different marker color.</comment>
+  </select>
+  <textarea id="QgPfH" label="q37" width="50" uses="videocapture.1" height="10" optional="1">
+    <title id="xIVah">Record a video testimonial</title>
+    <comment id="NszwR">video testimonial = essay type because they support uploads</comment>
+    <noanswer id="UQ5dZ" label="na_q37">NA</noanswer>
+  </textarea>
+  <checkbox id="PHDmo" optional="1" label="q38" atleast="0" audio:enable_pause="1" audio:enable_replay="1" audio:enable_seek="1" audio:file="https://isa.decipherinc.com/survey/selfserve/540/all_questions/788543_Grimm_Original_Mix.mp3" uses="audio.3">
+    <title id="m6lw6">Do you like this song?</title>
+    <comment id="mJAyh">audio player&amp;nbsp;= essay type because they support uploads</comment>
+  </checkbox>
+  <text id="ol5Sb" label="q39" optional="0" size="25" videoplayer:pause_enable="1" videoplayer:enable_continue_after="20%" videoplayer:disable_continue="0" videoplayer:watermark="icmib" videoplayer:replay_enable="1" videoplayer:video_id="5798790200001" uses="videoplayer.1">
+    <title id="ggDEX">How do you feel about this theft?</title>
+    <comment id="SwSbJ">video player = essay type because they support uploads</comment>
+  </text>
+  <number id="Fkrje" optional="1" label="q40" size="10" ss:questionClassNames="sq-videoembed" uses="videoembed.3" videoembed:embed="&lt;iframe width=&quot;1680&quot; height=&quot;769&quot; src=&quot;https://www.youtube.com/embed/zf4JrsqlIkU&quot; frameborder=&quot;0&quot; allow=&quot;autoplay; encrypted-media&quot; allowfullscreen&gt;&lt;/iframe&gt;">
+    <title id="gRUMu">How about this you tube vid?</title>
+    <comment id="Nn7JE">video player (youtube/vimeo)</comment>
+  </number>
+  <checkbox id="nRf80" label="q41" atleast="0" optional="1" ss:questionClassNames="sq-timertest" timertest:image="https://isa.decipherinc.com/survey/selfserve/540/all_questions/bottom-bottom-left.jpeg" uses="timertest.3">
+    <title id="Fvb86">Check this image out.</title>
+    <comment id="JNudT">page timer (ad) = essay type because they support uploads</comment>
+  </checkbox>
+</survey>

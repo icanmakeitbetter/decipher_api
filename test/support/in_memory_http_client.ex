@@ -33,6 +33,12 @@ defmodule DecipherAPITest.Support.InMemoryHTTPClient do
         queued_response(:get, :datafeed) || FakeData.datafeed_complete_true()
       String.contains?(endpoint, "datamap") ->
         queued_response(:get, :datamap) || FakeData.raw_datamap_response()
+      String.contains?(endpoint, "survey.xml") ->
+        queued_response(:get, :datamap) ||
+          %{
+            status_code: 200,
+            body: FakeData.raw_all_question_xml_response
+          }
     end
   end
 
