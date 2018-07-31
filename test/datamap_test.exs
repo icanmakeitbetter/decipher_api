@@ -34,4 +34,14 @@ defmodule DecipherAPITest.DatamapTest do
     end)
     assert is_map(coerced.xml)
   end
+
+  test "test that the question_order field gives us an ordered list" do
+    assert Datamap.get_question_metadata(%Datamap{survey_id: "something/555/something"}).question_order() ==
+      [
+       "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10",
+       "q13", "q14", "q15", "q33", "q34", "q16", "q20", "q22", "q23", "q24", "q25",
+       "q25_norm", "q28", "q29", "q31", "q30", "q21", "q32", "q35", "q36", "q37",
+       "q39", "noanswer", "qtime", "start_date"
+      ]
+  end
 end

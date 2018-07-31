@@ -12,6 +12,7 @@ defmodule DecipherAPI.Datamap do
   defstruct(
     survey_id: nil,
     survey_name: nil,
+    question_order: [],
     questions: %{},
     variables: %{},
     xml:       nil
@@ -39,6 +40,7 @@ defmodule DecipherAPI.Datamap do
       do
         %{
           datamap |
+          question_order: Enum.map(datamap_metadata["questions"], fn question -> question["qlabel"] end),
           questions: datamap_metadata["questions"],
           variables: datamap_metadata["variables"],
           xml: xml_metadata
