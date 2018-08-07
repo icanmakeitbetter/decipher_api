@@ -62,6 +62,8 @@ defmodule DecipherAPI.Datamap.Question do
              :float
            text?(type) ->
              :text
+           dropdown?(type, grouping, variables) ->
+             :dropdown
            true ->
              :unknown_type
          end
@@ -72,6 +74,7 @@ defmodule DecipherAPI.Datamap.Question do
            q |
            __ui_type__: ui_type,
            comment: xml_map_lookup(xml_metadata, label, :comment),
+           # TODO need to get range from xml
            range: xml_map_lookup(xml_metadata, label, :range)
          }
        }
@@ -115,6 +118,10 @@ defmodule DecipherAPI.Datamap.Question do
 
   def simple_number?(type, grouping) do
     number?(type) && rows?(grouping)
+  end
+
+  def dropdown?(type, grouping, variables) do
+    single?(type) && rows?(grouping) && Enum.count(variables) > 1
   end
 
   def cols?(grouping) do
