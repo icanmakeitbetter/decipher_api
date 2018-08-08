@@ -41,6 +41,7 @@ defmodule DecipherAPI.Datamap.Question do
        type        = q.type
        label       = q.qlabel
        grouping    = q.grouping
+       values      = q.values
        variables   = q.variables
        xml_ui_type = get_uses_or_nil(xml_metadata, label)
 
@@ -62,7 +63,7 @@ defmodule DecipherAPI.Datamap.Question do
              :float
            text?(type) ->
              :text
-           dropdown?(type, grouping, variables) ->
+           dropdown?(type, grouping, values) ->
              :dropdown
            true ->
              :unknown_type
@@ -120,8 +121,8 @@ defmodule DecipherAPI.Datamap.Question do
     number?(type) && rows?(grouping)
   end
 
-  def dropdown?(type, grouping, variables) do
-    single?(type) && rows?(grouping) && Enum.count(variables) > 1
+  def dropdown?(type, grouping, values) do
+    single?(type) && rows?(grouping) && Enum.count(values) > 1
   end
 
   def cols?(grouping) do
