@@ -40,8 +40,8 @@ defmodule DecipherAPITest.DatamapTest do
     assert is_map(coerced.xml)
   end
 
-  test "test that the question_order field gives us an ordered list" do
-    assert Datamap.build_metadata_set(%Datamap{survey_id: "something/555/something"}).question_order() ==
+  test "test that the pagination_groupings field gives us an ordered list" do
+    assert Datamap.build_metadata_set(%Datamap{survey_id: "something/555/something"}).pagination_groupings() ==
      [
        [
          "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "cm1",
