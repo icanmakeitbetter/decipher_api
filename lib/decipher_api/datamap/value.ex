@@ -7,7 +7,9 @@ defmodule DecipherAPI.Datamap.Value do
   @spec check_maybe_coerce([%{}]) :: [%{}]
   def check_maybe_coerce(values) when is_list(values) do
     values
-    |> Enum.into(Map.new(), fn v -> {v["value"], v["title"]} end)
+    |> Enum.into([], fn v ->
+         [v["value"], v["title"]] 
+       end)
   end
 
 end
