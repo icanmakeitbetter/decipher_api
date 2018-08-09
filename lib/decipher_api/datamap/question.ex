@@ -36,7 +36,7 @@ defmodule DecipherAPI.Datamap.Question do
   def coerce_maps(datamap_metadata, xml_metadata) when is_map(datamap_metadata) or is_list(datamap_metadata) do
     datamap_metadata
     |> Enum.map(&new/1)
-    |> Enum.into(Map.new, fn(q) ->
+    |> Enum.into([], fn(q) ->
 
        type        = q.type
        label       = q.qlabel
@@ -69,7 +69,7 @@ defmodule DecipherAPI.Datamap.Question do
              :unknown_type
          end
 
-       {
+       [
          q.qlabel,
          %{
            q |
@@ -78,7 +78,7 @@ defmodule DecipherAPI.Datamap.Question do
            # TODO need to get range from xml
            range: xml_map_lookup(xml_metadata, label, :range)
          }
-       }
+       ]
 
     end)
   end
