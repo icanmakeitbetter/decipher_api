@@ -69,16 +69,13 @@ defmodule DecipherAPI.Datamap.Question do
              :unknown_type
          end
 
-       [
-         q.qlabel,
-         %{
-           q |
-           __ui_type__: ui_type,
-           comment: xml_map_lookup(xml_metadata, label, :comment),
-           # TODO need to get range from xml
-           range: xml_map_lookup(xml_metadata, label, :range)
-         }
-       ]
+       %{
+         q |
+         __ui_type__: ui_type,
+         comment: xml_map_lookup(xml_metadata, label, :comment),
+         # TODO need to get range from xml
+         range: xml_map_lookup(xml_metadata, label, :range)
+       }
 
     end)
   end
