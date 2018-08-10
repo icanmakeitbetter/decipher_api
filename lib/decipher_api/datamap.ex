@@ -12,7 +12,7 @@ defmodule DecipherAPI.Datamap do
   defstruct(
     survey_id: nil,
     survey_name: nil,
-    pagination_groupings: [],
+    page_grouping: [],
     questions: %{},
     variables: %{},
     xml:       nil
@@ -57,7 +57,7 @@ defmodule DecipherAPI.Datamap do
     %{
       datamap |
       survey_name: xml_metadata.name,
-      pagination_groupings: xml_metadata.ordering,
+      page_grouping: xml_metadata.ordering,
       questions: Question.coerce_maps(datamap.questions, xml_metadata.questions),
       variables: Variables.coerce_maps(datamap.variables),
       xml: xml_metadata
