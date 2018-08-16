@@ -86,12 +86,13 @@ defmodule DecipherAPI.Datamap do
       |> Enum.map(fn
         {:xmlElement, :suspend, _, _, _, _, _, _, _, _, _, _} ->
           :page_break
-        {:xmlElement, _, _, _, _, _, _, attrs, _, _, _, _} = node ->
+        {:xmlElement, tag_name, _, _, _, _, _, attrs, _, _, _, _} = node ->
           attrs
           |> Enum.into(Map.new, fn {:xmlAttribute, name, _, _, _, _, _, _, value, _} ->
             {name, to_string(value)}
           end)
           |> Map.put(:comment, node |> xpath(~x"comment/text()"s))
+          |> Map.put(:tag_name, tag_name)
       end)
       |> Enum.chunk_by(fn question_or_break -> question_or_break == :page_break end)
       |> Enum.reject(fn
