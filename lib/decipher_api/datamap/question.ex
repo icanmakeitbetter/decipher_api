@@ -11,7 +11,8 @@ defmodule DecipherAPI.Datamap.Question do
     type: nil,
     __ui_type__: nil,
     values: nil,
-    variables: nil
+    variables: nil,
+    xml_tag_name: nil
   )
 
   @spec new() :: %Question{}
@@ -74,7 +75,8 @@ defmodule DecipherAPI.Datamap.Question do
          __ui_type__: ui_type,
          comment: xml_map_lookup(xml_metadata, label, :comment),
          # TODO need to get range from xml
-         range: xml_map_lookup(xml_metadata, label, :range)
+         range: xml_map_lookup(xml_metadata, label, :range),
+         xml_tag_name: xml_map_lookup(xml_metadata, label, :tag_name)
        }
 
     end)
