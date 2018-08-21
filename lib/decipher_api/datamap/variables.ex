@@ -44,7 +44,7 @@ defmodule DecipherAPI.Datamap.Variables do
     variables
     |> Enum.map(&new/1)
     |> Enum.into([], fn v ->
-        [v.label, v] 
+        [v.label, v]
        end)
   end
 

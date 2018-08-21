@@ -75,27 +75,41 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
   @spec coerce_answers(%{}, %Datamap{}) :: %{}
   def coerce_answers(answer_map, datamap) do
 
-    Enum.into(answer_map, Map.new(), fn({key, value}) ->
-      case datamap.__ui_type__ do
-        :single_select ->
-          {key, {datamap.questions[key].qtitle,
-                  datamap.questions[key].values[String.to_integer(value)]}}
-        :single_select_matrix ->
-          {key, value}
-        :multi_select ->
-          {key, value}
-        :multi_select_matrix ->
-          {key, value}
-        :number ->
-          {key, {datamap.questions[key].qtitle, String.to_integer(value)}}
-        :autosum ->
-          {key, {datamap.questions[key].qtitle, String.to_integer(value)}}
-        :float ->
-          {key, {datamap.questions[key].qtitle, String.to_float(value)}}
-        :text ->
-          {key, {datamap.questions[key].qtitle, value}}
-        true ->
-          raise "Don't know what to do with this."
+    Enum.reduce(answer_map, Map.new(), fn({answer_map_key, value}, final_mapping) ->
+
+      question =
+        datamap.variables
+        |> Enum.find(
+          fn [variable_key, _question] ->
+            variable_key == answer_map_key
+          end)
+        |> Enum.at(1)
+
+      case question.type do
+        "single" ->
+          Map.put(final_mapping,
+            answer_map_key,
+            question.values
+              |> Enum.find(
+                  fn([key, _answer]) ->
+                     key == String.to_integer(value)
+                  end)
+              |> Enum.at(1)
+          )
+        "multiple" ->
+          if value == "1" do
+            Map.put(final_mapping, answer_map_key, value)
+          else
+            final_mapping
+          end
+        "number" ->
+          Map.put(final_mapping, answer_map_key, String.to_integer(value))
+        "float" ->
+          Map.put(final_mapping, answer_map_key, String.to_float(value))
+        "text" ->
+          Map.put(final_mapping, answer_map_key, value)
+        _other ->
+          Map.put(final_mapping, answer_map_key, value)
       end
     end)
   end
