@@ -72,18 +72,26 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
     answer_map
   end
 
+  # question, [row], choice/value/text
+  # %{
+  #   "q1" => "answer",
+  #   "q2r1" => "other answer",
+  #
+  #   "q3r1c1" => "1",
+  #   "q3r1c4" => "1",
+  # }
+  # [
+  #   [%Variable{ }, answer (choice/value/text)],
+  #   [%Variable{ }, answer (choice/value/text)],
+  #   [%Variable{ }, answer (choice/value/text)],
+  #   ...
+  # ]
   @spec coerce_answers(%{}, %Datamap{}) :: %{}
   def coerce_answers(answer_map, datamap) do
 
     Enum.reduce(answer_map, Map.new(), fn({answer_map_key, value}, final_mapping) ->
 
-      question =
-        datamap.variables
-        |> Enum.find(
-          fn [variable_key, _question] ->
-            variable_key == answer_map_key
-          end)
-        |> Enum.at(1)
+      question = Map.fetch!(datamap.variables, answer_map_key)
 
       case question.type do
         "single" ->

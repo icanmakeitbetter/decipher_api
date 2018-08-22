@@ -27,10 +27,10 @@ defmodule DecipherAPITest.DatamapTest do
     assert is_binary(datamap.xml)
 
     coerced = Datamap.coerce_data(datamap)
-    assert is_map(coerced.questions)
+    assert is_list(coerced.questions)
 
     assert Enum.all?(coerced.questions, fn
-             {label, %Datamap.Question{qlabel: label}} ->
+             %Datamap.Question{qlabel: _label} ->
                true
 
              _kv ->

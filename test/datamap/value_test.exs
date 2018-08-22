@@ -14,7 +14,7 @@ defmodule DecipherAPITest.DatamapTest.ValueTest do
       %{"title" => "Example4", "value" => 4}
     ]
 
-    assert Value.check_maybe_coerce(values) == %{1 => "Example1", 2 => "Example2", 3 => "Example3", 4 => "Example4"}
+    assert Value.check_maybe_coerce(values) == [[1, "Example1"], [2, "Example2"], [3, "Example3"], [4, "Example4"]]
   end
 
 end

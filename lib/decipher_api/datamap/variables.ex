@@ -43,8 +43,8 @@ defmodule DecipherAPI.Datamap.Variables do
   def coerce_maps(variables) do
     variables
     |> Enum.map(&new/1)
-    |> Enum.into([], fn v ->
-        [v.label, v]
+    |> Enum.into(Map.new, fn v ->
+        {v.label, v}
        end)
   end
 
