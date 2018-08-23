@@ -89,15 +89,16 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
   @spec coerce_answers(%{}, %Datamap{}) :: %{}
   def coerce_answers(answer_map, datamap) do
 
-    Enum.reduce(answer_map, Map.new(), fn({answer_map_key, value}, final_mapping) ->
+    Enum.reduce(answer_map, [], fn({answer_map_key, value}, final_mapping) ->
 
-      question = Map.fetch!(datamap.variables, answer_map_key)
+      answer_key = Map.fetch!(datamap.variables, answer_map_key)
 
-      case question.type do
+      case answer_key.type do
         "single" ->
-          Map.put(final_mapping,
-            answer_map_key,
-            question.values
+          put_answer_and_key(
+            final_mapping,
+            answer_key,
+            answer_key.values
               |> Enum.find(
                   fn([key, _answer]) ->
                      key == String.to_integer(value)
@@ -106,20 +107,44 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
           )
         "multiple" ->
           if value == "1" do
-            Map.put(final_mapping, answer_map_key, value)
+            put_answer_and_key(
+              final_mapping,
+              answer_key,
+              answer_key.col_title
+            )
           else
             final_mapping
           end
         "number" ->
-          Map.put(final_mapping, answer_map_key, String.to_integer(value))
+          put_answer_and_key(
+            final_mapping,
+            answer_key,
+            String.to_integer(value)
+          )
         "float" ->
-          Map.put(final_mapping, answer_map_key, String.to_float(value))
+          put_answer_and_key(
+            final_mapping,
+            answer_key,
+            String.to_float(value)
+          )
         "text" ->
-          Map.put(final_mapping, answer_map_key, value)
+          put_answer_and_key(
+            final_mapping,
+            answer_key,
+            value
+          )
         _other ->
-          Map.put(final_mapping, answer_map_key, value)
+          put_answer_and_key(
+            final_mapping,
+            answer_key,
+            value
+          )
       end
     end)
+  end
+
+  defp put_answer_and_key(final_mapping, answer_key, value) do
+    final_mapping ++ [[answer_key, value]]
   end
 
   # TODO: do we need to handle a nil date?
