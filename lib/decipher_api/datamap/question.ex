@@ -8,6 +8,7 @@ defmodule DecipherAPI.Datamap.Question do
     qlabel: nil,
     qtitle: nil,
     range: nil,
+    size: nil,
     type: nil,
     __ui_type__: nil,
     values: nil,
@@ -74,8 +75,8 @@ defmodule DecipherAPI.Datamap.Question do
          q |
          __ui_type__: ui_type,
          comment: xml_map_lookup(xml_metadata, label, :comment),
-         # TODO need to get range from xml
          range: xml_map_lookup(xml_metadata, label, :range),
+         size: xml_map_lookup(xml_metadata, label, :size),
          xml_tag_name: xml_map_lookup(xml_metadata, label, :tag_name)
        }
 
