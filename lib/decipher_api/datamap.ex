@@ -10,6 +10,7 @@ defmodule DecipherAPI.Datamap do
   alias __MODULE__
 
   defstruct(
+    comments: nil,
     survey_id: nil,
     survey_name: nil,
     page_grouping: [],
@@ -56,6 +57,7 @@ defmodule DecipherAPI.Datamap do
 
     %{
       datamap |
+      comments: xml_metadata.comments,
       survey_name: xml_metadata.name,
       page_grouping: xml_metadata.ordering,
       questions: Question.coerce_maps(datamap.questions, xml_metadata.questions),
@@ -92,6 +94,7 @@ defmodule DecipherAPI.Datamap do
             {name, to_string(value)}
           end)
           |> Map.put(:comment, node |> xpath(~x"comment/text()"s))
+          |> Map.put(:element_text, node |> xpath(~x"text()"s))
           |> Map.put(:tag_name, tag_name)
       end)
       |> Enum.chunk_by(fn question_or_break -> question_or_break == :page_break end)
@@ -102,14 +105,29 @@ defmodule DecipherAPI.Datamap do
           false
       end)
 
-    questions =
+    elements =
       ordering
       |> List.flatten()
       |> Enum.into(%{}, fn(metadata) ->
         {Map.get(metadata, :label), metadata}
       end)
 
+    questions =
+      elements
+      |> Enum.reject(fn({_k, v}) ->
+        v.tag_name == :html
+      end)
+      |> Map.new()
+
+    comments =
+      elements
+      |> Enum.filter(fn({_k, v}) ->
+        v.tag_name == :html
+      end)
+      |> Map.new()
+
       %{
+        comments: comments,
         name: xpath(xml_metadata, ~x"@alt") |> to_string,
         ordering: Enum.map(ordering, fn page -> Enum.map(page, fn question -> question.label end) end),
         questions: questions
