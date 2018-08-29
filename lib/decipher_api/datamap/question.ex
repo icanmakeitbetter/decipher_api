@@ -75,7 +75,7 @@ defmodule DecipherAPI.Datamap.Question do
          q |
          __ui_type__: ui_type,
          comment: xml_map_lookup(xml_metadata, label, :comment),
-         range: xml_map_lookup(xml_metadata, label, :range),
+         range: xml_map_lookup(xml_metadata, label, :verify),
          size: xml_map_lookup(xml_metadata, label, :size),
          xml_tag_name: xml_map_lookup(xml_metadata, label, :tag_name)
        }
