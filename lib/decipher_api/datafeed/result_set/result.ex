@@ -10,6 +10,30 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
     raw_result: nil
   )
 
+  @metadata_fields ~w[
+    $survey
+    date
+    dcua
+    ipAddress
+    list
+    markers
+    qtime
+    record
+    session
+    start_date
+    status
+    url
+    userAgent
+    uuid
+    vbrowser
+    vlist
+    vmobiledevice
+    vmobiledevice
+    vmobileos
+    vos
+  ]
+
+
   @spec new() :: %Result{}
   def new do
     %Result{}
@@ -40,31 +64,7 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
   """
   @spec get_answers(%{}) :: %{}
   def get_answers(result) when is_map(result) do
-    Map.drop(
-      result,
-      [
-        "$survey",
-        "date",
-        "dcua",
-        "ipAddress",
-        "list",
-        "markers",
-        "qtime",
-        "record",
-        "session",
-        "start_date",
-        "status",
-        "url",
-        "userAgent",
-        "uuid",
-        "vbrowser",
-        "vlist",
-        "vmobiledevice",
-        "vmobiledevice",
-        "vmobileos",
-        "vos"
-      ]
-    )
+    Map.drop(result, @metadata_fields)
   end
 
   @spec coerce_answers(%{}, nil) :: %{}
@@ -141,6 +141,10 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
           )
       end
     end)
+  end
+
+  def metadata(result) do
+    Map.take(result, @metadata_fields)
   end
 
   defp put_answer_and_key(final_mapping, answer_key, value) do

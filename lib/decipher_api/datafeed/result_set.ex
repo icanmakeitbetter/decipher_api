@@ -24,7 +24,7 @@ defmodule DecipherAPI.Datafeed.ResultSet do
       fn(result) ->
         result
         |> ResultSet.Result.process_answers(datamap)
-        |> fun.()
+        |> fun.(ResultSet.Result.metadata(result))
       end
     ) do
       :ok ->
