@@ -1,6 +1,6 @@
 # DecipherAPI
 
-**TODO: Add description**
+A wrapper library for the Focus Vision Decipher API.
 
 ## Installation
 
