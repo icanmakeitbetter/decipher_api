@@ -31,8 +31,9 @@ defmodule DecipherAPITest.DatafeedTest do
     success = Datafeed.check_if_more_results(
                 %ResultSet{complete?: false},
                 @datafeed,
-                fn(_result) -> Agent.update(called, fn(_bool) -> true end)
-              end)
+                fn(_result, _metadata) ->
+                  Agent.update(called, fn(_bool) -> true end)
+                end)
 
     assert success == :ok
     assert Agent.get(called, &(&1))
@@ -43,8 +44,9 @@ defmodule DecipherAPITest.DatafeedTest do
 
     success = Datafeed.get_and_process(
                 @datafeed,
-                fn(result) -> assert %{"q1" => _q1, "q2" => _q2} = result
-              end)
+                fn(result, _metadata) ->
+                  assert %{"q1" => _q1, "q2" => _q2} = result
+                end)
     assert success == :ok
   end
 
