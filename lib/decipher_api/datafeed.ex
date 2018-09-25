@@ -6,33 +6,25 @@ defmodule DecipherAPI.Datafeed do
   coercing the results into something more useful.
   """
   alias DecipherAPI.Datafeed.ResultSet
-  alias DecipherAPI.Datamap
+  alias DecipherAPI.{AccountInfo, Datamap, Service}
   alias __MODULE__
 
   @scope_default "all"
 
   defstruct(
+    account_info: nil,
     scope: @scope_default,
     survey_id: nil
   )
 
-  def new(survey_id, scope \\ @scope_default) do
+  def new(account_info, survey_id, scope \\ @scope_default) do
     %Datafeed{
+      account_info: AccountInfo.new(account_info),
       scope: scope,
       survey_id: survey_id
     }
   end
 
-  @doc """
-  Get question results for a single survey, passing in a datafeed, and a datamap
-  for coercion.
-
-  ## Examples
-
-    iex> DecipherAPI.Datafeed.get_process_coerce(
-          %DecipherAPI.Datafeed{scope: "selfserve/555/survey1"},
-          %DecipherAPI.Datamap{...})
-  """
   @spec get_and_process(%Datafeed{}, %Datamap{} | nil, fun()) :: :ok | :error
   def get_and_process(datafeed, datamap \\ nil, fun) do
     result_set =
@@ -50,8 +42,15 @@ defmodule DecipherAPI.Datafeed do
   end
 
   @spec get_results(%Datafeed{}) :: %{}
-  def get_results(datafeed) do
-    {:ok, response} = DecipherAPI.Service.get_survey_results(datafeed)
+  def get_results(
+    %Datafeed{
+      account_info: account_info,
+      scope: scope,
+      survey_id: survey_id
+    }
+  ) do
+    {:ok, response} =
+      Service.get_survey_results(account_info, scope, survey_id)
     response
   end
 
@@ -60,9 +59,12 @@ defmodule DecipherAPI.Datafeed do
   receipt so that the next time you call the datafeed you only get the new
   results.
   """
-  @spec advance(%ResultSet{}, %Datafeed{}) :: boolean()
-  def advance(result_set, datafeed) do
-    {:ok, response} = DecipherAPI.Service.advance_datafeed(result_set, datafeed)
+  @spec advance(%Datafeed{}, %ResultSet{}) :: boolean()
+  def advance(
+    %ResultSet{ack: ack_code},
+    %Datafeed{account_info: account_info, scope: scope}
+  ) do
+    {:ok, response} = Service.advance_datafeed(account_info, ack_code, scope)
     response == %{"ack_valid" => true}
   end
 
@@ -81,8 +83,8 @@ defmodule DecipherAPI.Datafeed do
   beginning.
   """
   @spec reset(%Datafeed{}) :: {:ok, String.t} | {:error, String.t}
-  def reset(datafeed) do
-    case DecipherAPI.Service.reset_datafeed(datafeed) do
+  def reset(%Datafeed{account_info: account_info, scope: scope, survey_id: survey_id}) do
+    case Service.reset_datafeed(account_info, scope, survey_id) do
       {:ok, _} ->
         {:ok, "Reset successful."}
       {:error, error_message} ->

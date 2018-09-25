@@ -11,8 +11,6 @@ use Mix.Config
 # You can configure your application as:
 #
 #     config :decipher_api, key: :value
-config :decipher_api, api_key: System.get_env("DECIPHER_API_KEY")
-config :decipher_api, subdomain: System.get_env("DECIPHER_API_SUBDOMAIN")
 #
 # and access this configuration in your application as:
 #

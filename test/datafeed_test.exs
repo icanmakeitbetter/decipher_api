@@ -5,11 +5,12 @@ defmodule DecipherAPITest.DatafeedTest do
   alias DecipherAPI.Datafeed.ResultSet
 
   use ExUnit.Case, async: true
-  @survey_url FakeData.survey_url
-  @datafeed %Datafeed{survey_id: @survey_url}
+  @survey_id FakeData.survey_id()
+  @account_info FakeData.account_info_struct()
+  @datafeed %Datafeed{account_info: @account_info, scope: "all", survey_id: @survey_id}
 
   test "that new returns a new struct" do
-    assert Datafeed.new(@survey_url) == @datafeed
+    assert Datafeed.new(FakeData.account_info(), @survey_id) == @datafeed
   end
 
   test "that get_results returns the correct value" do
@@ -17,7 +18,7 @@ defmodule DecipherAPITest.DatafeedTest do
       FakeData.http_datafeed_body_map()
   end
 
-  test "that advance returns true response for acknowledge code" do
+  test "that advance returns a true response for the acknowledge code" do
     assert Datafeed.advance(%ResultSet{ack: "asdf-asdf-asdf-asdf"}, @datafeed) == true
   end
 

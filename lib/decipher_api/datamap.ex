@@ -6,10 +6,12 @@ defmodule DecipherAPI.Datamap do
   Provides functions for interacting with Decipher's datamap endpoint and coercing
   that data into something more useful.
   """
+  alias DecipherAPI.AccountInfo
   alias DecipherAPI.Datamap.{Question, Variables}
   alias __MODULE__
 
   defstruct(
+    account_info: nil,
     comments: nil,
     survey_id: nil,
     survey_name: nil,
@@ -19,10 +21,11 @@ defmodule DecipherAPI.Datamap do
     xml:       nil
   )
 
-  @spec new(binary()) :: %Datamap{}
-  def new(survey_id) do
+  @spec new(map(), binary()) :: %Datamap{}
+  def new(account_info, survey_id) when is_map(account_info) do
     %{
       %Datamap{} |
+      account_info: AccountInfo.new(account_info),
       survey_id: survey_id
     }
   end
@@ -35,9 +38,14 @@ defmodule DecipherAPI.Datamap do
   end
 
   @spec get_question_metadata(%Datamap{}) :: %Datamap{}
-  def get_question_metadata(%Datamap{survey_id: survey_id} = datamap) when is_binary(survey_id) do
-    with {:ok, datamap_metadata} <- DecipherAPI.Service.get_datamap_metadata(survey_id),
-         {:ok, xml_metadata}     <- DecipherAPI.Service.get_xml_metadata(survey_id)
+  def get_question_metadata(
+      %Datamap{account_info: account_info, survey_id: survey_id} = datamap
+    )
+    when is_binary(survey_id) and is_map(account_info) do
+    with {:ok, datamap_metadata} <-
+            DecipherAPI.Service.get_datamap_metadata(account_info, survey_id),
+         {:ok, xml_metadata}     <-
+            DecipherAPI.Service.get_xml_metadata(account_info, survey_id)
       do
         %{
           datamap |

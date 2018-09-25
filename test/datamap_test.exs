@@ -2,9 +2,11 @@ defmodule DecipherAPITest.DatamapTest do
   alias DecipherAPITest.Support.FakeData
   alias DecipherAPI.Datamap
 
+  # FIXME: needs updating
   use ExUnit.Case, async: true
-  @survey_url FakeData.survey_url()
-  @datamap %Datamap{survey_id: @survey_url}
+  @survey_id FakeData.survey_id()
+  @account_info FakeData.account_info_struct()
+  @datamap %Datamap{account_info: @account_info, survey_id: @survey_id}
 
   test "calling build_datamap_set fetches and coerces the data" do
     assert @datamap.questions == Map.new()
@@ -12,8 +14,9 @@ defmodule DecipherAPITest.DatamapTest do
     refute coerced.questions == Map.new()
   end
 
+  # FIXME: needs updating
   test "that calling Datamap.new() returns a new struct in the correct format" do
-    assert Datamap.new("something/444/something") == @datamap
+    assert Datamap.new(FakeData.account_info(), @survey_id) == @datamap
   end
 
   test "that coerce_data actually does that" do
@@ -41,7 +44,7 @@ defmodule DecipherAPITest.DatamapTest do
   end
 
   test "test that the page_grouping field gives us an ordered list" do
-    assert Datamap.build_metadata_set(%Datamap{survey_id: "something/555/something"}).page_grouping() ==
+    assert Datamap.build_metadata_set(@datamap).page_grouping() ==
      [
        [
          "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "cm1",

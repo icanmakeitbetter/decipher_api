@@ -4,13 +4,14 @@ defmodule DecipherAPITest.Support.FakeData do
   alias DecipherAPI.Datafeed.ResultSet
   alias DecipherAPI.Datamap.{Question, Variables}
   alias DecipherAPI.Datamap
+  alias DecipherAPI.AccountInfo
 
   def response_status_code(code) do
     %HTTPoison.Response{status_code: code}
   end
 
-  def survey_url do
-    "something/444/something"
+  def survey_id do
+    "something"
   end
 
   def new_result_struct do
@@ -27,6 +28,15 @@ defmodule DecipherAPITest.Support.FakeData do
 
   def coerced_question_metadata_struct do
     %Datamap{}
+  end
+
+  def account_info do
+    %{"domain" => "subdomain.domain.com", "api_key" => "secret", "survey_url_prefix" => "selfserve/555/"}
+  end
+
+  def account_info_struct do
+    account_info()
+    |> AccountInfo.new()
   end
 
   def raw_result_map do

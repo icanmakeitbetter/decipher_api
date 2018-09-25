@@ -2,15 +2,14 @@ defmodule DecipherAPI.Service do
   @moduledoc """
   Provides lower level functions to interact with Decipher's API service.
   """
-  alias DecipherAPI.Datafeed
-  alias DecipherAPI.Datafeed.ResultSet
+  alias DecipherAPI.AccountInfo
   @decipher_api Application.get_env(:decipher_api, :service, DecipherAPI.Service.HTTPClient)
 
-  def base_path(subdomain \\ Application.fetch_env!(:decipher_api, :subdomain)) do
-    "http://#{subdomain}.decipherinc.com/api/v1/"
+  def base_path(domain) do
+    "https://#{domain}/api/v1/"
   end
 
-  def api_headers(api_key \\ Application.fetch_env!(:decipher_api, :api_key)) do
+  def api_headers(api_key) do
     [
       {"x-apikey", api_key},
       {"Accept", "application/json, */*"},
@@ -32,28 +31,41 @@ defmodule DecipherAPI.Service do
     end
   end
 
-  @spec get!(String.t) :: %{} | {:error, String.t}
-  def get!(endpoint) when is_binary(endpoint) do
-    @decipher_api.get!(base_path() <> endpoint, api_headers())
+  @spec get!(String.t, String.t, String.t) :: %{} | {:error, String.t}
+  def get!(endpoint, api_key, domain) when is_binary(endpoint) do
+    @decipher_api.get!(base_path(domain) <> endpoint, api_headers(api_key))
     |> parse_response()
   end
 
-  def post!(body, endpoint) do
-    @decipher_api.post!(base_path() <> endpoint, body, api_headers())
-    |> parse_response
+  @spec post!(String.t, String.t, String.t, String.t) :: %{} | {:error, String.t}
+  def post!(body, endpoint, api_key, domain) do
+    @decipher_api.post!(base_path(domain) <> endpoint, body, api_headers(api_key))
+    |> parse_response()
   end
 
-  @spec get_datamap_metadata(String.t) :: %{} | {:error, String.t}
-  def get_datamap_metadata(survey_id) do
-    get!("surveys/#{survey_id}/datamap?format=json")
+  @spec get_datamap_metadata(%AccountInfo{}, String.t) :: %{} | {:error, String.t}
+  def get_datamap_metadata(
+    %AccountInfo{
+      survey_url_prefix: survey_url_prefix,
+      domain: domain,
+      api_key: api_key},
+    survey_id
+    ) do
+    get!("surveys/#{survey_url_prefix}#{survey_id}/datamap?format=json", api_key, domain)
   end
 
-  @spec get_xml_metadata(String.t) :: {:ok, String.t} | {:error, String.t}
-  def get_xml_metadata(survey_id) do
+  @spec get_xml_metadata(%AccountInfo{}, String.t) :: {:ok, String.t} | {:error, String.t}
+  def get_xml_metadata(
+    %AccountInfo{
+      survey_url_prefix: survey_url_prefix,
+      domain: domain,
+      api_key: api_key
+    },
+    survey_id) do
     response =
       @decipher_api.get!(
-        base_path() <> "surveys/#{survey_id}/files/survey.xml",
-        api_headers()
+        base_path(domain) <> "surveys/#{survey_url_prefix}#{survey_id}/files/survey.xml",
+        api_headers(api_key)
       )
 
     case response.status_code do
@@ -64,33 +76,57 @@ defmodule DecipherAPI.Service do
     end
   end
 
-  @doc """
-  Get the results of a survey.
-
-    iex> API.get_survey_results("all", "selfserve/540/180435")
-  """
-  @spec get_survey_results(%Datafeed{}) :: {:error, binary()} | %{}
-  def get_survey_results(%Datafeed{survey_id: survey_id, scope: scope})
-      when is_binary(scope)
+  @spec get_survey_results(%AccountInfo{}, String.t, String.t) :: {:error, binary()} | %{}
+  def get_survey_results(
+      %AccountInfo{
+        api_key: api_key,
+        domain: domain,
+        survey_url_prefix: survey_url_prefix
+      },
+      scope,
+      survey_id
+  )
+      when is_binary(survey_url_prefix)
+      and is_binary(scope)
       and is_binary(survey_id) do
-    get!("datafeed/#{scope}?paths=#{survey_id}")
+    get!(
+      "datafeed/#{scope}?paths=#{survey_url_prefix}#{survey_id}",
+      api_key,
+      domain
+    )
   end
 
-  @spec advance_datafeed(%ResultSet{}, %Datafeed{}) :: %{} | {:error, String.t}
-  def advance_datafeed(%ResultSet{ack: ack_code}, %Datafeed{scope: scope})
+  @spec advance_datafeed(%AccountInfo{}, String.t, String.t) :: %{} | {:error, String.t}
+  def advance_datafeed(
+    %AccountInfo{
+      api_key: api_key,
+      domain: domain
+    },
+    ack_code,
+    scope)
       when is_binary(ack_code)
       and is_binary(scope) do
 
     {:ok, body} = %{"ack" => ack_code} |> encode_json()
 
-    post!(body, "datafeed/#{scope}/ack")
+    post!(body, "datafeed/#{scope}/ack", api_key, domain)
   end
 
-  @spec reset_datafeed(%Datafeed{}) :: %{} | {:error, String.t}
-  def reset_datafeed(%Datafeed{survey_id: survey_id, scope: scope})
+  @spec reset_datafeed(%AccountInfo{}, String.t, String.t) :: %{} | {:error, String.t}
+  def reset_datafeed(
+    %AccountInfo{
+      survey_url_prefix: survey_url_prefix,
+      domain: domain,
+      api_key: api_key
+    },
+    survey_id,
+    scope
+  )
       when is_binary(survey_id)
       and is_binary(scope) do
-    @decipher_api.delete!(base_path() <> "datafeed/#{scope}?paths=#{survey_id}", api_headers())
+    @decipher_api.delete!(
+      base_path(domain) <> "datafeed/#{scope}?paths=#{survey_url_prefix}#{survey_id}",
+      api_headers(api_key))
     |> parse_response
   end
 
