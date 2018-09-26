@@ -2,7 +2,6 @@ defmodule DecipherAPITest.DatamapTest do
   alias DecipherAPITest.Support.FakeData
   alias DecipherAPI.Datamap
 
-  # FIXME: needs updating
   use ExUnit.Case, async: true
   @survey_id FakeData.survey_id()
   @account_info FakeData.account_info_struct()
@@ -14,7 +13,6 @@ defmodule DecipherAPITest.DatamapTest do
     refute coerced.questions == Map.new()
   end
 
-  # FIXME: needs updating
   test "that calling Datamap.new() returns a new struct in the correct format" do
     assert Datamap.new(FakeData.account_info(), @survey_id) == @datamap
   end
