@@ -107,7 +107,7 @@ defmodule DecipherAPI.Datamap do
       end)
       |> Enum.chunk_by(fn question_or_break -> question_or_break == :page_break end)
       |> Enum.reject(fn
-        [:page_break] ->
+        [:page_break | _rest] ->
           true
         _page ->
           false
