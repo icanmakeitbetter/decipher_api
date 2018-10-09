@@ -9,6 +9,7 @@ defmodule DecipherAPI.Datamap.Question do
     qtitle: nil,
     range: nil,
     size: nil,
+    optional: false,
     type: nil,
     __ui_type__: nil,
     values: nil,
@@ -77,6 +78,7 @@ defmodule DecipherAPI.Datamap.Question do
          comment: xml_map_lookup(xml_metadata, label, :comment),
          range: xml_map_lookup(xml_metadata, label, :verify),
          size: xml_map_lookup(xml_metadata, label, :size),
+         optional: xml_map_lookup(xml_metadata, label, :optional) == "1",
          xml_tag_name: xml_map_lookup(xml_metadata, label, :tag_name)
        }
 
