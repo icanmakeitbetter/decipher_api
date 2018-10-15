@@ -51,7 +51,7 @@ defmodule DecipherAPI.Service do
       api_key: api_key},
     survey_id
     ) do
-    get!("surveys/#{survey_url_prefix}#{survey_id}/datamap?format=json", api_key, domain)
+    get!("surveys/#{survey_url_prefix}/#{survey_id}/datamap?format=json", api_key, domain)
   end
 
   @spec get_xml_metadata(%AccountInfo{}, String.t) :: {:ok, String.t} | {:error, String.t}
@@ -64,7 +64,7 @@ defmodule DecipherAPI.Service do
     survey_id) do
     response =
       @decipher_api.get!(
-        base_path(domain) <> "surveys/#{survey_url_prefix}#{survey_id}/files/survey.xml",
+        base_path(domain) <> "surveys/#{survey_url_prefix}/#{survey_id}/files/survey.xml",
         api_headers(api_key)
       )
 
@@ -90,7 +90,7 @@ defmodule DecipherAPI.Service do
       and is_binary(scope)
       and is_binary(survey_id) do
     get!(
-      "datafeed/#{scope}?paths=#{survey_url_prefix}#{survey_id}",
+      "datafeed/#{scope}?paths=#{survey_url_prefix}/#{survey_id}",
       api_key,
       domain
     )
@@ -125,7 +125,7 @@ defmodule DecipherAPI.Service do
       when is_binary(survey_id)
       and is_binary(scope) do
     @decipher_api.delete!(
-      base_path(domain) <> "datafeed/#{scope}?paths=#{survey_url_prefix}#{survey_id}",
+      base_path(domain) <> "datafeed/#{scope}?paths=#{survey_url_prefix}/#{survey_id}",
       api_headers(api_key))
     |> parse_response
   end
