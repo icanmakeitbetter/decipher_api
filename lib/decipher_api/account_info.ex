@@ -17,7 +17,7 @@ defmodule DecipherAPI.AccountInfo do
     }
   end
 
-  @spec remove_slashes() :: type
+  @spec remove_slashes(String.t) :: String.t
   defp remove_slashes(url) when url |> is_binary() do
     url
     |> remove_leading_slashes(String.first(url))
