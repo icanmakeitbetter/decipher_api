@@ -110,7 +110,7 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
             put_answer_and_key(
               final_mapping,
               answer_key,
-              answer_key.col_title
+              answer_key.row_title
             )
           else
             final_mapping
