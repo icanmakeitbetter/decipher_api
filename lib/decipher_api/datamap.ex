@@ -1,5 +1,4 @@
 defmodule DecipherAPI.Datamap do
-  import SweetXml
   @moduledoc """
   How you get questions, question metadata, and metadata about a survey from Decipher.
 
@@ -7,7 +6,7 @@ defmodule DecipherAPI.Datamap do
   that data into something more useful.
   """
   alias DecipherAPI.AccountInfo
-  alias DecipherAPI.Datamap.{Question, Variables}
+  alias DecipherAPI.Datamap.{Question, Variables, XMLParser}
   alias __MODULE__
 
   defstruct(
@@ -76,70 +75,7 @@ defmodule DecipherAPI.Datamap do
 
   @spec coerce_xml_metadata(String.t) :: %{}
   def coerce_xml_metadata(xml_metadata) when is_binary(xml_metadata) do
-
-    ordering =
-      xml_metadata
-      |> xpath(~x"/survey/*"el)
-      |> Enum.filter(fn
-        {:xmlElement, :suspend, _, _, _, _, _, _, _, _, _, _} ->
-          true
-        {:xmlElement, _, _, _, _, _, _, attrs, _, _, _, _} ->
-          Enum.any?(attrs, fn
-            {:xmlAttribute, :label, _, _, _, _, _, _, _, _} ->
-              true
-            _attr ->
-              false
-          end)
-        _node ->
-          false
-      end)
-      |> Enum.map(fn
-        {:xmlElement, :suspend, _, _, _, _, _, _, _, _, _, _} ->
-          :page_break
-        {:xmlElement, tag_name, _, _, _, _, _, attrs, _, _, _, _} = node ->
-          attrs
-          |> Enum.into(Map.new, fn {:xmlAttribute, name, _, _, _, _, _, _, value, _} ->
-            {name, to_string(value)}
-          end)
-          |> Map.put(:comment, node |> xpath(~x"comment/text()"s))
-          |> Map.put(:element_text, node |> xpath(~x"text()"s))
-          |> Map.put(:tag_name, tag_name)
-      end)
-      |> Enum.chunk_by(fn question_or_break -> question_or_break == :page_break end)
-      |> Enum.reject(fn
-        [:page_break | _rest] ->
-          true
-        _page ->
-          false
-      end)
-
-    elements =
-      ordering
-      |> List.flatten()
-      |> Enum.into(%{}, fn(metadata) ->
-        {Map.get(metadata, :label), metadata}
-      end)
-
-    questions =
-      elements
-      |> Enum.reject(fn({_k, v}) ->
-        v.tag_name == :html
-      end)
-      |> Map.new()
-
-    comments =
-      elements
-      |> Enum.filter(fn({_k, v}) ->
-        v.tag_name == :html
-      end)
-      |> Map.new()
-
-      %{
-        comments: comments,
-        name: xpath(xml_metadata, ~x"@alt") |> to_string,
-        ordering: Enum.map(ordering, fn page -> Enum.map(page, fn question -> question.label end) end),
-        questions: questions
-      }
+    XMLParser.parse(xml_metadata)
   end
 
 end
