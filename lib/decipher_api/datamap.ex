@@ -1,3 +1,4 @@
+require IEx
 defmodule DecipherAPI.Datamap do
   @moduledoc """
   How you get questions, question metadata, and metadata about a survey from Decipher.
@@ -60,17 +61,22 @@ defmodule DecipherAPI.Datamap do
 
   @spec coerce_data(%Datamap{}) :: %Datamap{}
   def coerce_data(datamap) do
-    xml_metadata = coerce_xml_metadata(datamap.xml)
+    case datamap do
+      {:error, error} ->
+        error
+      _ ->
+        xml_metadata = coerce_xml_metadata(datamap.xml)
 
-    %{
-      datamap |
-      comments: xml_metadata.comments,
-      survey_name: xml_metadata.name,
-      page_grouping: xml_metadata.ordering,
-      questions: Question.coerce_maps(datamap.questions, xml_metadata.questions),
-      variables: Variables.coerce_maps(datamap.variables),
-      xml: xml_metadata
-    }
+        %{
+          datamap |
+          comments: xml_metadata.comments,
+          survey_name: xml_metadata.name,
+          page_grouping: xml_metadata.ordering,
+          questions: Question.coerce_maps(datamap.questions, xml_metadata.questions),
+          variables: Variables.coerce_maps(datamap.variables),
+          xml: xml_metadata
+        }
+    end
   end
 
   @spec coerce_xml_metadata(String.t) :: %{}
