@@ -30,14 +30,14 @@ defmodule DecipherAPI.Datamap do
     }
   end
 
-  @spec build_metadata_set(%Datamap{}) :: %Datamap{}
+  @spec build_metadata_set(%Datamap{}) :: %Datamap{} | {:error, String.t}
   def build_metadata_set(datamap) do
     datamap
     |> get_question_metadata()
     |> coerce_data()
   end
 
-  @spec get_question_metadata(%Datamap{}) :: %Datamap{}
+  @spec get_question_metadata(%Datamap{}) :: %Datamap{} | {:error, String.t}
   def get_question_metadata(
       %Datamap{account_info: account_info, survey_id: survey_id} = datamap
     )
@@ -59,11 +59,11 @@ defmodule DecipherAPI.Datamap do
     end
   end
 
-  @spec coerce_data(%Datamap{}) :: %Datamap{}
+  @spec coerce_data(%Datamap{} | {:error, String.t}) :: %Datamap{}
   def coerce_data(datamap) do
     case datamap do
       {:error, error} ->
-        error
+        {:error, error}
       _ ->
         xml_metadata = coerce_xml_metadata(datamap.xml)
 
