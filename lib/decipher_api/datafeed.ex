@@ -9,18 +9,12 @@ defmodule DecipherAPI.Datafeed do
   alias DecipherAPI.{AccountInfo, Datamap, Service}
   alias __MODULE__
 
-  @scope_default "all"
+  defstruct ~w[account_info scope survey_id]a
 
-  defstruct(
-    account_info: nil,
-    scope: @scope_default,
-    survey_id: nil
-  )
-
-  def new(account_info, survey_id, scope \\ @scope_default) do
+  def new(account_info, survey_id, scope \\ nil) do
     %Datafeed{
       account_info: AccountInfo.new(account_info),
-      scope: scope,
+      scope: scope || "feed_#{survey_id}",
       survey_id: survey_id
     }
   end
@@ -84,7 +78,7 @@ defmodule DecipherAPI.Datafeed do
   """
   @spec reset(%Datafeed{}) :: {:ok, String.t} | {:error, String.t}
   def reset(%Datafeed{account_info: account_info, scope: scope, survey_id: survey_id}) do
-    case Service.reset_datafeed(account_info, survey_id, scope) do
+    case Service.reset_datafeed(account_info, scope) do
       {:ok, _} ->
         {:ok, "Reset successful."}
       {:error, error_message} ->

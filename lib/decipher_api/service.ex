@@ -116,21 +116,13 @@ defmodule DecipherAPI.Service do
     post!(body, "datafeed/#{scope}/ack", api_key, domain)
   end
 
-  @spec reset_datafeed(%AccountInfo{}, String.t, String.t) :: %{} | {:error, String.t}
-  def reset_datafeed(
-    %AccountInfo{
-      survey_url_prefix: survey_url_prefix,
-      domain: domain,
-      api_key: api_key
-    },
-    survey_id,
-    scope
-  )
-      when is_binary(survey_id)
-      and is_binary(scope) do
+  @spec reset_datafeed(%AccountInfo{}, String.t) :: %{} | {:error, String.t}
+  def reset_datafeed(%AccountInfo{domain: domain, api_key: api_key}, scope)
+  when is_binary(scope) do
     @decipher_api.delete!(
-      base_path(domain) <> "datafeed/#{scope}?paths=#{survey_url_prefix}/#{survey_id}",
-      api_headers(api_key))
+      base_path(domain) <> "datafeed/#{scope}",
+      api_headers(api_key)
+    )
     |> parse_response
   end
 
