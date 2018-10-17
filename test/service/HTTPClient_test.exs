@@ -3,7 +3,7 @@ defmodule DecipherAPITest do
   use ExUnit.Case, async: true
 
   test "that the get! function is there" do
-    api_call = fn _, _ ->
+    api_call = fn _, _, _ ->
       send self(), :api_call
     end
 
