@@ -5,10 +5,12 @@ defmodule DecipherAPI.Service do
   alias DecipherAPI.AccountInfo
   @decipher_api Application.get_env(:decipher_api, :service, DecipherAPI.Service.HTTPClient)
 
+  @spec base_path(String.t) :: String.t
   def base_path(domain) do
     "https://#{domain}/api/v1/"
   end
 
+  @spec api_headers(String.t) :: [{}]
   def api_headers(api_key) do
     [
       {"x-apikey", api_key},
@@ -17,11 +19,13 @@ defmodule DecipherAPI.Service do
     ]
   end
 
+  @spec encode_json(%{}) :: String.t
   def encode_json(data_structure) do
     data_structure
     |> Poison.encode()
   end
 
+  @spec decode_json(String.t) :: %{} | {:error, :json_parse_failed}
   def decode_json(raw_json) do
     with {:ok, data} <- Poison.decode(raw_json) do
       data

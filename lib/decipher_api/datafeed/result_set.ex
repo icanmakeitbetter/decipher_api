@@ -8,6 +8,7 @@ defmodule DecipherAPI.Datafeed.ResultSet do
     results: []
   )
 
+  @spec new(%{}) :: %ResultSet{}
   def new(results) do
     %{
       %ResultSet{} |
