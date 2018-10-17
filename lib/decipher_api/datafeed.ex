@@ -77,7 +77,7 @@ defmodule DecipherAPI.Datafeed do
   beginning.
   """
   @spec reset(%Datafeed{}) :: {:ok, String.t} | {:error, String.t}
-  def reset(%Datafeed{account_info: account_info, scope: scope, survey_id: survey_id}) do
+  def reset(%Datafeed{account_info: account_info, scope: scope}) do
     case Service.reset_datafeed(account_info, scope) do
       {:ok, _} ->
         {:ok, "Reset successful."}
