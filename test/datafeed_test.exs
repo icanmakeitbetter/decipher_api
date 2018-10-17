@@ -6,8 +6,8 @@ defmodule DecipherAPITest.DatafeedTest do
 
   use ExUnit.Case, async: true
   @survey_id FakeData.survey_id()
-  @account_info FakeData.account_info_struct()
-  @datafeed %Datafeed{account_info: @account_info, scope: "all", survey_id: @survey_id}
+  @account_info FakeData.account_info
+  @datafeed Datafeed.new(@account_info, @survey_id)
 
   test "that new returns a new struct" do
     assert Datafeed.new(FakeData.account_info(), @survey_id) == @datafeed
