@@ -10,7 +10,7 @@ defmodule DecipherAPI.Service do
     "https://#{domain}/api/v1/"
   end
 
-  @spec api_headers(String.t) :: [{}]
+  @spec api_headers(String.t) :: [{String.t, String.t}]
   def api_headers(api_key) do
     [
       {"x-apikey", api_key},
@@ -19,19 +19,16 @@ defmodule DecipherAPI.Service do
     ]
   end
 
-  @spec encode_json(%{}) :: String.t
+  @spec encode_json(%{}) :: iodata() | no_return()
   def encode_json(data_structure) do
     data_structure
-    |> Poison.encode()
+    |> Poison.encode!()
   end
 
-  @spec decode_json(String.t) :: %{} | {:error, :json_parse_failed}
+  @spec decode_json(String.t) :: %{} | {:error, :invalid | {:invalid, binary()}}
   def decode_json(raw_json) do
     with {:ok, data} <- Poison.decode(raw_json) do
       data
-    else
-      {:error, :invalid, _} ->
-        {:error, :json_parse_failed}
     end
   end
 
@@ -111,7 +108,7 @@ defmodule DecipherAPI.Service do
       when is_binary(ack_code)
       and is_binary(scope) do
 
-    {:ok, body} = %{"ack" => ack_code} |> encode_json()
+    body = %{"ack" => ack_code} |> encode_json()
 
     post!(body, "datafeed/#{scope}/ack", api_key, domain)
   end
