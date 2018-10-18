@@ -17,6 +17,4 @@ defmodule DecipherAPITest.DatamapTest.QuestionTest do
         [%{FakeData.coerced_question_map | __ui_type__: :number}]
   end
 
-  test "the different __ui_types__ are correct" do
-  end
 end
