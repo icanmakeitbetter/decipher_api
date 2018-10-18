@@ -35,7 +35,7 @@ defmodule DecipherAPI.Datafeed do
     end
   end
 
-  @spec get_results(%Datafeed{}) :: %{}
+  @spec get_results(%Datafeed{}) :: %{} | {:error, any()}
   def get_results(
     %Datafeed{
       account_info: account_info,
@@ -43,9 +43,9 @@ defmodule DecipherAPI.Datafeed do
       survey_id: survey_id
     }
   ) do
-    {:ok, response} =
-      Service.get_survey_results(account_info, scope, survey_id)
-    response
+    with {:ok, response} <- Service.get_survey_results(account_info, scope, survey_id) do
+      response
+    end
   end
 
   @doc """

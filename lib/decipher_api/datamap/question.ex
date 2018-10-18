@@ -95,7 +95,8 @@ defmodule DecipherAPI.Datamap.Question do
     end
   end
 
-  @spec xml_map_lookup(%{}, String.t, :atom) :: String.t | nil
+  # TODO: come back and change the last two any() arguments to what they really are
+  @spec xml_map_lookup(%{}, any(), any()) :: String.t | nil
   defp xml_map_lookup(xml_metadata, label, key) do
     metadata = Map.get(xml_metadata, label)
     if metadata do

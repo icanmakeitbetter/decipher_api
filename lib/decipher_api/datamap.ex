@@ -53,9 +53,6 @@ defmodule DecipherAPI.Datamap do
           variables: datamap_metadata["variables"],
           xml: xml_metadata
         }
-      else
-        {:error, reason} ->
-          {:error, reason}
     end
   end
 
@@ -79,7 +76,7 @@ defmodule DecipherAPI.Datamap do
     end
   end
 
-  @spec coerce_xml_metadata(String.t) :: %{}
+  @spec coerce_xml_metadata(String.t) :: %{comments: %{}, name: String.t, ordering: [[]], questions: %{}}
   def coerce_xml_metadata(xml_metadata) when is_binary(xml_metadata) do
     XMLParser.parse(xml_metadata)
   end

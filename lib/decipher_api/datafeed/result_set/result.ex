@@ -143,18 +143,18 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
     end)
   end
 
-  @spec metadata(%{}) :: String.t
+  @spec metadata(%{}) :: %{}
   def metadata(result) do
     Map.take(result, @metadata_fields)
   end
 
-  @spec put_answer_and_key([], String.t, String.t | float() | integer()) :: [[]]
+  @spec put_answer_and_key([], %DecipherAPI.Datamap.Variables{}, String.t | float() | integer() | atom()) :: [[]]
   defp put_answer_and_key(final_mapping, answer_key, value) do
     final_mapping ++ [[answer_key, value]]
   end
 
   # TODO: do we need to handle a nil date?
-  @spec format_date(String.t) :: String.t | no_return()
+  @spec format_date(String.t) :: %NaiveDateTime{}
   def format_date(date) when is_binary(date) do
     String.replace(date,
       ~r<\A(\d{2})/(\d{2})/(\d{4})\s(\d{2}:\d{2})\z>, "\\3-\\1-\\2T\\4:00")
