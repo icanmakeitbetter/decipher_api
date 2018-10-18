@@ -86,7 +86,7 @@ defmodule DecipherAPI.Datamap.Question do
   end
 
   @spec get_uses_or_nil(%{}, String.t) :: String.t | nil
-  def get_uses_or_nil(xml_metadata, label) do
+  defp get_uses_or_nil(xml_metadata, label) do
     metadata = Map.get(xml_metadata, label)
     if metadata do
       Map.get(metadata, :uses)
@@ -96,7 +96,7 @@ defmodule DecipherAPI.Datamap.Question do
   end
 
   @spec xml_map_lookup(%{}, String.t, :atom) :: String.t | nil
-  def xml_map_lookup(xml_metadata, label, key) do
+  defp xml_map_lookup(xml_metadata, label, key) do
     metadata = Map.get(xml_metadata, label)
     if metadata do
       Map.get(metadata, key)
@@ -105,55 +105,55 @@ defmodule DecipherAPI.Datamap.Question do
     end
   end
 
-  def single_select?(type, grouping) do
+  defp single_select?(type, grouping) do
     single?(type) && cols?(grouping)
   end
 
-  def single_select_matrix?(type, grouping, variables) do
+  defp single_select_matrix?(type, grouping, variables) do
     single?(type) && rows?(grouping) && Enum.count(variables) > 1
   end
 
-  def multi_select?(type, grouping) do
+  defp multi_select?(type, grouping) do
     multiple?(type) && cols?(grouping)
   end
 
-  def multi_select_matrix?(type, grouping) do
+  defp multi_select_matrix?(type, grouping) do
     multiple?(type) && rows?(grouping)
   end
 
-  def simple_number?(type, grouping) do
+  defp simple_number?(type, grouping) do
     number?(type) && rows?(grouping)
   end
 
-  def dropdown?(type, grouping, values) do
+  defp dropdown?(type, grouping, values) do
     single?(type) && rows?(grouping) && Enum.count(values) > 1
   end
 
-  def cols?(grouping) do
+  defp cols?(grouping) do
     grouping == "cols"
   end
 
-  def rows?(grouping) do
+  defp rows?(grouping) do
     grouping == "rows"
   end
 
-  def single?(type) do
+  defp single?(type) do
     type == "single"
   end
 
-  def text?(type) do
+  defp text?(type) do
     type == "text"
   end
 
-  def multiple?(type) do
+  defp multiple?(type) do
     type == "multiple"
   end
 
-  def number?(type) do
+  defp number?(type) do
     type == "number"
   end
 
-  def float?(type) do
+  defp float?(type) do
     type == "float"
   end
 
