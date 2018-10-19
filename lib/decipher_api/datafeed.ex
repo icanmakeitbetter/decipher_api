@@ -19,23 +19,39 @@ defmodule DecipherAPI.Datafeed do
     }
   end
 
-  @spec get_and_process(%Datafeed{}, %Datamap{} | nil, fun()) :: :ok | :error
+  @spec get_and_process(%Datafeed{}, %Datamap{} | nil, fun()) :: :ok | :error | {:error, String.t}
   def get_and_process(datafeed, datamap \\ nil, fun) do
-    result_set =
-      datafeed
-      |> get_results()
-      |> ResultSet.new()
-      |> ResultSet.process_results(datamap, fun)
+    datafeed
+    |> get_results()
+    |> case do
+      {:error, _msg } = error ->
+        error
+      response when is_map(response) ->
+        result_set =
+          response
+          |> ResultSet.new()
+          |> ResultSet.process_results(datamap, fun)
 
-    if advance(result_set, datafeed) do
-      check_if_more_results(result_set, datafeed, fun)
-      :ok
-    else
-      :error
+        if advance(result_set, datafeed) do
+          check_if_more_results(result_set, datafeed, fun)
+          :ok
+        else
+          :error
+        end
     end
   end
 
-  @spec get_results(%Datafeed{}) :: %{} | {:error, any()}
+  @spec get_results(
+    %Datafeed{
+      account_info: %AccountInfo{
+        api_key: String.t,
+        domain: String.t,
+        survey_url_prefix: String.t
+      },
+      scope: String.t,
+      survey_id: String.t
+    }
+  ) :: %{} | {:error, String.t}
   def get_results(
     %Datafeed{
       account_info: account_info,
@@ -53,13 +69,14 @@ defmodule DecipherAPI.Datafeed do
   receipt so that the next time you call the datafeed you only get the new
   results.
   """
-  @spec advance(%Datafeed{}, %ResultSet{}) :: boolean()
+  @spec advance(%ResultSet{}, %Datafeed{}) :: boolean() | {:error, String.t}
   def advance(
     %ResultSet{ack: ack_code},
     %Datafeed{account_info: account_info, scope: scope}
   ) do
-    {:ok, response} = Service.advance_datafeed(account_info, ack_code, scope)
-    response == %{"ack_valid" => true}
+    with {:ok, response} <- Service.advance_datafeed(account_info, ack_code, scope) do
+      response == %{"ack_valid" => true}
+    end
   end
 
   @spec check_if_more_results(%ResultSet{complete?: false}, %Datafeed{}, fun()) :: :ok | :error
@@ -78,11 +95,8 @@ defmodule DecipherAPI.Datafeed do
   """
   @spec reset(%Datafeed{}) :: {:ok, String.t} | {:error, String.t}
   def reset(%Datafeed{account_info: account_info, scope: scope}) do
-    case Service.reset_datafeed(account_info, scope) do
-      {:ok, _} ->
-        {:ok, "Reset successful."}
-      {:error, error_message} ->
-        {:error, error_message}
+    with {:ok, _} <- Service.reset_datafeed(account_info, scope) do
+      {:ok, "Reset successful."}
     end
   end
 end

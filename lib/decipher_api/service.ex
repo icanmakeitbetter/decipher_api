@@ -32,19 +32,19 @@ defmodule DecipherAPI.Service do
     end
   end
 
-  @spec get!(String.t, String.t, String.t) :: %{} | {:error, String.t}
+  @spec get!(String.t, String.t, String.t) :: {:ok, %{}} | {:error, String.t}
   def get!(endpoint, api_key, domain) when is_binary(endpoint) do
     @decipher_api.get!(base_path(domain) <> endpoint, api_headers(api_key))
     |> parse_response()
   end
 
-  @spec post!(String.t, String.t, String.t, String.t) :: %{} | {:error, String.t}
+  @spec post!(String.t, String.t, String.t, String.t) :: {:ok, %{}} | {:error, String.t}
   def post!(body, endpoint, api_key, domain) do
     @decipher_api.post!(base_path(domain) <> endpoint, body, api_headers(api_key))
     |> parse_response()
   end
 
-  @spec get_datamap_metadata(%AccountInfo{}, String.t) :: %{} | {:error, String.t}
+  @spec get_datamap_metadata(%AccountInfo{}, String.t) :: {:ok, %{}} | {:error, String.t}
   def get_datamap_metadata(
     %AccountInfo{
       survey_url_prefix: survey_url_prefix,
@@ -77,7 +77,7 @@ defmodule DecipherAPI.Service do
     end
   end
 
-  @spec get_survey_results(%AccountInfo{}, String.t, String.t) :: {:error, binary()} | %{}
+  @spec get_survey_results(%AccountInfo{}, String.t, String.t) :: {:error, String.t} | {:ok, %{}}
   def get_survey_results(
       %AccountInfo{
         api_key: api_key,
@@ -97,7 +97,7 @@ defmodule DecipherAPI.Service do
     )
   end
 
-  @spec advance_datafeed(%AccountInfo{}, String.t, String.t) :: %{} | {:error, String.t}
+  @spec advance_datafeed(%AccountInfo{}, String.t, String.t) :: {:ok, %{}} | {:error, String.t}
   def advance_datafeed(
     %AccountInfo{
       api_key: api_key,
@@ -113,7 +113,7 @@ defmodule DecipherAPI.Service do
     post!(body, "datafeed/#{scope}/ack", api_key, domain)
   end
 
-  @spec reset_datafeed(%AccountInfo{}, String.t) :: %{} | {:error, String.t}
+  @spec reset_datafeed(%AccountInfo{}, String.t) :: {:ok, %{}} | {:error, String.t}
   def reset_datafeed(%AccountInfo{domain: domain, api_key: api_key}, scope)
   when is_binary(scope) do
     @decipher_api.delete!(

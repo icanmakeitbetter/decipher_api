@@ -31,7 +31,7 @@ defmodule DecipherAPITest.Support.FakeData do
   end
 
   def account_info do
-    %{"domain" => "subdomain.domain.com", "api_key" => "secret", "survey_url_prefix" => "selfserve/555/"}
+    %{"domain" => "subdomain.domain.com", "api_key" => "secret", "survey_url_prefix" => "//selfserve/555/"}
   end
 
   def account_info_struct do
@@ -82,6 +82,23 @@ defmodule DecipherAPITest.Support.FakeData do
     ]
   end
 
+  def raw_all_question_datafeed_response do
+    body =
+      "all_questions_response.json"
+      |> read_file()
+
+    %HTTPoison.Response{
+      body: body,
+      status_code: 200
+    }
+  end
+
+  def raw_datamap do
+    "new_datamap.ex"
+    |> read_file
+    |> :erlang.binary_to_term
+  end
+
   def raw_all_question_datamap_response do
     #
     # To update:
@@ -93,16 +110,34 @@ defmodule DecipherAPITest.Support.FakeData do
 
     raw_json =
       "all_questions_datamap.json"
-      |> Path.expand(__DIR__)
-      |> File.read!
+      |> read_file()
       |> Poison.decode!
 
     %DecipherAPI.Datamap{
       questions: Map.fetch!(raw_json, "questions"),
-      survey_id: "selfserve/540/all_questions",
+      survey_id: "all_questions",
       variables: Map.fetch!(raw_json, "variables"),
       xml: raw_all_question_xml_response()
     }
+  end
+
+  def raw_loop_datamap_response do
+    raw_json =
+      "loop_datamap.json"
+      |> read_file()
+      |> Poison.decode!
+
+    %DecipherAPI.Datamap{
+      questions: Map.fetch!(raw_json, "questions"),
+      survey_id: "all_questions",
+      variables: Map.fetch!(raw_json, "variables"),
+      xml: raw_loop_xml_response()
+    }
+  end
+
+  def raw_loop_xml_response do
+    "loop.xml"
+    |> read_file()
   end
 
   def raw_all_question_xml_response do
@@ -115,6 +150,11 @@ defmodule DecipherAPITest.Support.FakeData do
     #
 
     "all_questions.xml"
+    |> read_file()
+  end
+
+  def read_file(filename) do
+    filename
     |> Path.expand(__DIR__)
     |> File.read!
   end
@@ -189,6 +229,28 @@ defmodule DecipherAPITest.Support.FakeData do
       ],
       request_url: "http://example.decipherinc.com/api/v1/datafeed/all?paths=selfserve/555/survey1",
       status_code: 200
+    }
+  end
+
+  def datafeed_error_response do
+    %HTTPoison.Response{
+      body: "{\"ack\": \"58adf6c4-80b5-41e6-ae0b-ba902c56facf\", \"errors\": {}, \"results\": [{\"status\": \"3\", \"q1\": \"4444444444\", \"q2\": \"1\", \"uuid\": \"v9er20g6v4wtqx3t\", \"vmobiledevice\": \"5\", \"url\": \"/survey/selfserve/555/survey1\", \"$survey\": \"selfserve/555/survey1\", \"vbrowser\": \"10\", \"qtime\": \"26.13196301465\", \"list\": \"0\", \"dcua\": \"..\", \"markers\": \"qualified\", \"record\": \"1\", \"session\": \"fwgycn85f1vrw03w\", \"vos\": \"13\", \"date\": \"06/04/2018 13:40\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36\", \"vmobileos\": \"6\", \"ipAddress\": \"198.57.81.230\", \"start_date\": \"06/04/2018 13:40\", \"vlist\": \"1\"}, {\"status\": \"3\", \"q1\": \"5555555555\", \"q2\": \"3\", \"uuid\": \"v2wgz1523zw31kqf\", \"vmobiledevice\": \"5\", \"url\": \"/survey/selfserve/555/survey1\", \"$survey\": \"selfserve/555/survey1\", \"vbrowser\": \"10\", \"qtime\": \"12.493089914322\", \"list\": \"0\", \"dcua\": \"..\", \"markers\": \"qualified\", \"record\": \"2\", \"session\": \"skv6zft8kn1uh3zz\", \"vos\": \"13\", \"date\": \"06/04/2018 13:41\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36\", \"vmobileos\": \"6\", \"ipAddress\": \"198.57.81.230\", \"start_date\": \"06/04/2018 13:41\", \"vlist\": \"1\"}, {\"status\": \"3\", \"q1\": \"5016664532\", \"q2\": \"4\", \"uuid\": \"6guu10sw23pkzu7d\", \"vmobiledevice\": \"5\", \"url\": \"/survey/selfserve/555/survey1\", \"$survey\": \"selfserve/555/survey1\", \"vbrowser\": \"10\", \"qtime\": \"18.036247014999\", \"list\": \"0\", \"dcua\": \"..\", \"markers\": \"qualified\", \"record\": \"3\", \"session\": \"0m1uhfdm2tcnuuec\", \"vos\": \"13\", \"date\": \"06/04/2018 13:41\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36\", \"vmobileos\": \"6\", \"ipAddress\": \"198.57.81.230\", \"start_date\": \"06/04/2018 13:41\", \"vlist\": \"1\"}], \"complete\": false}\n",
+      headers: [
+        {"Date", "Wed, 27 Jun 2018 20:49:46 GMT"},
+        {"X-Content-Type-Options", "nosniff"},
+        {"Content-Length", "1868"},
+        {"x-xss-protection", "1; mode=block"},
+        {"Content-Disposition", "attachment"},
+        {"Expires", "Thu, 04 Jul 1991 20:49:46 GMT"},
+        {"x-Usage-Today", "13 5306"},
+        {"X-Trace", "14854 4302"},
+        {"Pragma", "no-cache"},
+        {"Cache-Control", "no-cache, no-store"},
+        {"Content-Type", "application/json"},
+        {"Vary", "Accept-Encoding"}
+      ],
+      request_url: "http://example.decipherinc.com/api/v1/datafeed/all?paths=selfserve/555/survey1",
+      status_code: 401
     }
   end
 

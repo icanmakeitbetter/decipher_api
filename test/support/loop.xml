@@ -1,0 +1,39 @@
+<survey xmlns:builder="http://decipherinc.com/builder" xmlns:ss="http://decipherinc.com/ss" xmlns:html="http://decipherinc.com/html" theme="frozen:system/contemporary" alt="Loop Test" autosave="0" builderCompatible="1" compat="140" extraVariables="source,record,decLang,list,userAgent" lang="english" name="Survey" newStyle="1" setup="term,quota,time,decLang" state="live" id="survey" fir="on" surveyDisplay="auto" firColors="#c7c7c7,#ffffff,#c5d600,#2bbdb9" mobile="compat" builder:wizardCompleted="1" firSize="20px" mobileDevices="desktop,tablet,smartphone" firStyle="rounded" html:showNumber="0" ss:hideProgressBar="0" ss:enableNavigation="1" ss:disableBackButton="1">
+  <samplesources default="0" id="WMJBg">
+    <samplesource list="0" id="X4y02">
+      <title id="jDD9D">Open Survey</title>
+      <completed id="TlXW8">It seems you have already entered this survey.</completed>
+      <invalid id="sE9Tn">You are missing information in the URL. Please verify the URL with the original invite.</invalid>
+      <exit cond="terminated" id="oAq6t">Thank you for taking our survey.</exit>
+      <exit cond="qualified" id="Ib87Z">Thank you for taking our survey. Your efforts are greatly appreciated!</exit>
+      <exit cond="overquota" id="hbjmP">Thank you for taking our survey.</exit>
+    </samplesource>
+  </samplesources>
+  <suspend id="ne1nB"/>
+  <text id="HmJVg" label="q1" optional="0" size="25">
+    <comment id="eswHW">Be specific</comment>
+    <title id="yAXzd">Name?</title>
+  </text>
+  <text id="ZhpoV" optional="0" label="q2" size="25">
+    <comment id="pHbgU">Be specific</comment>
+    <title id="clkkR">Email?</title>
+  </text>
+  <loop id="gJsDI" label="L1" vars="var1">
+    <block id="B0fVC" builder:title="default loop block" label="b1">
+      <radio id="jrTbF" optional="0" label="q3_[loopvar: label]" randomize="0">
+        <row id="CfP2f" label="r1">Good</row>
+        <row id="VJEkI" label="r2">Gooder</row>
+        <row id="zq5nH" label="r3">Goodest</row>
+        <comment id="cVp1h">Select one</comment>
+        <title id="a1T4G">Rating?</title>
+      </radio>
+    </block>
+    <looprow id="zIBOm" label="Lr1">
+      <loopvar id="mvCjg" name="var1">First</loopvar>
+    </looprow>
+    <looprow id="lMiMF" label="Lr2">
+      <loopvar id="ViFjn" name="var1">Second</loopvar>
+    </looprow>
+    <title id="dpQ6x">New Loop</title>
+  </loop>
+</survey>

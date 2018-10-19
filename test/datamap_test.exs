@@ -52,4 +52,13 @@ defmodule DecipherAPITest.DatamapTest do
        ]
      ]
   end
+
+  test "test that loops get coerced" do
+    datamap =
+      FakeData.raw_loop_datamap_response
+      |> Datamap.coerce_data()
+
+    assert is_map(datamap.xml)
+  end
+
 end

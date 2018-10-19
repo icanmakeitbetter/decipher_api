@@ -1,3 +1,4 @@
+require IEx
 defmodule DecipherAPITest.DatafeedTest do
   alias DecipherAPITest.Support.InMemoryHTTPClient
   alias DecipherAPITest.Support.FakeData
@@ -39,7 +40,7 @@ defmodule DecipherAPITest.DatafeedTest do
     assert Agent.get(called, &(&1))
   end
 
-  test "that build_result_set builds the actual result set" do
+  test "that we process results without passing in a datamap" do
     InMemoryHTTPClient.queue_response(:get, :datafeed, FakeData.datafeed_complete_false())
 
     success = Datafeed.get_and_process(
@@ -48,6 +49,34 @@ defmodule DecipherAPITest.DatafeedTest do
                   assert %{"q1" => _q1, "q2" => _q2} = result
                 end)
     assert success == :ok
+  end
+
+  test "that we process results when passing in a datamap" do
+    InMemoryHTTPClient.queue_response(:get, :datafeed, FakeData.raw_all_question_datafeed_response())
+
+    datamap =
+      FakeData.raw_datamap
+
+    success = Datafeed.get_and_process(
+                @datafeed,
+                datamap,
+                fn(result, _metadata) ->
+                  Enum.each(result, fn response ->
+                    assert [%DecipherAPI.Datamap.Variables{}, _response] = response
+                  end)
+                end)
+    assert success == :ok
+  end
+
+  test "that we error out in processing results when appropriate" do
+    InMemoryHTTPClient.queue_response(:get, :datafeed, FakeData.datafeed_error_response())
+
+    failure = Datafeed.get_and_process(
+                @datafeed,
+                fn(result, _metadata) ->
+                  assert %{"q1" => _q1, "q2" => _q2} = result
+                end)
+    assert {:error, _} = failure
   end
 
 end
