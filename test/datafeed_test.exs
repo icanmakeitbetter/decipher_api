@@ -1,4 +1,3 @@
-require IEx
 defmodule DecipherAPITest.DatafeedTest do
   alias DecipherAPITest.Support.InMemoryHTTPClient
   alias DecipherAPITest.Support.FakeData

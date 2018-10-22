@@ -1,4 +1,3 @@
-require IEx
 defmodule DecipherAPI.Datamap do
   @moduledoc """
   How you get questions, question metadata, and metadata about a survey from Decipher.
