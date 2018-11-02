@@ -308,6 +308,7 @@ defmodule DecipherAPITest.Support.FakeData do
   end
 
   def advance_datafeed_response do
+    {:ok,
     %HTTPoison.Response{
       body: "{\"ack_valid\": true}\n",
       headers: [
@@ -323,9 +324,10 @@ defmodule DecipherAPITest.Support.FakeData do
         {"Cache-Control", "no-cache, no-store"},
         {"Content-Type", "application/json"},
         {"Vary", "Accept-Encoding"}
-      ],
-      request_url: "http://isa.decipherinc.com/api/v1/datafeed/all/ack",
-      status_code: 200
+        ],
+        request_url: "http://isa.decipherinc.com/api/v1/datafeed/all/ack",
+        status_code: 200
+      }
     }
   end
 

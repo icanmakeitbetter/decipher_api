@@ -47,7 +47,7 @@ defmodule DecipherAPITest.Support.InMemoryHTTPClient do
   end
 
   # only advance datafeed hits this right now
-  def post!(_, _, _) do
+  def post(_, _, _) do
     queued_response(:post, :datafeed) || FakeData.advance_datafeed_response()
   end
 end

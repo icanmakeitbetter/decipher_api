@@ -8,8 +8,10 @@ defmodule DecipherAPI.Service.HTTPClient do
     func.(endpoint, api_headers, [timeout: 300_000, recv_timeout: 300_000])
   end
 
-  @spec post!(binary(), binary(), list(), fun()) :: %HTTPoison.Response{}
-  def post!(body, endpoint, api_headers, func \\ &HTTPoison.post!/3) do
+  @spec post(binary(), binary(), list(), fun()) ::
+    {:ok, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
+    | {:error, HTTPoison.Error.t()}
+  def post(body, endpoint, api_headers, func \\ &HTTPoison.post/3) do
     func.(body, endpoint, api_headers)
   end
 

@@ -38,10 +38,12 @@ defmodule DecipherAPI.Service do
     |> parse_response()
   end
 
-  @spec post!(String.t, String.t, String.t, String.t) :: {:ok, %{}} | {:error, String.t}
-  def post!(body, endpoint, api_key, domain) do
-    @decipher_api.post!(base_path(domain) <> endpoint, body, api_headers(api_key))
-    |> parse_response()
+  @spec post(String.t, String.t, String.t, String.t) :: {:ok, %{}} | {:error, %{}}
+  def post(body, endpoint, api_key, domain) do
+    with {:ok, response} <- @decipher_api.post(base_path(domain) <> endpoint, body, api_headers(api_key)) do
+      response
+      |> parse_response()
+    end
   end
 
   @spec get_datamap_metadata(%AccountInfo{}, String.t) :: {:ok, %{}} | {:error, String.t}
@@ -110,7 +112,7 @@ defmodule DecipherAPI.Service do
 
     body = %{"ack" => ack_code} |> encode_json()
 
-    post!(body, "datafeed/#{scope}/ack", api_key, domain)
+    post(body, "datafeed/#{scope}/ack", api_key, domain)
   end
 
   @spec reset_datafeed(%AccountInfo{}, String.t) :: {:ok, %{}} | {:error, String.t}
