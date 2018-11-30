@@ -55,8 +55,8 @@ defmodule DecipherAPI.Datamap.XMLParser do
           _attr ->
             false
         end) and not Enum.any?(attrs, fn
-          xmlAttribute(name: :where) ->
-            true
+          xmlAttribute(name: :where, value: value) ->
+            value |> to_string |> String.contains?("execute")
           _attr ->
             false
         end)
