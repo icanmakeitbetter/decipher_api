@@ -11,6 +11,7 @@ defmodule DecipherAPI.Datafeed do
 
   defstruct ~w[account_info scope survey_id]a
 
+  @spec new(%{}, String.t, String.t | nil) :: %Datafeed{}
   def new(account_info, survey_id, scope \\ nil) do
     %Datafeed{
       account_info: AccountInfo.new(account_info),
