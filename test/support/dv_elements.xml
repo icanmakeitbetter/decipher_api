@@ -1,0 +1,1404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<survey 
+  alt="Guac Stars Screener v2"
+  autoRecover="1"
+  builder:wizardCompleted="1"
+  builderCompatible="1"
+  compat="141"
+  extraVariables="source,record,decLang,list,userAgent"
+  fir="on"
+  html:showNumber="0"
+  mobile="compat"
+  mobileDevices="smartphone,tablet,desktop"
+  name="Survey"
+  remerged="20190226_23:47"
+  setup="term,decLang,quota,time"
+  ss:disableBackButton="1"
+  ss:enableNavigation="0"
+  ss:hideProgressBar="0"
+  state="live"
+  theme="frozen:system/contemporary"
+  version="5">
+  <condition label="Not_Hispanic" cond="(q5.r2)">Not Hispanic</condition>
+  <condition label="Hispanic" cond="(q5.r1)">Hispanic</condition>
+  <condition label="Age_36_49" cond="(q3.check('36-49'))">Age 36-49</condition>
+  <condition label="Age_18_35" cond="(q3.check('18-35'))">Age 18-35</condition>
+  <samplesources default="0">
+    <samplesource list="1">
+      <title>Soap Box</title>
+      <invalid>You are missing information in the URL. Please verify the URL with the original invite.</invalid>
+      <completed>It seems you have already entered this survey.</completed>
+      <var name="RID" unique="1"/>
+      <exit cond="terminated">http://www.samplicio.us/router/ClientCallBack.aspx?RIS=20&amp;amp;RID=${RID}</exit>
+      <exit cond="overquota">http://www.samplicio.us/router/ClientCallBack.aspx?RIS=40&amp;amp;RID=${RID}</exit>
+      <exit cond="qualified">https://notch.insights.supply/cb?token=3556dc6d-a0b4-4baa-be69-f24130f00c39&amp;amp;RID=${RID}</exit>
+    </samplesource>
+    <samplesource list="136">
+      <title>DISQO</title>
+      <invalid>You are missing information in the URL. Please verify the URL with the original invite.</invalid>
+      <completed>It seems you have already entered this survey.</completed>
+      <var name="tid" unique="1"/>
+      <exit cond="terminated" url="https://go.activemeasure.com?status=17430&amp;tid=${tid}"/>
+      <exit cond="overquota" url="https://go.activemeasure.com?status=12727&amp;tid=${tid}"/>
+      <exit cond="qualified" url="https://go.activemeasure.com?status=23919&amp;tid=${tid}"/>
+    </samplesource>
+    <samplesource list="0">
+      <title>Open Survey</title>
+      <invalid>You are missing information in the URL. Please verify the URL with the original invite.</invalid>
+      <completed>It seems you have already entered this survey.</completed>
+      <exit cond="terminated">Thank you for taking our survey.</exit>
+      <exit cond="qualified">Thank you for taking our survey. Your efforts are greatly appreciated!</exit>
+      <exit cond="overquota">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</exit>
+    </samplesource>
+  </samplesources>
+  <suspend/>
+  <radio 
+  label="q1">
+    <title>Thank you for your interest in this important market research study. First, 
+      <span style="color: black;">do you agree to keep the contents of the study strictly confidential, and further agree that for any personal data about you or your device which is collected as part of the study, we may (i) use it ourselves in connection with the study, (ii) share it with third parties, who may use it solely in assisting us with the study, or (iii) share it with our client, who may use it in connection with its business? If you have any further questions, we can send you our&amp;nbsp;
+        <span>
+          <u>Terms of</u>
+          <u>Use &amp;amp; Privacy Policy</u>
+        </span> for more details.
+      </span>
+    </title>
+    <comment>Select one</comment>
+    <row label="r1">I agree</row>
+    <row label="r2">I decline</row>
+  </radio>
+  <suspend/>
+  <html label="cm23" cond="(q1.r2)" where="survey">Thanks for your interest and for taking the time to answer these questions. We’re sorry that you have decided not to join the community. We’ll be sure to let you know if there are other opportunities for you to participate in the future.</html>
+  <suspend/>
+  <term cond="(q1.r2)">Q1 - Decline terms and conditions</term>
+  <suspend/>
+  <radio 
+  label="dv_panel"
+  where="execute,survey,report">
+    <title>DV Panel</title>
+    <comment>Select one</comment>
+    <exec>
+if list=='1':
+  dv_panel.val=0
+if list=='136':
+  dv_panel.val=1
+  </exec>
+    <row label="r1">Soap Box Sample</row>
+    <row label="r2">DisQ</row>
+  </radio>
+  <suspend/>
+  <html label="cm1" where="survey">It’s a real challenge for big companies to stay in touch with their customers. That’s why LRWTonic, a research company, created a private online community – a safe space for people like you to help shape the future of a major brand.
+    <br />&amp;nbsp;
+    <br />Here’s the deal.&amp;nbsp; As part of this private community, you’ll have an exclusive opportunity to get your voice heard. You will connect with other people, take part in discussions, and share photos/videos via your laptop, tablet, or smart phone.&amp;nbsp; Your feedback and personal information will be confidential, and will not be shared with a third party without your permission. And of course, you’ll receive rewards for your input in addition to having inside perspectives and sneak peaks from the company.&amp;nbsp;&amp;nbsp; 
+    <br />&amp;nbsp;
+    <br />All we ask is for your participation and two promises from you – your honesty and confidentiality. We don’t want what we share with you to be shared with anyone else. You are part of an exclusive community and we want to keep sharing our questions, images and ideas with you.
+    <br />&amp;nbsp;
+    <br />To see if you qualify or are interested in becoming a member, please click the “Next” button below to complete an easy 10-minute survey. 
+    <br />&amp;nbsp;
+    <br />Though we are interested in speaking with a broad range of people, not everyone who completes this first survey will be asked to become a member of our community.
+  </html>
+  <suspend/>
+  <radio 
+  label="q2">
+    <title>Are you interested in joining the community?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Yes</row>
+    <row label="r2">No</row>
+  </radio>
+  <suspend/>
+  <html label="cm2" cond="(q2.r2)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q2.r2)">Term Q2 - Not interested in community</term>
+  <suspend/>
+  <number 
+  label="q3"
+  optional="0"
+  size="10"
+  verify="range(10,99)">
+    <title>How old are you?</title>
+    <comment>
+      <em>Enter a numeric response</em>
+    </comment>
+  </number>
+  <suspend/>
+  <html label="cm24" cond="(q3.check('10-17')) or (q3.check('50-99'))" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q3.check('10-17'))">Q3 - Less than 18</term>
+  <suspend/>
+  <term cond="(q3.check('50-99'))">Q3 - greater than 49</term>
+  <suspend/>
+  <autofill label="dv_age" randomize="0" where="execute,survey,report">
+    <title>Age Range</title>
+    <row label="r1" autofill="q3.inrange(18,35)">18-35</row>
+    <row label="r2" autofill="q3.inrange(36,49)">36-49</row>
+  </autofill>
+  <suspend/>
+  <autofill label="dv_DemographicCohort" randomize="0" where="execute,survey,report">
+    <title>Age Range</title>
+    <row label="r1" autofill="q3.inrange(18,23)">GenZ</row>
+    <row label="r2" autofill="q3.inrange(24,35)">Millennials</row>
+    <row label="r3" autofill="q3.inrange(36,49)">GenX</row>
+  </autofill>
+  <suspend/>
+  <quota overquota="noqual" sheet="Age"/>
+  <suspend/>
+  <radio 
+  label="q4">
+    <title>What gender do you identify with?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Male</row>
+    <row label="r2">Female</row>
+    <row label="r3">Other</row>
+  </radio>
+  <suspend/>
+  <quota overquota="noqual" sheet="Gender"/>
+  <suspend/>
+  <radio 
+  label="q5">
+    <title>Are you of Latino or Hispanic Origin?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Yes</row>
+    <row label="r2">No</row>
+  </radio>
+  <suspend/>
+  <quota overquota="noqual" sheet="Hispanic"/>
+  <suspend/>
+  <radio 
+  label="q6"
+  cond="(q5.r2)">
+    <title>Which of the following categories describes your ethnicity?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Caucasian or White</row>
+    <row label="r2">African-American or Black</row>
+    <row label="r3">Asian or Pacific Islander</row>
+    <row label="r4">Native American</row>
+    <row label="r5">Other</row>
+  </radio>
+  <suspend/>
+  <radio 
+  label="dv_ethnicity"
+  where="execute,survey,report">
+    <title>DV Ethnicity</title>
+    <comment>Select one response</comment>
+    <exec>
+if q6.r1 and q5.r2:  
+  dv_ethnicity.val=0
+if q6.r2 and q5.r2:
+  dv_ethnicity.val=1
+if q6.r3 and q5.r2:
+  dv_ethnicity.val=2
+if q5.r1:
+  dv_ethnicity.val=3  
+if (q6.r4 or q6.r5) and q5.r2:
+  dv_ethnicity.val=4
+  </exec>
+    <row label="r1">Caucasian or White</row>
+    <row label="r2">African-American or Black</row>
+    <row label="r3">Asian or Pacific Islander</row>
+    <row label="r4">Hispanic or Latino</row>
+    <row label="r5">Native American or Other</row>
+  </radio>
+  <suspend/>
+  <quota cond="(q5.r2)" overquota="noqual" sheet="Ethnicity"/>
+  <suspend/>
+  <select 
+  label="q7">
+    <title>What country do you live in?</title>
+    <comment>
+      <em>Select a country</em>
+    </comment>
+    <choice label="ch183">United States</choice>
+    <choice label="ch1">Afghanistan</choice>
+    <choice label="ch2">Albania</choice>
+    <choice label="ch3">Algeria</choice>
+    <choice label="ch4">Andorra</choice>
+    <choice label="ch5">Angola</choice>
+    <choice label="ch6">Antarctica</choice>
+    <choice label="ch7">Antigua and Barbuda</choice>
+    <choice label="ch8">Argentina</choice>
+    <choice label="ch9">Armenia</choice>
+    <choice label="ch10">Australia</choice>
+    <choice label="ch11">Austria</choice>
+    <choice label="ch12">Azerbaijan</choice>
+    <choice label="ch13">Bahamas</choice>
+    <choice label="ch14">Bahrain</choice>
+    <choice label="ch15">Bangladesh</choice>
+    <choice label="ch16">Barbados</choice>
+    <choice label="ch17">Belarus</choice>
+    <choice label="ch18">Belgium</choice>
+    <choice label="ch19">Belize</choice>
+    <choice label="ch20">Benin</choice>
+    <choice label="ch21">Bermuda</choice>
+    <choice label="ch22">Bhutan</choice>
+    <choice label="ch23">Bolivia</choice>
+    <choice label="ch24">Bosnia and Herzegovina</choice>
+    <choice label="ch25">Botswana</choice>
+    <choice label="ch26">Brazil</choice>
+    <choice label="ch27">Brunei</choice>
+    <choice label="ch28">Bulgaria</choice>
+    <choice label="ch29">Burkina Faso</choice>
+    <choice label="ch30">Burma</choice>
+    <choice label="ch31">Burundi</choice>
+    <choice label="ch32">Cambodia</choice>
+    <choice label="ch33">Cameroon</choice>
+    <choice label="ch34">Canada</choice>
+    <choice label="ch35">Cape Verde</choice>
+    <choice label="ch36">Central African Republic</choice>
+    <choice label="ch37">Chad</choice>
+    <choice label="ch38">Chile</choice>
+    <choice label="ch39">China</choice>
+    <choice label="ch40">Colombia</choice>
+    <choice label="ch41">Comoros</choice>
+    <choice label="ch42">Congo, Democratic Republic</choice>
+    <choice label="ch43">Congo, Republic of the</choice>
+    <choice label="ch44">Costa Rica</choice>
+    <choice label="ch45">Cote d'Ivoire</choice>
+    <choice label="ch46">Croatia</choice>
+    <choice label="ch47">Cuba</choice>
+    <choice label="ch48">Cyprus</choice>
+    <choice label="ch49">Czech Republic</choice>
+    <choice label="ch50">Denmark</choice>
+    <choice label="ch51">Djibouti</choice>
+    <choice label="ch52">Dominica</choice>
+    <choice label="ch53">Dominican Republic</choice>
+    <choice label="ch54">East Timor</choice>
+    <choice label="ch55">Ecuador</choice>
+    <choice label="ch56">Egypt</choice>
+    <choice label="ch57">El Salvador</choice>
+    <choice label="ch58">Equatorial Guinea</choice>
+    <choice label="ch59">Eritrea</choice>
+    <choice label="ch60">Estonia</choice>
+    <choice label="ch61">Ethiopia</choice>
+    <choice label="ch62">Fiji</choice>
+    <choice label="ch63">Finland</choice>
+    <choice label="ch64">France</choice>
+    <choice label="ch65">Gabon</choice>
+    <choice label="ch66">Gambia</choice>
+    <choice label="ch67">Georgia</choice>
+    <choice label="ch68">Germany</choice>
+    <choice label="ch69">Ghana</choice>
+    <choice label="ch70">Greece</choice>
+    <choice label="ch71">Greenland</choice>
+    <choice label="ch72">Grenada</choice>
+    <choice label="ch73">Guatemala</choice>
+    <choice label="ch74">Guinea</choice>
+    <choice label="ch75">Guinea-Bissau</choice>
+    <choice label="ch76">Guyana</choice>
+    <choice label="ch77">Haiti</choice>
+    <choice label="ch78">Honduras</choice>
+    <choice label="ch79">Hong Kong</choice>
+    <choice label="ch80">Hungary</choice>
+    <choice label="ch81">Iceland</choice>
+    <choice label="ch82">India</choice>
+    <choice label="ch83">Indonesia</choice>
+    <choice label="ch84">Iran</choice>
+    <choice label="ch85">Iraq</choice>
+    <choice label="ch86">Ireland</choice>
+    <choice label="ch87">Israel</choice>
+    <choice label="ch88">Italy</choice>
+    <choice label="ch89">Jamaica</choice>
+    <choice label="ch90">Japan</choice>
+    <choice label="ch91">Jordan</choice>
+    <choice label="ch92">Kazakhstan</choice>
+    <choice label="ch93">Kenya</choice>
+    <choice label="ch94">Kiribati</choice>
+    <choice label="ch95">Korea, North</choice>
+    <choice label="ch96">Korea, South</choice>
+    <choice label="ch97">Kuwait</choice>
+    <choice label="ch98">Kyrgyzstan</choice>
+    <choice label="ch99">Laos</choice>
+    <choice label="ch100">Latvia</choice>
+    <choice label="ch101">Lebanon</choice>
+    <choice label="ch102">Lesotho</choice>
+    <choice label="ch103">Liberia</choice>
+    <choice label="ch104">Libya</choice>
+    <choice label="ch105">Liechtenstein</choice>
+    <choice label="ch106">Lithuania</choice>
+    <choice label="ch107">Luxembourg</choice>
+    <choice label="ch108">Macedonia</choice>
+    <choice label="ch109">Madagascar</choice>
+    <choice label="ch110">Malawi</choice>
+    <choice label="ch111">Malaysia</choice>
+    <choice label="ch112">Maldives</choice>
+    <choice label="ch113">Mali</choice>
+    <choice label="ch114">Malta</choice>
+    <choice label="ch115">Marshall Islands</choice>
+    <choice label="ch116">Mauritania</choice>
+    <choice label="ch117">Mauritius</choice>
+    <choice label="ch118">Mexico</choice>
+    <choice label="ch119">Micronesia</choice>
+    <choice label="ch120">Moldova</choice>
+    <choice label="ch121">Mongolia</choice>
+    <choice label="ch122">Morocco</choice>
+    <choice label="ch123">Monaco</choice>
+    <choice label="ch124">Mozambique</choice>
+    <choice label="ch125">Namibia</choice>
+    <choice label="ch126">Nauru</choice>
+    <choice label="ch127">Nepal</choice>
+    <choice label="ch128">Netherlands</choice>
+    <choice label="ch129">New Zealand</choice>
+    <choice label="ch130">Nicaragua</choice>
+    <choice label="ch131">Niger</choice>
+    <choice label="ch132">Nigeria</choice>
+    <choice label="ch133">Norway</choice>
+    <choice label="ch134">Oman</choice>
+    <choice label="ch135">Pakistan</choice>
+    <choice label="ch136">Panama</choice>
+    <choice label="ch137">Papua New Guinea</choice>
+    <choice label="ch138">Paraguay</choice>
+    <choice label="ch139">Peru</choice>
+    <choice label="ch140">Philippines</choice>
+    <choice label="ch141">Poland</choice>
+    <choice label="ch142">Portugal</choice>
+    <choice label="ch143">Qatar</choice>
+    <choice label="ch144">Romania</choice>
+    <choice label="ch145">Russia</choice>
+    <choice label="ch146">Rwanda</choice>
+    <choice label="ch147">Samoa</choice>
+    <choice label="ch148">San Marino</choice>
+    <choice label="ch149">Sao Tome</choice>
+    <choice label="ch150">Saudi Arabia</choice>
+    <choice label="ch151">Senegal</choice>
+    <choice label="ch152">Serbia and Montenegro</choice>
+    <choice label="ch153">Seychelles</choice>
+    <choice label="ch154">Sierra Leone</choice>
+    <choice label="ch155">Singapore</choice>
+    <choice label="ch156">Slovakia</choice>
+    <choice label="ch157">Slovenia</choice>
+    <choice label="ch158">Solomon Islands</choice>
+    <choice label="ch159">Somalia</choice>
+    <choice label="ch160">South Africa</choice>
+    <choice label="ch161">Spain</choice>
+    <choice label="ch162">Sri Lanka</choice>
+    <choice label="ch163">Sudan</choice>
+    <choice label="ch164">Suriname</choice>
+    <choice label="ch165">Swaziland</choice>
+    <choice label="ch166">Sweden</choice>
+    <choice label="ch167">Switzerland</choice>
+    <choice label="ch168">Syria</choice>
+    <choice label="ch169">Taiwan</choice>
+    <choice label="ch170">Tajikistan</choice>
+    <choice label="ch171">Tanzania</choice>
+    <choice label="ch172">Thailand</choice>
+    <choice label="ch173">Togo</choice>
+    <choice label="ch174">Tonga</choice>
+    <choice label="ch175">Trinidad and Tobago</choice>
+    <choice label="ch176">Tunisia</choice>
+    <choice label="ch177">Turkey</choice>
+    <choice label="ch178">Turkmenistan</choice>
+    <choice label="ch179">Uganda</choice>
+    <choice label="ch180">Ukraine</choice>
+    <choice label="ch181">United Arab Emirates</choice>
+    <choice label="ch182">United Kingdom</choice>
+    <choice label="ch184">Uruguay</choice>
+    <choice label="ch185">Uzbekistan</choice>
+    <choice label="ch186">Vanuatu</choice>
+    <choice label="ch187">Venezuela</choice>
+    <choice label="ch188">Vietnam</choice>
+    <choice label="ch189">Yemen</choice>
+    <choice label="ch190">Zambia</choice>
+    <choice label="ch191">Zimbabwe</choice>
+  </select>
+  <suspend/>
+  <html label="cm3" cond="not(q7.ch183)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="not(q7.ch183)">Q7 - Not USA</term>
+  <suspend/>
+  <exec when="init">
+DataFile = File("zipdb.dat", "zipcode")
+</exec>
+  <text 
+  label="q8"
+  optional="0"
+  verify="zipcode">
+    <title>What is your zipcode?</title>
+    <comment>
+      <em>Enter a numeric response</em>
+    </comment>
+  </text>
+  <suspend/>
+  <exec>
+respInfo = DataFile.get(q8.val)
+
+if respInfo:
+  qZipInfo.r1.val = respInfo['zipcode']
+  qZipInfo.r2.val = respInfo['region']
+  qZipInfo.r3.val = respInfo['socal']  
+else:
+  qZipInfo.r1.val = 'none'
+  qZipInfo.r2.val = 'none'
+  qZipInfo.r3.val = 'none'
+</exec>
+  <text 
+  label="qZipInfo"
+  optional="0"
+  where="execute,survey,report">
+    <title>Info based on zipcode</title>
+    <row label="r1">zipcode</row>
+    <row label="r2">region</row>
+    <row label="r3">socal</row>
+  </text>
+  <suspend/>
+  <term cond="qZipInfo.r1.val == 'none'">Q8 - Bad Zip code</term>
+  <suspend/>
+  <radio 
+  label="dv_usregion"
+  where="execute,survey,report">
+    <title>DV US REGION</title>
+    <comment>select one</comment>
+    <exec>
+if qZipInfo.r2.val=='Northeast':
+  dv_usregion.val=0
+if qZipInfo.r2.val=='Mid-Atlantic':
+  dv_usregion.val=1
+if qZipInfo.r2.val=='Central South':
+  dv_usregion.val=2
+if qZipInfo.r2.val=='Southeast':
+  dv_usregion.val=3
+if qZipInfo.r2.val=='Central North':
+  dv_usregion.val=4
+if qZipInfo.r2.val=='Mountain Northwest':
+  dv_usregion.val=5
+if qZipInfo.r2.val=='Southwest':
+  dv_usregion.val=6
+if qZipInfo.r2.val=='Pacific South':
+  dv_usregion.val=7
+  </exec>
+    <row label="r1">Northeast</row>
+    <row label="r2">Mid Atlantic</row>
+    <row label="r3">Central South</row>
+    <row label="r4">Southeast</row>
+    <row label="r5">Central North</row>
+    <row label="r6">Mountain Northwest</row>
+    <row label="r7">Southwest</row>
+    <row label="r8" where="execute,survey,report">Pacific South</row>
+  </radio>
+  <suspend/>
+  <quota overquota="noqual" sheet="US Region"/>
+  <suspend/>
+  <radio 
+  label="dv_socal"
+  where="execute,survey,report">
+    <title>DV SoCal</title>
+    <comment>select one</comment>
+    <exec>
+if qZipInfo.r3.val=='SoCal':
+  dv_socal.val=0
+if not(dv_socal.r1):
+  dv_socal.val=1
+  </exec>
+    <row label="r1">SoCal Resident</row>
+    <row label="r2" where="execute,survey,report">Not SoCal Resident</row>
+  </radio>
+  <suspend/>
+  <quota overquota="noqual" sheet="So Cal not So cal"/>
+  <suspend/>
+  <radio 
+  label="q9">
+    <title>Which of the following best describes the area you live in?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">An urban city setting</row>
+    <row label="r2">A suburban city setting</row>
+    <row label="r3">A small city/large town</row>
+    <row label="r4">Countryside/rural setting</row>
+  </radio>
+  <suspend/>
+  <radio 
+  label="q10">
+    <title>What is the highest level of education you have obtained?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Some high school</row>
+    <row label="r2">High school graduate</row>
+    <row label="r3">Vocational/trade school</row>
+    <row label="r4">Some college</row>
+    <row label="r5">College graduate</row>
+    <row label="r6">Post-graduate degree</row>
+  </radio>
+  <suspend/>
+  <html label="cm4" cond="(q10.r1)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q10.r1)">Q10 - Education</term>
+  <suspend/>
+  <radio 
+  label="q11">
+    <title>How would you describe your current employment status?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Full-time student</row>
+    <row label="r2">Employed full-time (30+ hours per week)</row>
+    <row label="r3">Employed part time (less than 30+ hours per week)</row>
+    <row label="r4">Not employed currently</row>
+    <row label="r5">Homemaker</row>
+  </radio>
+  <suspend/>
+  <html label="cm5" cond="(q11.r4)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q11.r4)">Q11 - Employment status</term>
+  <suspend/>
+  <quota overquota="noqual" sheet="Employment status"/>
+  <suspend/>
+  <radio 
+  label="q12"
+  cond="(q11.r1)">
+    <title>Which of the following best describes where you attend classes?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">I attend classes on campus at a 4- Year University or College</row>
+    <row label="r2">I attend classes at a Community or Jr. &amp;nbsp;College</row>
+    <row label="r3">I take classes online</row>
+    <row label="r4">I attend classes at a Trade or Professional School</row>
+  </radio>
+  <suspend/>
+  <quota cond="(q11.r1)" overquota="noqual" sheet="Student"/>
+  <suspend/>
+  <radio 
+  label="dv_College"
+  where="execute,survey,report">
+    <title>DV College</title>
+    <comment>Select one</comment>
+    <exec>
+if q11.r1 and q12.r1:
+  dv_College.val=0
+if q11.r2 or q11.r3 or q11.r4 or q11.r5 or  q12.r2 or q12.r3 or q12.r4:
+  dv_College.val=1
+  </exec>
+    <row label="r1">College Student</row>
+    <row label="r2">Not College Student</row>
+  </radio>
+  <suspend/>
+  <checkbox 
+  label="q13"
+  atleast="1"
+  atmost="10"
+  shuffle="rows">
+    <title>Sometimes we look for people who work in particular industries. Do you or any of your close friends or family members work in the following industries?</title>
+    <comment>
+      <em>Select all that apply</em>
+    </comment>
+    <row label="r1">Advertising or marketing</row>
+    <row label="r2">Market research or insights</row>
+    <row label="r3">Public relations</row>
+    <row label="r4">Entertainment industry</row>
+    <row label="r5">Fashion design, manufacturing or sales</row>
+    <row label="r6">Automobile design, manufacturing or sales</row>
+    <row label="r7">Restaurant or food service industry</row>
+    <row label="r8">Real Estate, Rental, and Leasing</row>
+    <row label="r9">Primary/Secondary (K – 12) Education</row>
+    <row label="r10">Financial services</row>
+    <row label="r11" exclusive="1" randomize="0">None of the above</row>
+  </checkbox>
+  <suspend/>
+  <html label="cm6" cond="(q13.r1 or q13.r2 or q13.r3 or q13.r7)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q13.r1 or q13.r2 or q13.r3 or q13.r7)">Q13 - Occupation</term>
+  <suspend/>
+  <radio 
+  label="q14">
+    <title>Which of the following ranges includes your total annual household income, before taxes?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Under $25,000</row>
+    <row label="r2">$25,000 to $34,999</row>
+    <row label="r3">$35,000 to $49,999</row>
+    <row label="r4">$50,000 to $74,999</row>
+    <row label="r5">$75,000 to $99,999</row>
+    <row label="r6">$100,000 to $149,999</row>
+    <row label="r7">$150,000 to 174,999</row>
+    <row label="r8">$175,000 to $199,999</row>
+    <row label="r9">$200,000 to $224,999</row>
+    <row label="r10">$225,000 to $249,999</row>
+    <row label="r11">$250,000 or more</row>
+    <row label="r12">Prefer not to answer</row>
+  </radio>
+  <suspend/>
+  <html label="cm8" cond="(q11.r2 or q11.r3 or q11.r4 or q11.r5) and (q14.r1)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <html label="cm9" cond="(q11.r2 or q11.r3 or q11.r4 or q11.r5) and (q14.r2)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <html label="cm10" cond="(q14.r12)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q11.r2 or q11.r3 or q11.r5) and (q14.r1)">Q14 - Not Student, under $25,000</term>
+  <suspend/>
+  <term cond="(q11.r2 or q11.r3 or q11.r5) and (q14.r2)">Q14 - Not student $25,000-$34,999</term>
+  <suspend/>
+  <term cond="(q12.r2 or q12.r3 or q12.r4) and (q14.r1)">Q14 - Student not  year, under $25,000</term>
+  <suspend/>
+  <term cond="(q12.r2 or q12.r3 or q12.r4) and (q14.r2)">Q14 - student, not 4 year $25,000-$34,999</term>
+  <suspend/>
+  <term cond="(q14.r12)">Q14 - Refused income</term>
+  <suspend/>
+  <radio 
+  label="q15">
+    <title>How many children under 18 of whom you are the parent/guardian currently live in your household?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">One</row>
+    <row label="r2">Two</row>
+    <row label="r3">Three</row>
+    <row label="r4">Four</row>
+    <row label="r5">Five</row>
+    <row label="r6">Six or more</row>
+    <row label="r7">None</row>
+  </radio>
+  <suspend/>
+  <select 
+  label="q16"
+  cond="(q15.r1 or q15.r2 or q15.r3 or q15.r4 or q15.r5 or q15.r6)">
+    <title>Please fill in the gender and age of each child under 18 who lives in your household.</title>
+    <comment>
+      <em>Select one for each</em>
+    </comment>
+    <col label="c1">Gender</col>
+    <choice label="ch1">Male</choice>
+    <choice label="ch2">Female</choice>
+    <row label="r1">Youngest child</row>
+    <row label="r2" cond="(q15.r2 or q15.r3 or q15.r4 or q15.r5 or q15.r6)">Second child</row>
+    <row label="r3" cond="(q15.r3 or q15.r4 or q15.r5 or q15.r6)">Third child</row>
+    <row label="r4" cond="(q15.r4 or q15.r5 or q15.r6)">Fourth child</row>
+    <row label="r5" cond="(q15.r5 or q15.r6)">Fifth child</row>
+    <row label="r6" cond="(q15.r6)">Sixth child</row>
+  </select>
+  <number 
+  label="q16_age"
+  cond="(q15.r1 or q15.r2 or q15.r3 or q15.r4 or q15.r5 or q15.r6)"
+  optional="0"
+  rightOf="q16"
+  size="10">
+    <title>Age</title>
+    <comment>
+      <em>Record age for each child</em>
+    </comment>
+    <row label="r1" verify="range(0,17)">Youngest child</row>
+    <row label="r2" cond="(q15.r2 or q15.r3 or q15.r4 or q15.r5 or q15.r6)">Second child</row>
+    <row label="r3" cond="(q15.r3 or q15.r4 or q15.r5 or q15.r6)">Third child</row>
+    <row label="r4" cond="(q15.r4 or q15.r5 or q15.r6)">Fourth child</row>
+    <row label="r5" cond="(q15.r5 or q15.r6)">Fifth child</row>
+    <row label="r6" cond="(q15.r6)">Sixth child</row>
+    <col label="c1">Age</col>
+  </number>
+  <suspend/>
+  <checkbox 
+  label="dv_mom"
+  atleast="1"
+  atmost="2"
+  where="execute,survey,report">
+    <title>DV MOM</title>
+    <comment>Select all that apply</comment>
+    <exec>
+for eachRow in q16_age.rows:
+  if eachRow:
+    if q16_age[eachRow].c1.check('0-8') and q4.r2:
+      dv_mom.r1.val=1
+    if q16_age[eachRow].c1.check('9-17') and q4.r2:
+      dv_mom.r2.val=1
+if not(dv_mom.any):
+   dv_mom.r3.val=1
+  </exec>
+    <row label="r1">Mom of kids 8 and younger</row>
+    <row label="r2">Mom of kids 9-17</row>
+    <row label="r3">Not mom</row>
+  </checkbox>
+  <suspend/>
+  <quota overquota="noqual" sheet="DV Mom"/>
+  <suspend/>
+  <radio 
+  label="q17">
+    <title>If you were grabbing lunch out for just yourself, what’s the maximum you would be willing to spend?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Less than $5</row>
+    <row label="r2">$5 to less than $8</row>
+    <row label="r3">$8 to less than $10</row>
+    <row label="r4">$10 to less than $15</row>
+    <row label="r5">$15 to less than $20</row>
+    <row label="r6">$20 to less than $30</row>
+    <row label="r7">$30 or more</row>
+  </radio>
+  <suspend/>
+  <html label="cm11" cond="(q17.r1)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q17.r1)">Q17 - Maximum spent on lunch</term>
+  <suspend/>
+  <radio 
+  label="q18"
+  builderHint="{&quot;rocochoName&quot;:&quot;radiogrid&quot;}"
+  shuffle="rows">
+    <title>How likely are you to eat the following types of food?</title>
+    <comment>
+      <em>Select one for each row</em>
+    </comment>
+    <col label="c1">1 – Never would eat</col>
+    <col label="c2">2</col>
+    <col label="c3">3</col>
+    <col label="c4">4 – Might or might not eat</col>
+    <col label="c5">5</col>
+    <col label="c6">6</col>
+    <col label="c7">7 – Definitely would eat</col>
+    <row label="r1">Mexican food</row>
+    <row label="r2">French food</row>
+    <row label="r3">Indian food</row>
+    <row label="r4">Thai food</row>
+    <row label="r5">Greek food</row>
+    <row label="r6">Chinese food</row>
+    <row label="r7">Cajun food</row>
+  </radio>
+  <suspend/>
+  <html label="cm12" cond="(q18.r1.c1 or q18.r1.c2 or q18.r1.c3 or q18.r1.c4)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q18.r1.c1 or q18.r1.c2 or q18.r1.c3 or q18.r1.c4)">Q18 - Mexican food</term>
+  <suspend/>
+  <radio 
+  label="q19">
+    <title>When was the last time you ordered food from a fast food/quick service restaurant? Please do not include pizza delivery or visits/orders from restaurants where a waiter takes your order.</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Within the past week</row>
+    <row label="r2">2 – 4 weeks ago</row>
+    <row label="r3">2 – 3 months ago</row>
+    <row label="r4">4 – 6 months ago</row>
+    <row label="r5">More than 6 months ago</row>
+  </radio>
+  <suspend/>
+  <html label="cm13" cond="(q19.r3 or q19.r4 or q19.r5)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q19.r3 or q19.r4 or q19.r5)">Q19 - Ordered fast food</term>
+  <suspend/>
+  <checkbox 
+  label="q20"
+  atleast="1"
+  shuffle="rows">
+    <title>Which of the following restaurants have you ever eaten at?</title>
+    <comment>
+      <em>Select all that apply</em>
+    </comment>
+    <row label="r1">Chipotle</row>
+    <row label="r2">Subway</row>
+    <row label="r3">Panera Bread</row>
+    <row label="r4">Chick-fil-A</row>
+    <row label="r5">Starbucks</row>
+    <row label="r6">Qdoba</row>
+    <row label="r7">Taco Bell</row>
+    <row label="r8">McDonald’s</row>
+    <row label="r9">Five Guys</row>
+    <row label="r10">Tender Greens</row>
+    <row label="r11">Sweetgreen</row>
+    <row label="r12">Blaze Pizza</row>
+    <row label="r13">Shake Shack</row>
+    <row label="r14">Domino’s</row>
+    <row label="r15">Jimmy John’s</row>
+    <row label="r16">Wendy's</row>
+    <row label="r17">Burger King</row>
+  </checkbox>
+  <suspend/>
+  <radio 
+  label="q21"
+  builderHint="{&quot;rocochoName&quot;:&quot;radiogrid&quot;}"
+  shuffle="rows">
+    <title>How likely are you to eat at each of the following restaurants in the next 6 months?</title>
+    <comment>
+      <em>Select one for each row</em>
+    </comment>
+    <col label="c1">1 – Not all likely</col>
+    <col label="c2">2</col>
+    <col label="c3">3 – Somewhat likely</col>
+    <col label="c4">4</col>
+    <col label="c5">5 – Extremely likely</col>
+    <row label="r1">Chipotle</row>
+    <row label="r2">Subway</row>
+    <row label="r3">Panera Bread</row>
+    <row label="r4">Chick-fil-A</row>
+    <row label="r5">Starbucks</row>
+    <row label="r6">Qdoba</row>
+    <row label="r7">Taco Bell</row>
+    <row label="r8">McDonald’s</row>
+    <row label="r9">Five Guys</row>
+    <row label="r10">Tender Greens</row>
+    <row label="r11">Sweetgreen</row>
+    <row label="r12">Blaze Pizza</row>
+    <row label="r13">Shake Shack</row>
+    <row label="r14">Domino’s</row>
+    <row label="r15">Jimmy John’s</row>
+    <row label="r16">Wendy's</row>
+    <row label="r17">Burger King</row>
+  </radio>
+  <suspend/>
+  <html label="cm14" cond="(q21.r1.c1 or q21.r1.c2)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q21.r1.c1 or q21.r1.c2)">Q21 - Not likely to go to Chipotle</term>
+  <suspend/>
+  <radio 
+  label="q22"
+  builderHint="{&quot;rocochoName&quot;:&quot;radiogrid&quot;}"
+  shuffle="rows">
+    <title>Which of the following best describes your experience visiting the following restaurants, in the past year?</title>
+    <comment>
+      <em>Select one for each row</em>
+    </comment>
+    <col label="c1">Visited 1 – 3 times</col>
+    <col label="c2">Visited 4 – 11 times</col>
+    <col label="c3">Visited 12+ times</col>
+    <col label="c4">Have not visited in the past year</col>
+    <row label="r1">Chipotle</row>
+    <row label="r2">Subway</row>
+    <row label="r3">Panera Bread</row>
+    <row label="r4">Chick-fil-A</row>
+    <row label="r5">Starbucks</row>
+    <row label="r6">Qdoba</row>
+    <row label="r7">Taco Bell</row>
+    <row label="r8">McDonald’s</row>
+    <row label="r9">Five Guys</row>
+    <row label="r10">Tender Greens</row>
+    <row label="r11">Sweetgreen</row>
+    <row label="r12">Blaze Pizza</row>
+    <row label="r13">Shake Shack</row>
+    <row label="r14">Domino’s</row>
+    <row label="r15">Jimmy John’s</row>
+    <row label="r16">Wendy's</row>
+    <row label="r17">Burger King</row>
+  </radio>
+  <suspend/>
+  <html label="cm15" cond="not(q20.r1) and (q22.r1.c1 or q22.r1.c2 or q22.r1.c3)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="not(q20.r1) and (q22.r1.c1 or q22.r1.c2 or q22.r1.c3)">Q20 not Chipotle, but code 1-3 in Q22</term>
+  <suspend/>
+  <checkbox 
+  label="q22_visited"
+  atmost="17"
+  where="execute,survey,report">
+    <title>Restaurants visited past year</title>
+    <comment>Select all that apply</comment>
+    <exec>
+if q22.r1.c1 or q22.r1.c2 or q22.r1.c3:
+  q22_visited.r1.val=1
+if q22.r2.c1 or q22.r2.c2 or q22.r2.c3:
+  q22_visited.r2.val=1
+if q22.r3.c1 or q22.r3.c2 or q22.r3.c3:
+  q22_visited.r3.val=1
+if q22.r4.c1 or q22.r4.c2 or q22.r4.c3:
+  q22_visited.r4.val=1
+if q22.r5.c1 or q22.r5.c2 or q22.r5.c3:
+  q22_visited.r5.val=1
+if q22.r6.c1 or q22.r6.c2 or q22.r6.c3:
+  q22_visited.r6.val=1
+if q22.r7.c1 or q22.r7.c2 or q22.r7.c3:
+  q22_visited.r7.val=1
+if q22.r8.c1 or q22.r8.c2 or q22.r8.c3:
+  q22_visited.r8.val=1
+if q22.r9.c1 or q22.r9.c2 or q22.r9.c3:
+  q22_visited.r9.val=1
+if q22.r10.c1 or q22.r10.c2 or q22.r10.c3:
+  q22_visited.r10.val=1
+if q22.r11.c1 or q22.r11.c2 or q22.r11.c3:
+  q22_visited.r11.val=1
+if q22.r12.c1 or q22.r12.c2 or q22.r12.c3:
+  q22_visited.r12.val=1
+if q22.r13.c1 or q22.r13.c2 or q22.r13.c3:
+  q22_visited.r13.val=1
+if q22.r14.c1 or q22.r14.c2 or q22.r14.c3:
+  q22_visited.r14.val=1
+if q22.r15.c1 or q22.r15.c2 or q22.r15.c3:
+  q22_visited.r15.val=1
+if q22.r16.c1 or q22.r16.c2 or q22.r16.c3:
+  q22_visited.r16.val=1
+if q22.r17.c1 or q22.r17.c2 or q22.r17.c3:
+  q22_visited.r17.val=1
+  </exec>
+    <row label="r1">Chipotle</row>
+    <row label="r2">Subway</row>
+    <row label="r3">Panera Bread</row>
+    <row label="r4">Chick-fil-A</row>
+    <row label="r5">Starbucks</row>
+    <row label="r6">Qdoba</row>
+    <row label="r7">Taco Bell</row>
+    <row label="r8">McDonald’s</row>
+    <row label="r9">Five Guys</row>
+    <row label="r10">Tender Greens</row>
+    <row label="r11">Sweetgreen</row>
+    <row label="r12">Blaze Pizza</row>
+    <row label="r13">Shake Shack</row>
+    <row label="r14">Domino’s</row>
+    <row label="r15">Jimmy John’s</row>
+    <row label="r16">Wendy's</row>
+    <row label="r17">Burger King</row>
+  </checkbox>
+  <suspend/>
+  <html label="cm16" cond="(q22_visited.count&lt;3)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q22_visited.count&lt;3)">Q21 visited less than 3</term>
+  <suspend/>
+  <radio 
+  label="q23"
+  builderHint="{&quot;rocochoName&quot;:&quot;radiogrid&quot;}"
+  shuffle="rows">
+    <title>Please rate how much you agree with each statement below for the randomly selected restaurant. Your randomly selected restaurant is 
+      <strong>
+        <u>Chipotle</u>
+      </strong>.
+    </title>
+    <comment>
+      <em>Select one for each row</em>
+    </comment>
+    <col label="c1">1 – Completely Disagree</col>
+    <col label="c2">2</col>
+    <col label="c3">3</col>
+    <col label="c4">4 – Neither agree nor disagree</col>
+    <col label="c5">5</col>
+    <col label="c6">6</col>
+    <col label="c7">7 – Completely Agree</col>
+    <row label="r1">I crave their food</row>
+    <row label="r2">I look forward to hearing news from them</row>
+    <row label="r3">I believe in what they stand for</row>
+    <row label="r4">It's one of my favorite places to get a meal</row>
+    <row label="r5">It's a convenient option for me</row>
+    <row label="r6">It's a restaurant that offers a great deal</row>
+    <row label="r7">I follow them on social media</row>
+    <row label="r8">It's a brand I know I can trust</row>
+  </radio>
+  <suspend/>
+  <html label="cm17" cond="(q23.r5.c1 or q23.r5.c2)" where="survey">Thanks for your interest and taking the time to answer these questions. Based on your responses, this community may not be the best fit for you, but we’ll be sure to let you know if there are other opportunities for you to participate in the future. Thanks again, we will really appreciate the time you’ve taken.</html>
+  <suspend/>
+  <term cond="(q23.r5.c1 or q23.r5.c2)">Q23 Item 5</term>
+  <suspend/>
+  <checkbox 
+  label="q23_rated"
+  atmost="6"
+  where="execute,survey,report">
+    <title>Chipotle ratings</title>
+    <comment>Select all that apply</comment>
+    <exec>
+if q23.r1.c5 or q23.r1.c6 or q23.r1.c7:
+  q23_rated.r1.val=1
+if q23.r2.c5 or q23.r2.c6 or q23.r2.c7:
+  q23_rated.r2.val=1
+if q23.r3.c5 or q23.r3.c6 or q23.r3.c7:
+  q23_rated.r3.val=1
+if q23.r4.c5 or q23.r4.c6 or q23.r4.c7:
+  q23_rated.r4.val=1
+if q23.r7.c5 or q23.r7.c6 or q23.r7.c7:
+  q23_rated.r7.val=1
+if q23.r8.c5 or q23.r8.c6 or q23.r8.c7:
+  q23_rated.r8.val=1
+  </exec>
+    <row label="r1">I crave their food</row>
+    <row label="r2">I look forward to hearing news from them</row>
+    <row label="r3">I believe in what they stand for</row>
+    <row label="r4">It’s one of my favorite places to get a meal</row>
+    <row label="r7">I follow them on social media</row>
+    <row label="r8">It’s a brand I know I can trust</row>
+  </checkbox>
+  <suspend/>
+  <radio 
+  label="dv_ChipotleUser"
+  where="execute,survey,report">
+    <title>DV Chipotle User</title>
+    <comment>Select one</comment>
+    <exec>
+if q22.r1.c1:
+  dv_ChipotleUser.val=0
+if q22.r1.c2:
+  dv_ChipotleUser.val=1
+if q22.r1.c3 and q23_rated.count&lt;3:
+  dv_ChipotleUser.val=2
+if q22.r1.c3 and q23_rated.count&gt;2:
+  dv_ChipotleUser.val=3
+if q20.r1 and q22.r1.c4:
+  dv_ChipotleUser.val=4
+if (not(q20.r1) and q22.r1.c4 and (q21.r1.c3 or q21.r1.c4 or q21.r1.c5)):
+  dv_ChipotleUser.val=5
+  </exec>
+    <row label="r1">Light User</row>
+    <row label="r2">Medium User</row>
+    <row label="r3">Heavy</row>
+    <row label="r4">Super User</row>
+    <row label="r5">Lapsed User</row>
+    <row label="r6">New User</row>
+  </radio>
+  <suspend/>
+  <quota overquota="noqual" sheet="Chipotle user"/>
+  <suspend/>
+  <radio 
+  label="q24"
+  builderHint="{&quot;rocochoName&quot;:&quot;radiogrid&quot;}"
+  shuffle="rows">
+    <title>Thinking about your lifestyle, how much do you agree or disagree with the following statements?</title>
+    <comment>
+      <em>Select one for each row</em>
+    </comment>
+    <col label="c1">1 – Completely Disagree</col>
+    <col label="c2">2</col>
+    <col label="c3">3</col>
+    <col label="c4">4 – Neither agree nor disagree</col>
+    <col label="c5">5</col>
+    <col label="c6">6</col>
+    <col label="c7">7 – Completely Agree</col>
+    <row label="r1">People often come to me for advice about products and brands</row>
+    <row label="r2">I feel like people often copy what I do or wear</row>
+    <row label="r3">I often post pictures and/or videos on social media</row>
+    <row label="r4">I am well informed about food trends</row>
+    <row label="r5">I participate in a workout program at least 3x per week</row>
+    <row label="r6">I use mobile apps to track fitness and or nutrition</row>
+    <row label="r7">I prioritize fast-food/quick service restaurants with healthy options</row>
+    <row label="r8">I like to live an active lifestyle</row>
+    <row label="r9">The food brands I support make good food and do good in the world</row>
+    <row label="r10">My purchase decisions can make a larger societal impact</row>
+    <row label="r11">I care about making sure the future is a better place than today</row>
+    <row label="r12">I seek out information on what goes into the food I eat and where it comes from</row>
+  </radio>
+  <suspend/>
+  <checkbox 
+  label="trend"
+  atleast="1"
+  atmost="4"
+  where="execute,survey,report">
+    <title>Trendsetter attributes</title>
+    <comment>Select all that apply</comment>
+    <exec>
+if q24.r1.c5 or q24.r1.c6 or q24.r1.c7:
+  trend.r1.val=1
+if q24.r2.c5 or q24.r2.c6 or q24.r2.c7:
+  trend.r2.val=1
+if q24.r3.c5 or q24.r3.c6 or q24.r3.c7:
+  trend.r3.val=1
+if q24.r4.c5 or q24.r4.c6 or q24.r4.c7:
+  trend.r4.val=1
+if not(trend.r1) and not(trend.r2) and not(trend.r3) and not(trend.r4):
+  trend.r5.val=1
+  </exec>
+    <row label="r1">People often come to me for advice about products and brands</row>
+    <row label="r2">I feel like people often copy what I do or wear</row>
+    <row label="r3">I often post pictures and/or videos on social media</row>
+    <row label="r4">I am well informed about food trends</row>
+    <row label="r5" exclusive="1">None</row>
+  </checkbox>
+  <suspend/>
+  <checkbox 
+  label="well"
+  atleast="1"
+  atmost="4"
+  where="execute,survey,report">
+    <title>Wellness attributes</title>
+    <comment>Select all that apply</comment>
+    <exec>
+if q24.r5.c5 or q24.r5.c6 or q24.r5.c7:
+  well.r1.val=1
+if q24.r6.c5 or q24.r6.c6 or q24.r6.c7:
+  well.r2.val=1
+if q24.r7.c5 or q24.r7.c6 or q24.r7.c7:
+  well.r3.val=1
+if q24.r8.c5 or q24.r8.c6 or q24.r8.c7:
+  well.r4.val=1
+if not(well.r1) and not(well.r2) and not(well.r3) and not(well.r4):
+  well.r5.val=1
+  </exec>
+    <row label="r1">I participate in a workout program at least 3x per week</row>
+    <row label="r2">I use mobile apps to track fitness and or nutrition</row>
+    <row label="r3">I prioritize fast-food/fast casual restaurants with healthy options</row>
+    <row label="r4">I like to live an active lifestyle</row>
+    <row label="r5" exclusive="1">None</row>
+  </checkbox>
+  <suspend/>
+  <checkbox 
+  label="mind"
+  atleast="1"
+  atmost="4"
+  where="execute,survey,report">
+    <title>Mindful attributes</title>
+    <comment>Select all that apply</comment>
+    <exec>
+if q24.r9.c5 or q24.r9.c6 or q24.r9.c7:
+  mind.r1.val=1
+if q24.r10.c5 or q24.r10.c6 or q24.r10.c7:
+  mind.r2.val=1
+if q24.r11.c5 or q24.r11.c6 or q24.r11.c7:
+  mind.r3.val=1
+if q24.r12.c5 or q24.r12.c6 or q24.r12.c7:
+  mind.r4.val=1
+if not(mind.r1) and not(mind.r2) and not(mind.r3) and not(mind.r4):
+  mind.r5.val=1
+  </exec>
+    <row label="r1">The food brands I support make good food and do good in the world</row>
+    <row label="r2">My purchase decisions can make a larger societal impact</row>
+    <row label="r3">I care about making sure the future is a better place than today</row>
+    <row label="r4">&#160;I seek out information on what goes into the food I eat and where it comes from</row>
+    <row label="r5" exclusive="1">None</row>
+  </checkbox>
+  <suspend/>
+  <checkbox 
+  label="dv_mindset1"
+  atleast="1"
+  atmost="3"
+  where="execute,survey,report">
+    <title>DV Mindset1</title>
+    <comment>Select all that apply</comment>
+    <exec>
+if trend.count&gt;2:
+  dv_mindset1.r1.val=1
+if well.count&gt;2:
+  dv_mindset1.r2.val=1
+if mind.count&gt;2:
+  dv_mindset1.r3.val=1
+if not(dv_mindset1.r1) and not(dv_mindset1.r2) and not(dv_mindset1.r3):
+  dv_mindset1.r4.val=1
+  </exec>
+    <row label="r1">Trendsetter</row>
+    <row label="r2">Wellness</row>
+    <row label="r3">Mindful</row>
+    <row label="r4" exclusive="1">None</row>
+  </checkbox>
+  <suspend/>
+  <radio 
+  label="q25"
+  cond="(dv_mindset1.count&gt;1)">
+    <title>Which of the following statements BEST describe you?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1" cond="(dv_mindset1.r1)">I am very well informed about current trends and people look to me for advice on what is popular now</row>
+    <row label="r2" cond="(dv_mindset1.r2)">I am dedicated to wellness, work out frequently and eat healthy</row>
+    <row label="r3" cond="(dv_mindset1.r3)">I care about the impact of the purchase decisions I make, and try support food brands that are dedicated to making the world a better place</row>
+  </radio>
+  <suspend/>
+  <radio 
+  label="dv_mindset"
+  where="execute,survey,report">
+    <title>DV Mindset</title>
+    <comment>Select one</comment>
+    <exec>
+if dv_mindset1.count&lt;2 and dv_mindset1.r1:
+  dv_mindset.val=0
+if dv_mindset1.count&lt;2 and dv_mindset1.r2:
+  dv_mindset.val=1
+if dv_mindset1.count&lt;2 and dv_mindset1.r3:
+  dv_mindset.val=2
+
+if q25.r1:
+  dv_mindset.val=0
+if q25.r2:
+  dv_mindset.val=1
+if q25.r3:
+  dv_mindset.val=2    
+if not(dv_mindset.r1) and not(dv_mindset.r2) and not(dv_mindset.r3):
+  dv_mindset.val=3
+  </exec>
+    <row label="r1">Trendsetter</row>
+    <row label="r2">Wellness</row>
+    <row label="r3">Mindful</row>
+    <row label="r4" exclusive="1">None</row>
+  </radio>
+  <suspend/>
+  <quota overquota="noqual" sheet="Mind set"/>
+  <suspend/>
+  <checkbox 
+  label="q26"
+  atleast="1"
+  atmost="9"
+  shuffle="rows">
+    <title>Below are a series of statements. Please tell us if you agree by selecting those options that you agree with most.</title>
+    <comment>
+      <em>Select all that apply</em>
+    </comment>
+    <row label="r1">I prefer to keep my thoughts to myself</row>
+    <row label="r2">When I’m interested in a topic, I like sharing my thoughts with others</row>
+    <row label="r3">I’m curious to hear/learn about what others have to say</row>
+    <row label="r4">I enjoy sharing my opinions online</row>
+    <row label="r5">I spend 1-3 hours on the internet each week</row>
+    <row label="r6">I spend 4+ hours on the internet each week</row>
+    <row label="r7">I spend less than an hour on the internet each week</row>
+    <row label="r8">I often participate in other online forums (communities, blogs, chat rooms)</row>
+    <row label="r9">The best part about online forums is earning rewards</row>
+  </checkbox>
+  <suspend/>
+  <term cond="(q26.r1 or q26.r7 or q26.r9)">Q26 - Agree with most</term>
+  <suspend/>
+  <radio 
+  label="q27">
+    <title>Do you have regular access to a computer/laptop/smartphone with reliable high speed, broadband internet connection/DSL/Cable?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Yes</row>
+    <row label="r2">No</row>
+  </radio>
+  <suspend/>
+  <html label="cm18" cond="(q27.r2)" where="survey">Thanks for your interest and for taking the time to answer these questions. We’re sorry that you have decided not to join the community. We’ll be sure to let you know if there are other opportunities for you to participate in the future.</html>
+  <suspend/>
+  <term cond="(q27.r2)">Q27 - No access to devices</term>
+  <suspend/>
+  <radio 
+  label="q28">
+    <title>It looks like you fit the profile of who we’re looking for to join the community! Here’s a bit more detail about the community.
+      <br />&amp;nbsp;
+      <br />
+      <strong>What is this all about? </strong>
+      <br />
+      <strong>&amp;nbsp;</strong>
+      <br />In the community, you’ll have an exclusive opportunity to get your voice heard and help shape the future of Quick Service Restaurants. There will be regular forum discussions in the community to get involved in about a wide range of topics for the next 12 months. These activities can take anywhere from 5 to 30 minutes of your time each week. 
+      <br />&amp;nbsp;
+      <br />
+      <strong>What will you have to do? </strong>
+      <br />There will be weekly discussions on a wide range of topics, as well as a variety of ‘special projects’ such as regular quick surveys, polls, and Skype interviews. The special projects will be a bit more involved and will help us get to know you and understand your views whereas the polls and surveys will be really quick, easy and won’t take up much of your time. All the projects will be interesting and hopefully a lot of fun for you to get involved with! 
+      <br />&amp;nbsp;
+      <br />
+      <strong>What’s in it for you? </strong>
+      <br />
+      <strong>&amp;nbsp;</strong>
+      <br />As a thank you for participating in activities, you’ll earn Tango gift cards for the activities you complete. These gift cards will range in value between $5 and $100, and you’ll receive these about a week after completing each activity. We hope this sounds exiting and that you’re interested in getting involved! Now that you know a bit about the community, is this something that you are interested in and can commit to participating in regularly?
+    </title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Yes</row>
+    <row label="r2">No</row>
+  </radio>
+  <suspend/>
+  <html label="cm19" cond="(q28.r2)" where="survey">Thanks for your interest and for taking the time to answer these questions. We’re sorry that you have decided not to join the community. We’ll be sure to let you know if there are other opportunities for you to participate in the future.</html>
+  <suspend/>
+  <term cond="(q28.r2)">Q28 - Not interested</term>
+  <suspend/>
+  <radio 
+  label="q29">
+    <title>We’re looking for people that want to get involved on a weekly basis. Are you willing to do this?</title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Yes</row>
+    <row label="r2">No</row>
+  </radio>
+  <suspend/>
+  <html label="cm20" cond="(q29.r2)" where="survey">Thanks for your interest and for taking the time to answer these questions. We’re sorry that you have decided not to join the community. We’ll be sure to let you know if there are other opportunities for you to participate in the future.</html>
+  <suspend/>
+  <term cond="(q29.r2)">Q29 - Not interested in being involved weekly</term>
+  <suspend/>
+  <radio 
+  label="q30">
+    <title>Uploading photos and videos of yourself answering questions is an integral part of the&amp;nbsp;
+      <strong>Guac Stars Community</strong>. Are you willing to do this?
+    </title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">Yes</row>
+    <row label="r2">No</row>
+  </radio>
+  <suspend/>
+  <html label="cm21" cond="(q30.r2)" where="survey">Thanks for your interest and for taking the time to answer these questions. We’re sorry that you have decided not to join the community. We’ll be sure to let you know if there are other opportunities for you to participate in the future.</html>
+  <suspend/>
+  <term cond="(q30.r2)">Q30 - Not willing to upload items</term>
+  <suspend/>
+  <radio 
+  label="q31">
+    <title>By visiting and using our community website, you will be shown certain confidential and proprietary information that is the property of a major restaurant. This information may include but is not limited to: experimental or planned concepts; marketing, advertising, and creative strategies and plans; research techniques; product names or attributes; or other non-public information. You agree that this information will remain the sole property of the company for whom this community is being conducted.&amp;nbsp; 
+      <br />&amp;nbsp;
+      <br />In exchange for participating in this community, and in light of the confidential information that will be shown, you agree that you will neither use nor disclose to any other person or entity any of the information provided to you in connection with this community. This includes sharing any information on social media including, but not limited to, personal and professional websites, blogs, chat rooms, and bulletin boards; social networks such as Instagram, Twitter, Facebook; video-sharing sites such as YouTube; and email. Breach of this policy may result in removal from Community and potential legal action.
+      <br />&amp;nbsp;
+      <br />You also agree that your responses to the community topics, including without limitation, any comments, notes, drawings, concepts, recipes, ideas or suggestions or other information that may be contained in your responses shall be deemed and shall remain the sole property of the company for whom this community is being conducted upon submission to the community and that the company has no obligation, express or implied, to keep your responses confidential and shall be entitled to unrestricted use of your responses for any purpose whatsoever, commercial or otherwise, without compensation to you.
+      <br />&amp;nbsp;
+      <br />As we stated previously, this is a private community located on a secure website conducted by professionals. While your feedback is considered to be property of the company, your personal information will not be shared with the company and your feedback will not be made public without your permission. 
+      <br />&amp;nbsp;
+      <br />By accepting the community terms and conditions, you agree to the non-disclosure agreement.
+    </title>
+    <comment>
+      <em>Select one response</em>
+    </comment>
+    <row label="r1">I’ve read the terms and conditions and agree</row>
+    <row label="r2">I’ve read the terms and conditions and do not agree</row>
+  </radio>
+  <suspend/>
+  <html label="cm22" cond="(q31.r2)" where="survey">Thanks for your interest and for taking the time to answer these questions. We’re sorry that you have decided not to join the community. We’ll be sure to let you know if there are other opportunities for you to participate in the future.</html>
+  <suspend/>
+  <term cond="(q31.r2)">Q31 - Do not agree with terms and conditions</term>
+  <suspend/>
+  <text 
+  label="q32"
+  optional="0"
+  size="25"
+  verify="email;len(2,50)">
+    <title>Fantastic!&amp;nbsp; We’re pleased to tell you that you’ve been accepted into the&amp;nbsp;
+      <strong>Guac</strong>
+      <strong>Stars Community.</strong>&amp;nbsp; A couple of ground rules—by providing your email address and clicking “NEXT” below to join the Community, you agree that:
+      <br />
+      <br />
+      <ol>
+        <li>Any ideas, concepts, feedback, or other content you supply within the Community belong exclusively to us or the Community’s sponsor, and we may use them for any purpose without the need to pay you any additional compensation; and</li>
+        <li>We and the Community’s sponsor own all rights to any photos or videos (including any which include your face or voice) which you upload to the Community platform, and may use the photos or videos in any manner and on any media anywhere in the world, including in connection with the Community or otherwise, without the need to pay you any additional compensation.</li>
+      </ol>
+      <span style="color: #000000;">Your email address must be in the following format blank @ blank.com,&amp;nbsp; &amp;nbsp; blank @ blank.org, blank @ blank.net or blank @ blank.edu</span>
+    </title>
+    <comment>Please enter your email address below</comment>
+  </text>
+  <suspend/>
+  <text 
+  label="q33"
+  optional="0"
+  size="25"
+  verify="len(6,20)">
+    <title>We are excited to have you join&amp;nbsp;
+      <strong>Guac Stars Community</strong>!&amp;nbsp; Simply enter your desired username below. (Min. 6 characters)
+      <br />&amp;nbsp;
+      <br />Note, when participating in group activities, your username will be visible to others, so make sure to only include what you want others to see.
+      <br />&amp;nbsp;
+      <br />Username cannot start with a number, have spaces or special characters.
+    </title>
+    <comment>be specific</comment>
+    <validate>
+import re
+count1 = len(re.findall(r'\d', q33.val[0]))
+if(count1 gt 0):
+  error("Your username has either a number, space or special character, please consider another username.")  
+
+count2 = len(re.findall(r'\w', q33.val))
+if count2 lt len(q33.val):
+  error("Your username has either a number, space or special character, please consider another username.")
+  </validate>
+  </text>
+  <suspend/>
+  <text 
+  label="q34"
+  optional="0"
+  size="25"
+  verify="email;len(2,50)">
+    <title>
+      <span style="color: black;">Please confirm your email address. </span>
+    </title>
+    <comment>
+      <em>
+        <span style="color: black;">Enter your response in the box.</span>
+      </em>
+    </comment>
+    <validate>
+
+if q32.val != q34.val:
+
+  error("Please make sure your emails match.")
+  </validate>
+  </text>
+  <suspend/>
+  <html label="dt_closing" where="survey">Congrats- you’re a part of&amp;nbsp;
+    <strong>Guac Stars Community</strong> now!&amp;nbsp;
+    <br />&amp;nbsp;
+    <br />We've just sent you an email&amp;nbsp;with instructions on how to verify your account and create a password. Once you’ve completed registration, you’ll be able to access all of the fun research activities and get talking with others in the community. 
+    <br />&amp;nbsp;
+    <br />If you do not receive this email or have any questions, please reach out to&amp;nbsp;team@guacstarscommunity.com
+    <br />
+    <br />
+    <br />Catch you on the flip side.
+  </html>
+  <suspend/>
+</survey>
