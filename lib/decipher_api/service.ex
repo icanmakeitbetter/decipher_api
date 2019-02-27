@@ -137,7 +137,7 @@ defmodule DecipherAPI.Service do
       402 ->
         {:error, "#{response.status_code}: payment required: you have exceeded your monthly API calls"}
       403 ->
-        {:error, "#{response.status_code}: invalid authorization: your API key is valid but you are not allowed access to this survey"}
+        {:error, "#{response.status_code}: invalid authorization: This can mean two things: One, your API key is valid but you are not allowed access to this survey. Two, the API key was valid but a new key has been generated for this account and so this one will no longer work."}
       404 ->
         {:error, "#{response.status_code}: not found: you asked for a survey or other resource that does not exist. Or asked to reset a datafeed that was already reset"}
       405 ->
