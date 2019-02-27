@@ -54,12 +54,12 @@ defmodule DecipherAPI.Datamap.XMLParser do
             true
           _attr ->
             false
-        end) and not Enum.any?(attrs, fn
-          xmlAttribute(name: :where, value: value) ->
-            value |> to_string |> String.contains?("execute")
-          _attr ->
-            false
-        end)
+        end) # and not Enum.any?(attrs, fn
+        #   xmlAttribute(name: :where, value: value) ->
+        #     value |> to_string |> String.contains?("execute")
+        #   _attr ->
+        #     false
+        # end)
       _node ->
         false
     end)
@@ -74,12 +74,12 @@ defmodule DecipherAPI.Datamap.XMLParser do
       xmlElement(name: tag_name, attributes: attrs) = node ->
         attrs
         |> Enum.into(Map.new, fn xmlAttribute(name: name, value: value) ->
-        {name, to_string(value)}
-      end)
-      |> Map.put(:comment, xpath(node, ~x"comment/text()"s))
-      |> Map.put(:element_text, xpath(node, ~x"text()"s))
-      |> Map.put(:tag_name, tag_name)
-      |> List.wrap
+          {name, to_string(value)}
+        end)
+        |> Map.put(:comment, xpath(node, ~x"comment/text()"s))
+        |> Map.put(:element_text, xpath(node, ~x"text()"s))
+        |> Map.put(:tag_name, tag_name)
+        |> List.wrap
     end)
   end
 

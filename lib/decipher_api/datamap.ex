@@ -62,13 +62,26 @@ defmodule DecipherAPI.Datamap do
         {:error, error}
       _ ->
         xml_metadata = coerce_xml_metadata(datamap.xml)
+        questions =
+          xml_metadata.ordering
+          |> Enum.flat_map(fn page ->
+            Enum.map(page, fn name ->
+              Enum.find(datamap.questions, fn question ->
+                Map.fetch!(question, "qlabel") == name
+              end) ||
+                Enum.find(datamap.variables, fn question ->
+                  Map.fetch!(question, "qlabel") == name
+                end)
+            end)
+          end)
+          |> Enum.reject(&is_nil/1)
 
         %{
           datamap |
           comments: xml_metadata.comments,
           survey_name: xml_metadata.name,
           page_grouping: xml_metadata.ordering,
-          questions: Question.coerce_maps(datamap.questions, xml_metadata.questions),
+          questions: Question.coerce_maps(questions, xml_metadata.questions),
           variables: Variables.coerce_maps(datamap.variables),
           xml: xml_metadata
         }

@@ -1,6 +1,7 @@
 defmodule DecipherAPITest.DatamapTest do
   alias DecipherAPITest.Support.FakeData
   alias DecipherAPI.Datamap
+  alias DecipherAPITest.Support.InMemoryHTTPClient
 
   use ExUnit.Case, async: true
   @survey_id FakeData.survey_id()
@@ -61,4 +62,38 @@ defmodule DecipherAPITest.DatamapTest do
     assert is_map(datamap.xml)
   end
 
+  test "calculated values are preserved" do
+    InMemoryHTTPClient.queue_response(
+      :get,
+      :datamap,
+      load_fixture("dv_elements.json")
+    )
+    InMemoryHTTPClient.queue_response(
+      :get,
+      :datamap,
+      load_fixture("dv_elements.xml")
+    )
+
+    parsed =
+      @datamap
+      |> Datamap.build_metadata_set
+
+    parsed.page_grouping
+    |> List.flatten
+    |> Enum.find(fn name -> name == "dv_panel" end)
+    |> is_nil
+    |> refute
+
+    parsed.questions
+    |> Enum.find(fn q -> q.qlabel == "dv_panel" end)
+    |> is_nil
+    |> refute
+  end
+
+  defp load_fixture(file) do
+    body =
+      Path.expand("support/#{file}", __DIR__)
+      |> File.read!
+    %HTTPoison.Response{status_code: 200, body: body}
+  end
 end
