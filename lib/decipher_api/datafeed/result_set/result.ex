@@ -122,11 +122,14 @@ defmodule DecipherAPI.Datafeed.ResultSet.Result do
             String.to_integer(value)
           )
         "float" ->
-          put_answer_and_key(
-            final_mapping,
-            answer_key,
-            String.to_float(value)
-          )
+          parsed =
+            case Float.parse(value) do
+              {f, _rest} when is_float(f) ->
+                f
+              _error ->
+                0.0
+            end
+          put_answer_and_key(final_mapping, answer_key, parsed)
         "text" ->
           put_answer_and_key(
             final_mapping,
