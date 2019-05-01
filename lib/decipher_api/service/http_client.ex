@@ -5,7 +5,7 @@ defmodule DecipherAPI.Service.HTTPClient do
 
   @spec get!(binary(), list(), fun()) :: %HTTPoison.Response{}
   def get!(endpoint, api_headers, func \\ &HTTPoison.get!/3) do
-    func.(endpoint, api_headers, [timeout: 300_000, recv_timeout: 300_000])
+    func.(endpoint, api_headers, [timeout: 450_000, recv_timeout: 450_000])
   end
 
   @spec post(binary(), binary(), list(), fun()) ::
