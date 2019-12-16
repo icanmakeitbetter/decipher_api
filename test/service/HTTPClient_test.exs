@@ -31,4 +31,14 @@ defmodule DecipherAPITest do
 
     assert_received :api_call
   end
+  
+  test "that the put function is there" do
+    api_call = fn _, _, _ ->
+      send self(), :api_call
+    end
+    
+    HTTPClient.put("{}", "selfserve/555/survey1", [], api_call)
+    
+    assert_received :api_call
+  end
 end

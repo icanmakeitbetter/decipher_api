@@ -20,4 +20,7 @@ defmodule DecipherAPI.Service.HTTPClient do
     func.(endpoint, api_headers)
   end
 
+  def put(body, endpoint, api_headers, func \\ &HTTPoison.put/3) do
+    func.(body, endpoint, api_headers)
+  end
 end
