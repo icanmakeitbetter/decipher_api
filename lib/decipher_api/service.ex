@@ -45,9 +45,9 @@ defmodule DecipherAPI.Service do
       |> parse_response()
     end
   end
-  
+
   def put(body, endpoint, api_key, domain) do
-    with {:ok, response} <- @decipher_api.post(base_path(domain) <> endpoint, body, api_headers(api_key)) do
+    with {:ok, response} <- @decipher_api.put(base_path(domain) <> endpoint, body, api_headers(api_key)) do
       response
       |> parse_response()
     end
