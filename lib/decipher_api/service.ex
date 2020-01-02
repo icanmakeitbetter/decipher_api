@@ -46,6 +46,13 @@ defmodule DecipherAPI.Service do
     end
   end
 
+  def put(body, endpoint, api_key, domain) do
+    with {:ok, response} <- @decipher_api.put(base_path(domain) <> endpoint, body, api_headers(api_key)) do
+      response
+      |> parse_response()
+    end
+  end
+
   @spec get_datamap_metadata(%AccountInfo{}, String.t) :: {:ok, %{}} | {:error, String.t}
   def get_datamap_metadata(
     %AccountInfo{

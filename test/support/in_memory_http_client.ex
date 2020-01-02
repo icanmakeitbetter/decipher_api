@@ -50,4 +50,10 @@ defmodule DecipherAPITest.Support.InMemoryHTTPClient do
   def post(_, _, _) do
     queued_response(:post, :datafeed) || FakeData.advance_datafeed_response()
   end
+  
+  def put(endpoint, _, _) do
+    if String.contains?(endpoint, "data/edit") do
+      queued_response(:put, :edit)
+    end
+  end
 end
